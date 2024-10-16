@@ -3,6 +3,8 @@ import 'package:brainsherpa/utils/style.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 commonAppbarWithAppName({String? first, String? second}) {
   return Container(
@@ -60,4 +62,12 @@ printf(String msg) {
   if (kDebugMode) {
     print(msg);
   }
+}
+
+loaderShow() {
+  Get.context!.loaderOverlay.show();
+}
+
+loaderHide() {
+  Get.context!.loaderOverlay.hide();
 }

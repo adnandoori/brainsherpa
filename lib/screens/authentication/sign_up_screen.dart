@@ -94,6 +94,17 @@ class SignUpScreen extends StatelessWidget {
                                 children: [
                                   16.sbh,
                                   AppTextField(
+                                    label: AppStrings.name,
+                                    hint: AppStrings.name,
+                                    keyboardType: TextInputType.emailAddress,
+                                    validators: nameValidator.call,
+                                    inputFormatters: [
+                                      NoLeadingSpaceFormatter()
+                                    ],
+                                    controller: controller.textName,
+                                  ),
+                                  16.sbh,
+                                  AppTextField(
                                     label: AppStrings.email,
                                     hint: AppStrings.email,
                                     keyboardType: TextInputType.emailAddress,
@@ -127,6 +138,9 @@ class SignUpScreen extends StatelessWidget {
                           child: buttonWithoutShadow(
                               title: AppStrings.continueText,
                               onClick: () {
+                                if (_formKey.currentState!.validate()) {
+                                  controller.callUserSignUp();
+                                }
                                 printf('----clicked----continue--------');
                               }),
                         )

@@ -166,7 +166,8 @@ class LoginScreen extends StatelessWidget {
                           height: 52.h,
                           child: buttonWithoutShadow(
                               title: AppStrings.login,
-                              onClick: () {
+                              onClick: ()
+                              {
                                 if (_formKey.currentState!.validate()) {
                                   controller.callLogin();
                                 }

@@ -1,5 +1,6 @@
 import 'package:brainsherpa/routes/app_pages.dart';
 import 'package:brainsherpa/utils/app_constants.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,9 +8,16 @@ import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+    apiKey: "AIzaSyBcGkpmyetdJIimIkw2mulWoon4ZGB77UM",
+    appId: "1:529222992857:android:d08d82db40087617244fc8",
+    messagingSenderId: "529222992857",
+    projectId: "brainsherpa-backend",
+    storageBucket: "",
+  ));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(const MyApp());
@@ -50,3 +58,17 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+/*
+
+- User Authentication
+- Signup screen ui design and validation
+- Login screen ui design and validation
+- Dashboard screen
+- Logout api integration
+
+* work in progress
+- Reaction Time test ui design
+
+
+ */

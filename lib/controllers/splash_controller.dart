@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:brainsherpa/controllers/base_controller.dart';
 import 'package:brainsherpa/routes/app_pages.dart';
+import 'package:brainsherpa/utils/common_widgets.dart';
+import 'package:brainsherpa/utils/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +18,7 @@ class SplashController extends BaseController {
   void onInit() {
     super.onInit();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkLoginOrNot();
       navigateToHomeScreen();
     });
   }
@@ -25,7 +28,20 @@ class SplashController extends BaseController {
       seconds: 4,
     );
     Timer(duration, () async {
-      Get.offNamedUntil(Routes.login, (route) => false);
+      if (isUserLogin) {
+        Get.offNamedUntil(Routes.dashboard, (route) => false);
+      } else {
+        Get.offNamedUntil(Routes.login, (route) => false);
+      }
     });
+  }
+
+  void checkLoginOrNot() async {
+    try {
+      isUserLogin = (await Utility.getIsUserLoggedIn())!;
+    } catch (e) {
+      printf('<--exe--->$e');
+    }
+    printf('checkLogin->$isUserLogin');
   }
 }

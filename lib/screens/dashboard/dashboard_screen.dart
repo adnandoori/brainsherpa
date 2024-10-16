@@ -28,18 +28,42 @@ class DashboardScreen extends StatelessWidget {
             },
             child: Scaffold(
                 backgroundColor: AppColors.white,
-                body: Container(
+                body: SizedBox(
                   height: Get.height,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      commonAppbarWithAppName(
-                          first: AppStrings.brain, second: AppStrings.sherpa),
+                      SizedBox(
+                        height: 66.h,
+                        child: Stack(
+                          children: [
+                            commonAppbarWithAppName(
+                                first: AppStrings.brain,
+                                second: AppStrings.sherpa),
+                            InkWell(
+                              onTap: () {
+                                controller.callLogout();
+                              },
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 15.w),
+                                  child: Image.asset(
+                                    ImagePath.icLogout,
+                                    height: 24,
+                                    width: 24,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 25.w),
                         child: Text(
-                          'Hi John,',
+                          'Hi ${controller.username},',
                           style: poppinsTextStyle(
                               fontWeight: FontWeight.w500,
                               color: AppColors.black,
@@ -47,37 +71,64 @@ class DashboardScreen extends StatelessWidget {
                         ),
                       ),
                       10.sbh,
-                      SizedBox(
-                        height: 180.h,
-                        width: Get.width,
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              ImagePath.loginBackground,
-                              height: 180.h,
-                              width: Get.width,
-                              fit: BoxFit.fill,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 40.w, right: 40.w, top: 25.h),
-                              child: Text(
-                                AppStrings.timeToTakeTheReaction,
-                                style: poppinsTextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white,
-                                    size: 23.sp),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                      widgetStart(controller),
                     ],
                   ),
                 )),
           ),
         );
       },
+    );
+  }
+
+  Widget widgetStart(DashboardController controller) {
+    return SizedBox(
+      height: 190.h,
+      width: Get.width,
+      child: Stack(
+        children: [
+          Image.asset(
+            ImagePath.loginBackground,
+            height: 190.h,
+            width: Get.width,
+            fit: BoxFit.fill,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 40.w, right: 40.w, top: 25.h),
+            child: Text(
+              AppStrings.timeToTakeTheReaction,
+              style: poppinsTextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.white,
+                  size: 23.sp),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              controller.navigateToReactionTest();
+            },
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                margin: EdgeInsets.only(bottom: 30.h),
+                height: 44.h,
+                width: 90.w,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: AppColors.buttonColorGrey,
+                ),
+                child: Center(
+                  child: Text(
+                    AppStrings.start,
+                    style: poppinsTextStyle(
+                        color: Colors.black, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

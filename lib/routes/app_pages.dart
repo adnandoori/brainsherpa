@@ -1,6 +1,7 @@
 import 'package:brainsherpa/screens/authentication/login_screen.dart';
 import 'package:brainsherpa/screens/authentication/sign_up_screen.dart';
 import 'package:brainsherpa/screens/dashboard/dashboard_screen.dart';
+import 'package:brainsherpa/screens/dashboard/reaction_time_test_screen.dart';
 import 'package:brainsherpa/screens/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -23,6 +24,10 @@ class AppPages {
     GetPage(
         name: Routes.dashboard,
         page: () => const DashboardScreen(),
+        transition: Transition.rightToLeftWithFade),
+    GetPage(
+        name: Routes.reactionTimeTestScreen,
+        page: () => ReactionTimeTestScreen(),
         transition: Transition.rightToLeftWithFade),
   ];
 }

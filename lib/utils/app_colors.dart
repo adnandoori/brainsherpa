@@ -13,6 +13,14 @@ class AppColors {
 
   static const textColor = Color(0xFFA29595);
 
-  // #3D315F
-  // btn color #3D315F #3D315F #A29595
+  static const buttonColorGrey = Color(0xFFD9D9D9);
+
+  static const blueColor = Color(0xFF3F9FFF); // #3F9FFF
+  static const redColor = Color(0xFFFF6060);
+  static const greenColor = Color(0xFF5ACF51);
+
+  static const bgColor = Color(0xFFf2f0fa);
+
+// #3D315F #D9D9D9
+// btn color #3D315F #3D315F #A29595
 }
