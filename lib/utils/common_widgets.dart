@@ -58,6 +58,29 @@ buttonWithoutShadow(
   );
 }
 
+buttonDefault(
+    {required String title, TextStyle? sty, VoidCallback? onClick,}) {
+  return InkWell(
+    onTap: onClick,
+    child: Container(
+      decoration: BoxDecoration(
+        color: AppColors.blueColor,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white, width: 1),
+      ),
+      child: Center(
+        child: Text(
+          title.toString(),
+          style: sty ??
+              poppinsTextStyle(
+                  color: AppColors.white, fontWeight: FontWeight.w400),
+          //style: widget.labelStyle,
+        ),
+      ),
+    ),
+  );
+}
+
 printf(String msg) {
   if (kDebugMode) {
     print(msg);

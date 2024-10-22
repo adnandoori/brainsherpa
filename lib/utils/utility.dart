@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:brainsherpa/models/authentication_model/user_model.dart';
 import 'package:brainsherpa/utils/app_constants.dart';
 import 'package:brainsherpa/utils/app_string.dart';
+import 'package:brainsherpa/utils/common_widgets.dart';
 import 'package:brainsherpa/utils/style.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/foundation.dart';
@@ -70,6 +71,7 @@ class Utility {
   static Future<UserModel?> getUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userData = prefs.getString('userDetails');
+    printf('--user-detail-->$userData');
     if (userData != null && userData.isNotEmpty) {
       return UserModel.fromJson(jsonDecode(userData));
     } else {
@@ -87,11 +89,18 @@ class Utility {
     return regex.hasMatch(mobileNumber);
   }
 
+  void clearSession()
+  {
+    Utility.setIsUserLoggedIn(false);
+    Utility.setUserName('');
+    Utility.setUserId('');
+  }
+
   void snackBarError(String msg) {
     Fluttertoast.showToast(
         msg: msg,
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP,
+        gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 2,
         backgroundColor:
             msg == AppStrings.internetError //''AppConstants.noInternet
@@ -105,7 +114,7 @@ class Utility {
     Fluttertoast.showToast(
         msg: AppStrings.internetError,
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP,
+        gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 2,
         backgroundColor: Colors.red,
         textColor: Colors.white,

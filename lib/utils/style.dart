@@ -17,6 +17,7 @@ poppinsTextStyle(
     double lineHeight = 1.2,
     double letterSpacing = 0,
     bool lineThrough = false,
+    bool underline = false,
     FontWeight? fontWeight}) {
   return TextStyle(
       fontFamilyFallback: const ['AppleColorEmoji'],
@@ -26,6 +27,10 @@ poppinsTextStyle(
       letterSpacing: letterSpacing,
       height: lineHeight,
       color: color,
-      decoration:
-          lineThrough ? TextDecoration.lineThrough : TextDecoration.none);
+      decorationColor: Colors.white,
+      decoration: lineThrough
+          ? TextDecoration.lineThrough
+          : underline
+              ? TextDecoration.underline
+              : TextDecoration.none);
 }

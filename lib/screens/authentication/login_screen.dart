@@ -98,8 +98,6 @@ class LoginScreen extends StatelessWidget {
                                               ),
                                               InkWell(
                                                 onTap: () {
-                                                  printf(
-                                                      '---clicked---sign-up----');
                                                   Get.toNamed(Routes.signUp);
                                                 },
                                                 child: Padding(
@@ -109,6 +107,7 @@ class LoginScreen extends StatelessWidget {
                                                     AppStrings.signUp,
                                                     style: poppinsTextStyle(
                                                         size: 16.sp,
+                                                        underline: true,
                                                         color: Colors.white,
                                                         fontWeight:
                                                             FontWeight.w600),
@@ -141,7 +140,6 @@ class LoginScreen extends StatelessWidget {
                                       NoLeadingSpaceFormatter()
                                     ],
                                     controller: controller.textEmail,
-
                                   ),
                                   16.sbh,
                                   AppTextField(
@@ -166,8 +164,7 @@ class LoginScreen extends StatelessWidget {
                           height: 52.h,
                           child: buttonWithoutShadow(
                               title: AppStrings.login,
-                              onClick: ()
-                              {
+                              onClick: () {
                                 if (_formKey.currentState!.validate()) {
                                   controller.callLogin();
                                 }

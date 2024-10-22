@@ -4,5 +4,6 @@ class ImagePath {
 
   static const String icLogout = 'assets/icons/ic_logout.png';
   static const String icBack = 'assets/icons/ic_back.png';
+  static const String icNext = 'assets/icons/ic_next.png';
 
 }

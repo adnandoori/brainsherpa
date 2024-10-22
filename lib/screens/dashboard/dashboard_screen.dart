@@ -8,6 +8,7 @@ import 'package:brainsherpa/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -72,6 +73,31 @@ class DashboardScreen extends StatelessWidget {
                       ),
                       10.sbh,
                       widgetStart(controller),
+                      Container(
+                        padding: EdgeInsets.only(
+                          left: 25.w,
+                          top: 16.h,
+                        ),
+                        width: Get.width,
+                        color: AppColors.bgColor,
+                        // child: Text(
+                        //   '${AppStrings.takenAt} ${controller.takenAt}',
+                        //   maxLines: 1,
+                        //   style: poppinsTextStyle(
+                        //       size: 14.sp,
+                        //       fontWeight: FontWeight.w400,
+                        //       color: Colors.black),
+                        // )
+                      ),
+                      Expanded(
+                          child: Container(
+                        color: AppColors.bgColor,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, bottom: 20, top: 10),
+                          child: widgetResult(controller),
+                        ),
+                      ))
                     ],
                   ),
                 )),
@@ -81,9 +107,185 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
+  Widget getRadialGauge() {
+    return SfRadialGauge(axes: <RadialAxis>[
+      RadialAxis(minimum: 0, maximum: 150, ranges: <GaugeRange>[
+        GaugeRange(
+            startValue: 0,
+            endValue: 50,
+            color: Colors.green,
+            startWidth: 10,
+            endWidth: 10),
+        GaugeRange(
+            startValue: 50,
+            endValue: 100,
+            color: Colors.orange,
+            startWidth: 10,
+            endWidth: 10),
+        GaugeRange(
+            startValue: 100,
+            endValue: 150,
+            color: Colors.red,
+            startWidth: 10,
+            endWidth: 10)
+      ], pointers: const <GaugePointer>[
+        NeedlePointer(value: 90,
+        )
+      ], annotations: const <GaugeAnnotation>[
+        GaugeAnnotation(
+            horizontalAlignment: GaugeAlignment.center,
+            verticalAlignment: GaugeAlignment.center,
+            widget: Center(
+              child: Text('90.0',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+            ),
+            angle: 90,
+            positionFactor: 0.5)
+      ])
+    ]);
+  }
+
+  Widget widgetResult(DashboardController controller) {
+    return Container(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        color: AppColors.white,
+      ),
+      width: Get.width,
+      child: Material(
+        elevation: 1,
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        child: Container(
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                color: Colors.white),
+            width: Get.width,
+            child: Stack(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 12.h),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Column(
+                            children: [
+                              Text(
+                                controller.fastest,
+                                style: poppinsTextStyle(
+                                    color: Colors.black,
+                                    size: 25.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              6.sbh,
+                              Text(
+                                '${AppStrings.fastest}(in ms)',
+                                style: poppinsTextStyle(
+                                    color: Colors.black,
+                                    size: 13.sp,
+                                    fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          )),
+                          Container(
+                            width: 1,
+                            height: 64.h,
+                            color: Colors.grey,
+                          ),
+                          Expanded(
+                              child: Column(
+                            children: [
+                              Text(
+                                controller.slowest,
+                                style: poppinsTextStyle(
+                                    color: Colors.black,
+                                    size: 25.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              6.sbh,
+                              Text(
+                                '${AppStrings.slowest}(in ms)',
+                                style: poppinsTextStyle(
+                                    color: Colors.black,
+                                    size: 13.sp,
+                                    fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          )),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Material(
+                    elevation: 1,
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    child: Container(
+                      height: 220.h,
+                      width: Get.width,
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: Colors.grey.shade50, width: 1),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                        color: AppColors.white,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 16.w, right: 16.w, top: 12.h, bottom: 12.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  AppStrings.reactionTime,
+                                  style: poppinsTextStyle(
+                                      size: 20.sp,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Image.asset(
+                                  ImagePath.icNext,
+                                  height: 16,
+                                  width: 16,
+                                ),
+                              ],
+                            ),
+                            Expanded(
+                                child: Container(
+                              margin: EdgeInsets.only(
+                                  left: 50.w,
+                                  right: 50.w,
+                                  top: 16.h,
+                                  bottom: 16.h),
+                              height: Get.height,
+                              width: Get.width,
+                              //child: getRadialGauge(),
+                            ))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )),
+      ),
+    );
+  }
+
   Widget widgetStart(DashboardController controller) {
     return SizedBox(
-      height: 190.h,
+      height: 185.h,
       width: Get.width,
       child: Stack(
         children: [

@@ -7,6 +7,7 @@ class AppColors {
   static const Color indicatorGray = Color(0xffE0E0E0);
   static const Color backgroundColor = Color(0xffE0E0E0);
 
+  // background: #F2F0FA;
   static const Color buttonColor = Color(0xff3D315F);
 
   static const Color textHintColor = Color(0xffA29595);
@@ -20,6 +21,9 @@ class AppColors {
   static const greenColor = Color(0xFF5ACF51);
 
   static const bgColor = Color(0xFFf2f0fa);
+
+  static const whiteShadow = Color(0xFFF5F5F5);
+  //#F5F5F5
 
 // #3D315F #D9D9D9
 // btn color #3D315F #3D315F #A29595

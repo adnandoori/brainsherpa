@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:brainsherpa/controllers/base_controller.dart';
 import 'package:brainsherpa/fcm/authentication_helper.dart';
 import 'package:brainsherpa/routes/app_pages.dart';
@@ -18,18 +20,59 @@ class SignupController extends BaseController {
   TextEditingController textName = TextEditingController();
   TextEditingController textEmail = TextEditingController();
   TextEditingController textPassword = TextEditingController();
+  TextEditingController textConfirmPasswordController = TextEditingController();
+  TextEditingController textDateOfBirthController = TextEditingController();
+
+  String? dropDownValue = AppStrings.male;
 
   DatabaseReference databaseReference =
       FirebaseDatabase.instance.ref().child(AppConstants.userTable);
   var fcmToken = '';
+
+  bool isChecked = false;
+
+  int age = 0;
 
   @override
   void onInit() {
     super.onInit();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       printf('<-----init-sign-up------>');
+
       printFCMKey();
     });
+  }
+
+  Future<void> selectDateOfBirth() async {
+    DateTime? pickedDate = await showDatePicker(
+        context: Get.context!,
+        initialDate: DateTime(DateTime.now().year - 18),
+        firstDate: DateTime(1901),
+        lastDate: DateTime(2100));
+
+    if (pickedDate != null) {
+      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+      printf(formattedDate);
+
+      textDateOfBirthController.text = formattedDate;
+      DateTime selectedDate =
+          DateTime(pickedDate.year, pickedDate.month, pickedDate.day);
+
+      DateTime todayDate = DateTime.now();
+
+      age = todayDate.year - selectedDate.year;
+      update([stateId]);
+    }
+  }
+
+  void dropDownMenu(value) {
+    dropDownValue = value;
+    update([stateId]);
+  }
+
+  void buttonCheckbox(v) {
+    isChecked = v!;
+    update([stateId]);
   }
 
   printFCMKey() async {
@@ -67,9 +110,21 @@ class SignupController extends BaseController {
             String formattedDate = formatter.format(now);
             // var formatterMonth = DateFormat('MMM, yyyy');
 
+            // Map<String, String> users = {
+            //   'name': textName.text.trim(),
+            //   'email': textEmail.text.trim(),
+            //   'date': formattedDate,
+            //   'time': '${now.hour}:${now.minute}:${now.second}',
+            //   'timeStamp': now.millisecondsSinceEpoch.toString(),
+            // };
+
             Map<String, String> users = {
               'name': textName.text.trim(),
               'email': textEmail.text.trim(),
+              'dob': textDateOfBirthController.text.trim(),
+              'gender': dropDownValue.toString(),
+              'age': age.toString(),
+              'token': fcmToken,
               'date': formattedDate,
               'time': '${now.hour}:${now.minute}:${now.second}',
               'timeStamp': now.millisecondsSinceEpoch.toString(),
@@ -77,10 +132,19 @@ class SignupController extends BaseController {
 
             printf('<---request-body--->$users');
 
-            databaseReference.child(user.uid).set(users).whenComplete(() {
+            databaseReference.child(user.uid).set(users).whenComplete(() async {
+              // loaderHide();
+              // Utility.setUserName(textName.text.trim());
+              // Get.offNamedUntil(Routes.dashboard, (route) => false);
+              DataSnapshot snapshot =
+                  await databaseReference.child(user.uid).get();
+              if (snapshot.exists) {
+                final data = Map<String, dynamic>.from(snapshot.value as Map);
+                Utility.setUserDetails(jsonEncode(data));
+                update([stateId]);
+              }
               loaderHide();
-              Utility.setUserName(textName.text.trim());
-              Get.toNamed(Routes.dashboard);
+              Get.offNamedUntil(Routes.dashboard, (route) => false);
             });
           } else {
             printf('<--error--sign-up-->$result');

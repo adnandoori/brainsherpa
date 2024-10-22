@@ -87,7 +87,8 @@ class LoginController extends BaseController {
     if (userId.isNotEmpty) {
       databaseReference.child(userId).update({'token': fcmToken});
       DataSnapshot snapshot = await databaseReference.child(userId).get();
-      if (snapshot.exists) {
+      if (snapshot.exists)
+      {
         final data = Map<String, dynamic>.from(snapshot.value as Map);
         Utility.setUserDetails(jsonEncode(data));
         update([stateId]);

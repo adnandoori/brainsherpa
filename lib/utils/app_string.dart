@@ -5,6 +5,13 @@ class AppStrings {
   static const String internetError = "Please check your internet connection";
 
   static const String successFullyLogout = "Successfully logged out";
+  static const String testAddedSuccessFully = "Test Added Successfully.";
+
+  static const String ok = 'OK';
+  static const String cancel = 'Cancel';
+  static const String logout = 'Logout';
+  static const String logoutContent = 'Are you sure you want to logout?';
+
   //
   //splash screen
 
@@ -18,13 +25,31 @@ class AppStrings {
   static const String name = 'Name';
   static const String email = 'Email';
   static const String password = 'Password';
+  static const String male = 'Male';
+  static const String female = 'Female';
+  static const String other = 'Other';
+  static const String dateOfBirth = 'Date of birth';
+
+  static const String iAcceptThe = 'i accept the';
+  static const String termsAndConditions = 'terms and conditions';
+
+  static const String pleaseAcceptTermsConditions = 'Please accept the terms and conditions';
+  static const String pleaseSelectProperDate = 'Please select proper date';
+  //please_accept_terms_and_condition
 
   static const String pleaseEnterName = 'Please enter name';
   static const String pleaseEnterEmail = 'Please enter email';
   static const String pleaseEnterValidEmail = 'Please enter valid email';
   static const String pleaseEnterPassword = 'Please enter password';
+  static const String pleaseEnterConfirmPassword = 'Please enter confirm password';
+  static const String confirmPasswordNotMatching = 'Confirm password not matching';
+  //confirm_password_not_matching
   static const String passwordShouldBeMore =
       'Password should be 6 or more characters';
+  static const String pleaseEnterDOB = 'Please enter date of birth';
+  static const String pleaseEnterValidDOB = 'Please enter valid date of birth';
+
+
 
   static const String brain = 'BRAIN';
   static const String sherpa = 'SHERPA';
@@ -39,6 +64,8 @@ class AppStrings {
   static const String fastest = 'Fastest';
   static const String slowest = 'Slowest';
 
+  //
+
   // Reaction time screen
   static const String reactionTimeTest = 'REACTION TIME TEST';
   static const String tapToStart = 'Tap to Start';
@@ -48,9 +75,11 @@ class AppStrings {
   static const String average = 'Average';
   static const String speed = 'Speed';
   static const String rcs = 'RCS';
+  static const String falseStart = 'False Starts';
+  static const String performanceScore = 'Performance Score';
   static const String accuracy = 'Accuracy';
   static const String variation = 'Variation';
-  static const String plusLapse = 'Plus Lapse';
+  static const String plusLapses = 'Plus Lapses';
 
 //Time to take the Reaction Time Test
 // dashboard

@@ -30,6 +30,8 @@ dependencies:
   firebase_messaging:
 
   fluttertoast:
+  syncfusion_flutter_charts:
+  syncfusion_flutter_gauges:
 
 dev_dependencies:
   flutter_test:
