@@ -98,7 +98,7 @@ class ReactionTimeTestController extends BaseController {
     startTestTime = now.toString();
     //printf('---start-test-time---->$startTestTime');
     update([stateId]); // 180000
-    timerFor3Minutes = Timer(const Duration(milliseconds: 180000), () async {
+    timerFor3Minutes = Timer(const Duration(milliseconds: 30000), () async {
       //printf('---time-is-over---navigate-to-result-screen---->');
       printf('-----total--attempt--->${reactionTestList.length}');
       //printf('---total--true-attempt------>${reactionTestListFilter.length}');

@@ -18,7 +18,8 @@ dependencies:
   get:
   intl:
   flutter_screenutil:
-  connectivity:
+  # connectivity:
+  connectivity_plus:
   shared_preferences:
   http:
   loader_overlay:

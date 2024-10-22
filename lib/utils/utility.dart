@@ -5,7 +5,8 @@ import 'package:brainsherpa/utils/app_constants.dart';
 import 'package:brainsherpa/utils/app_string.dart';
 import 'package:brainsherpa/utils/common_widgets.dart';
 import 'package:brainsherpa/utils/style.dart';
-import 'package:connectivity/connectivity.dart';
+// import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,12 +18,12 @@ import 'app_colors.dart';
 class Utility {
   static Future<bool> isConnected() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile) {
+    if (connectivityResult.contains(ConnectivityResult.mobile)) {
       if (kDebugMode) {
         print('Internet mode : mobile');
       }
       return true;
-    } else if (connectivityResult == ConnectivityResult.wifi) {
+    } else if (connectivityResult.contains(ConnectivityResult.wifi)) {
       if (kDebugMode) {
         print('Internet mode : wifi');
       }
@@ -89,8 +90,7 @@ class Utility {
     return regex.hasMatch(mobileNumber);
   }
 
-  void clearSession()
-  {
+  void clearSession() {
     Utility.setIsUserLoggedIn(false);
     Utility.setUserName('');
     Utility.setUserId('');

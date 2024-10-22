@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:brainsherpa/routes/app_pages.dart';
 import 'package:brainsherpa/utils/app_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,14 +12,19 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: const FirebaseOptions(
-    apiKey: "AIzaSyBcGkpmyetdJIimIkw2mulWoon4ZGB77UM",
-    appId: "1:529222992857:android:d08d82db40087617244fc8",
-    messagingSenderId: "529222992857",
-    projectId: "brainsherpa-backend",
-    storageBucket: "",
-  ));
+  if (Platform.isAndroid) {
+    await Firebase.initializeApp(
+        options: const FirebaseOptions(
+      apiKey: "AIzaSyBcGkpmyetdJIimIkw2mulWoon4ZGB77UM",
+      appId: "1:529222992857:android:d08d82db40087617244fc8",
+      messagingSenderId: "529222992857",
+      projectId: "brainsherpa-backend",
+      storageBucket: "",
+    ));
+  } else {
+    await Firebase.initializeApp();
+  }
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(const MyApp());
