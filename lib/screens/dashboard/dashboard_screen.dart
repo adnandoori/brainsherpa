@@ -74,21 +74,20 @@ class DashboardScreen extends StatelessWidget {
                       10.sbh,
                       widgetStart(controller),
                       Container(
-                        padding: EdgeInsets.only(
-                          left: 25.w,
-                          top: 16.h,
-                        ),
-                        width: Get.width,
-                        color: AppColors.bgColor,
-                        // child: Text(
-                        //   '${AppStrings.takenAt} ${controller.takenAt}',
-                        //   maxLines: 1,
-                        //   style: poppinsTextStyle(
-                        //       size: 14.sp,
-                        //       fontWeight: FontWeight.w400,
-                        //       color: Colors.black),
-                        // )
-                      ),
+                          padding: EdgeInsets.only(
+                            left: 25.w,
+                            top: 16.h,
+                          ),
+                          width: Get.width,
+                          color: AppColors.bgColor,
+                          child: Text(
+                            '${AppStrings.takenAt} ${controller.takenAt}',
+                            maxLines: 1,
+                            style: poppinsTextStyle(
+                                size: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black),
+                          )),
                       Expanded(
                           child: Container(
                         color: AppColors.bgColor,
@@ -107,41 +106,56 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget getRadialGauge() {
+  Widget getRadialGauge(DashboardController controller) {
     return SfRadialGauge(axes: <RadialAxis>[
-      RadialAxis(minimum: 0, maximum: 150, ranges: <GaugeRange>[
-        GaugeRange(
-            startValue: 0,
-            endValue: 50,
-            color: Colors.green,
-            startWidth: 10,
-            endWidth: 10),
-        GaugeRange(
-            startValue: 50,
-            endValue: 100,
-            color: Colors.orange,
-            startWidth: 10,
-            endWidth: 10),
-        GaugeRange(
-            startValue: 100,
-            endValue: 150,
-            color: Colors.red,
-            startWidth: 10,
-            endWidth: 10)
-      ], pointers: const <GaugePointer>[
-        NeedlePointer(value: 90,
-        )
-      ], annotations: const <GaugeAnnotation>[
-        GaugeAnnotation(
-            horizontalAlignment: GaugeAlignment.center,
-            verticalAlignment: GaugeAlignment.center,
-            widget: Center(
-              child: Text('90.0',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            ),
-            angle: 90,
-            positionFactor: 0.5)
-      ])
+      RadialAxis(
+          minimum: 0,
+          maximum: 150,
+          showAxisLine: false,
+          showLabels: false,
+          ranges: <GaugeRange>[
+            GaugeRange(
+                startValue: 0,
+                endValue: 50,
+                color: Colors.green,
+                startWidth: 10,
+                endWidth: 10),
+            GaugeRange(
+                startValue: 50,
+                endValue: 100,
+                color: Colors.orange,
+                startWidth: 10,
+                endWidth: 10),
+            GaugeRange(
+                startValue: 100,
+                endValue: 150,
+                color: Colors.red,
+                startWidth: 10,
+                endWidth: 10)
+          ],
+          pointers: const <GaugePointer>[
+            NeedlePointer(
+              needleEndWidth: 5,
+              needleStartWidth: 0,
+              needleColor: Colors.black,
+              value: 90,
+            )
+          ],
+          annotations: <GaugeAnnotation>[
+            GaugeAnnotation(
+                widget: Center(
+                  child: Text(
+                    controller.average,
+                    style: poppinsTextStyle(
+                        size: 22.sp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400),
+                    //style: const TextStyle(fontSize: 25., fontWeight: FontWeight.bold)
+                  ),
+                ),
+                angle: 90,
+                positionFactor: 0.5)
+          ])
     ]);
   }
 
@@ -263,13 +277,13 @@ class DashboardScreen extends StatelessWidget {
                             Expanded(
                                 child: Container(
                               margin: EdgeInsets.only(
-                                  left: 50.w,
-                                  right: 50.w,
-                                  top: 16.h,
-                                  bottom: 16.h),
+                                left: 50.w,
+                                right: 50.w,
+                                top: 16.h,
+                              ),
                               height: Get.height,
                               width: Get.width,
-                              //child: getRadialGauge(),
+                              child: getRadialGauge(controller),
                             ))
                           ],
                         ),

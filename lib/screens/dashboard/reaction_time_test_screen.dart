@@ -159,8 +159,8 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                   majorGridLines: MajorGridLines(width: 0),
                                 ),
                                 primaryYAxis: CategoryAxis(
-                                  minimum: double.tryParse(controller.fastest),
-                                  maximum: double.tryParse(controller.slowest),
+                                  minimum: 0,
+                                  maximum: controller.maximumValue,
                                 ),
                                 legend: const Legend(isVisible: false),
                                 tooltipBehavior: TooltipBehavior(enable: true),
@@ -181,7 +181,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                                   fontSize: 9,
                                                   color: Color(0xFF0080FF)),
                                               showZeroValue: false,
-                                              isVisible: true),
+                                              isVisible: false),
                                       dataSource: controller.listForGraph,
                                       xValueMapper: (GraphModel data, _) =>
                                           data.title,

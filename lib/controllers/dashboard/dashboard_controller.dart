@@ -20,9 +20,11 @@ class DashboardController extends BaseController {
   var username = '';
   late UserModel userModel;
 
-  var takenAt = '';
+  var takenAt = '0';
   var fastest = '0';
-  var slowest = '';
+  var slowest = '0';
+
+  var average = '0';
 
   DatabaseReference dbReactionTest =
       FirebaseDatabase.instance.ref().child(AppConstants.reactionTestTable);
@@ -74,7 +76,7 @@ class DashboardController extends BaseController {
         slowest = reactionTestList.last.slowest.toString();
         fastest = reactionTestList.last.fastest.toString();
 
-
+        average = reactionTestList.last.average.toString();
       }
 
       loaderHide();
@@ -125,9 +127,13 @@ class DashboardController extends BaseController {
     }
   }
 
-  void navigateToReactionTest() {
+  Future<void> navigateToReactionTest() async {
     printf('<---navigate-to-reactionTimeTestScreen--->');
-    Get.toNamed(Routes.reactionTimeTestScreen);
+    final result = await Get.toNamed(Routes.reactionTimeTestScreen);
+
+    if (result != null) {
+      getReactionTestList();
+    }
   }
 
   void callLogout() {

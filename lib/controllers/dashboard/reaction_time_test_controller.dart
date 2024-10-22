@@ -61,6 +61,8 @@ class ReactionTimeTestController extends BaseController {
 
   int randomTime = 0;
 
+  double maximumValue = 0;
+
   @override
   void onInit() {
     super.onInit();
@@ -96,7 +98,7 @@ class ReactionTimeTestController extends BaseController {
     startTestTime = now.toString();
     //printf('---start-test-time---->$startTestTime');
     update([stateId]); // 180000
-    timerFor3Minutes = Timer(const Duration(milliseconds: 30000), () async {
+    timerFor3Minutes = Timer(const Duration(milliseconds: 180000), () async {
       //printf('---time-is-over---navigate-to-result-screen---->');
       printf('-----total--attempt--->${reactionTestList.length}');
       //printf('---total--true-attempt------>${reactionTestListFilter.length}');
@@ -152,6 +154,8 @@ class ReactionTimeTestController extends BaseController {
       if (listOfDifference.isNotEmpty) {
         int l = findHighest(list: listOfDifference);
         slowest = l.toString();
+
+        maximumValue = l + 100;
 
         int f = findLowest(list: listOfDifference);
         fastest = f.toString();
@@ -236,7 +240,8 @@ class ReactionTimeTestController extends BaseController {
     reactionTestModel.userId = userId;
     reactionTestModel.dateTime = formattedDate;
     reactionTestModel.monthYear = formatterMonth.format(now);
-    reactionTestModel.reactionTestTime = '${now.hour}:${now.minute}:${now.second}';
+    reactionTestModel.reactionTestTime =
+        '${now.hour}:${now.minute}:${now.second}';
     reactionTestModel.average = average;
     reactionTestModel.fastest = fastest;
     reactionTestModel.slowest = slowest;
@@ -248,8 +253,6 @@ class ReactionTimeTestController extends BaseController {
     now = DateTime(now.year, now.month, now.day, 0, 0, 0, 0, 0);
     reactionTestModel.timeStamp = now.millisecondsSinceEpoch;
     reactionTestModel.reactionTest = reactionTestListFilter;
-
-    //printf('reactionTimeTest-Json--->${reactionTestModel.toMap()}');
 
     printf(
         'reactionTimeTest-Json--->${jsonEncode(reactionTestModel.toJson())}');
@@ -266,7 +269,7 @@ class ReactionTimeTestController extends BaseController {
               .whenComplete(() async {
             printf('<---------record--added-to-firebase------------>');
             Utility().snackBarSuccess(AppStrings.testAddedSuccessFully);
-            Get.back();
+            Get.back(result: true);
             loaderHide();
           }).onError((error, stackTrace) async {
             printf('--please-try-again-later---');
