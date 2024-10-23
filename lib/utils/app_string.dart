@@ -25,6 +25,7 @@ class AppStrings {
   static const String name = 'Name';
   static const String email = 'Email';
   static const String password = 'Password';
+  static const String confirmPassword = 'Confirm Password';
   static const String male = 'Male';
   static const String female = 'Female';
   static const String other = 'Other';

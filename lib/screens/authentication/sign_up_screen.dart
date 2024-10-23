@@ -206,8 +206,8 @@ class SignUpScreen extends StatelessWidget {
                                     return null;
                                   },
                                   inputFormatters: [NoLeadingSpaceFormatter()],
-                                  label: 'confirm_password'.tr,
-                                  hint: 'confirm_password'.tr,
+                                  label: AppStrings.confirmPassword,
+                                  hint: AppStrings.confirmPassword,
                                   keyboardAction: TextInputAction.done,
                                   controller:
                                       controller.textConfirmPasswordController,
