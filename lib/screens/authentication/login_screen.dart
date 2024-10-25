@@ -94,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                                                     size: 16.sp,
                                                     color: Colors.white,
                                                     fontWeight:
-                                                        FontWeight.w600),
+                                                        FontWeight.w200),
                                               ),
                                               InkWell(
                                                 onTap: () {
@@ -110,7 +110,7 @@ class LoginScreen extends StatelessWidget {
                                                         underline: true,
                                                         color: Colors.white,
                                                         fontWeight:
-                                                            FontWeight.w600),
+                                                            FontWeight.w200),
                                                   ),
                                                 ),
                                               ),

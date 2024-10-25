@@ -102,74 +102,229 @@ class SignUpScreen extends StatelessWidget {
                                   controller: controller.textName,
                                 ),
                                 16.sbh,
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        margin: EdgeInsets.only(right: 5.w),
-                                        child: AppTextField(
-                                          label: AppStrings.dateOfBirth,
-                                          keyboardType: TextInputType.phone,
-                                          readOnly: true,
-                                          validators: dateOfBirthValidator.call,
-                                          hint: AppStrings.dateOfBirth,
-                                          onTap: () async {
-                                            controller.selectDateOfBirth();
-                                          },
-                                          maxLength: 11,
-                                          inputFormatters: [
-                                            NoLeadingSpaceFormatter()
-                                          ],
-                                          controller: controller
-                                              .textDateOfBirthController,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        margin: EdgeInsets.only(left: 5.w),
-                                        padding: EdgeInsets.only(
-                                            left: 10.w,
-                                            right: 10.w,
-                                            bottom: 2.h),
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: AppColors.buttonColor,
-                                                width: 1),
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        child: Center(
-                                          child: DropdownButton<String>(
-                                            value: controller.dropDownValue,
-                                            onChanged: (value) {
-                                              controller.dropDownMenu(value);
+                                // SizedBox(
+                                //   height: 54.h,
+                                //   child: Row(
+                                //     crossAxisAlignment:
+                                //         CrossAxisAlignment.start,
+                                //     mainAxisAlignment: MainAxisAlignment.start,
+                                //     children: [
+                                //       Expanded(
+                                //         child: Container(
+                                //           margin: EdgeInsets.only(right: 5.w),
+                                //           child: AppTextField(
+                                //             label: 'Gender',
+                                //             keyboardType: TextInputType.none,
+                                //             // Prevent keyboard from opening
+                                //             readOnly: true,
+                                //             validators:
+                                //                 dateOfBirthValidator.call,
+                                //             hint: 'Gender',
+                                //             onTap: () async {
+                                //               // Open the dropdown in a dialog
+                                //               String? selectedGender =
+                                //                   await showDialog<String>(
+                                //                 context: context,
+                                //                 builder:
+                                //                     (BuildContext context) {
+                                //                   return AlertDialog(
+                                //                     title: const Text(
+                                //                         "Select Gender"),
+                                //                     content:
+                                //                         DropdownButton<String>(
+                                //                       value: controller
+                                //                           .dropDownValue,
+                                //                       onChanged: (value) {
+                                //                         controller.dropDownMenu(
+                                //                             value);
+                                //                         Navigator.of(context).pop(
+                                //                             value); // Pass the selected value back
+                                //                       },
+                                //                       isExpanded: true,
+                                //                       items: [
+                                //                         AppStrings.male,
+                                //                         AppStrings.female,
+                                //                         AppStrings.other,
+                                //                       ].map((String value) {
+                                //                         return DropdownMenuItem<
+                                //                             String>(
+                                //                           value: value,
+                                //                           child: Text(
+                                //                             value,
+                                //                             textAlign: TextAlign
+                                //                                 .center,
+                                //                             style:
+                                //                                 poppinsTextStyle(
+                                //                               color:
+                                //                                   Colors.grey,
+                                //                               size: 15.sp,
+                                //                             ),
+                                //                           ),
+                                //                         );
+                                //                       }).toList(),
+                                //                     ),
+                                //                   );
+                                //                 },
+                                //               );
+                                //
+                                //               // Set the selected value to the text field
+                                //               if (selectedGender != null) {
+                                //                 controller.textGender.text =
+                                //                     selectedGender;
+                                //               }
+                                //             },
+                                //             maxLength: 11,
+                                //             inputFormatters: [
+                                //               NoLeadingSpaceFormatter()
+                                //             ],
+                                //             controller: controller.textGender,
+                                //           ),
+                                //         ),
+                                //       ),
+                                //       Expanded(
+                                //         child: Container(
+                                //           // height: Get.height < 650 ? 53.h : 46.h,
+                                //           margin: EdgeInsets.only(left: 5.w),
+                                //           padding: EdgeInsets.only(
+                                //             left: 10.w,
+                                //             right: 10.w,
+                                //           ),
+                                //           decoration: BoxDecoration(
+                                //               border: Border.all(
+                                //                   color: AppColors.buttonColor,
+                                //                   width: 1),
+                                //               borderRadius:
+                                //                   BorderRadius.circular(5)),
+                                //           child: Center(
+                                //             child: DropdownButton<String>(
+                                //               alignment: Alignment.center,
+                                //               value: controller.dropDownValue,
+                                //               onChanged: (value) {
+                                //                 controller.dropDownMenu(value);
+                                //               },
+                                //               underline: Container(),
+                                //               isExpanded: true,
+                                //               items: [
+                                //                 AppStrings.male,
+                                //                 AppStrings.female,
+                                //                 AppStrings.other
+                                //               ]
+                                //                   .map<
+                                //                       DropdownMenuItem<String>>(
+                                //                     (String value) =>
+                                //                         DropdownMenuItem<
+                                //                             String>(
+                                //                       value: value,
+                                //                       child: Padding(
+                                //                         padding:
+                                //                             EdgeInsets.only(
+                                //                                 top: 2.h),
+                                //                         child: Text(value,
+                                //                             textAlign: TextAlign
+                                //                                 .center,
+                                //                             style:
+                                //                                 poppinsTextStyle(
+                                //                               color:
+                                //                                   Colors.grey,
+                                //                               size: 15.sp,
+                                //                             )),
+                                //                       ),
+                                //                     ),
+                                //                   )
+                                //                   .toList(),
+                                //             ),
+                                //           ),
+                                //         ),
+                                //       )
+                                //     ],
+                                //   ),
+                                // ),
+                                SizedBox(
+                                  height: 54.h,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          margin: EdgeInsets.only(right: 5.w),
+                                          child: AppTextField(
+                                            label: AppStrings.dateOfBirth,
+                                            keyboardType: TextInputType.phone,
+                                            readOnly: true,
+                                            validators:
+                                                dateOfBirthValidator.call,
+                                            hint: AppStrings.dateOfBirth,
+                                            onTap: () async {
+                                              controller.selectDateOfBirth();
                                             },
-                                            underline: Container(),
-                                            isExpanded: true,
-                                            items: [
-                                              AppStrings.male,
-                                              AppStrings.female,
-                                              AppStrings.other
-                                            ]
-                                                .map<DropdownMenuItem<String>>(
-                                                  (String value) =>
-                                                      DropdownMenuItem<String>(
-                                                    value: value,
-                                                    child: Text(value,
-                                                        style: poppinsTextStyle(
-                                                          color: Colors.grey,
-                                                          size: 15.sp,
-                                                        )),
-                                                  ),
-                                                )
-                                                .toList(),
+                                            maxLength: 11,
+                                            inputFormatters: [
+                                              NoLeadingSpaceFormatter()
+                                            ],
+                                            controller: controller
+                                                .textDateOfBirthController,
                                           ),
                                         ),
                                       ),
-                                    )
-                                  ],
+                                      Expanded(
+                                        child: Container(
+                                           height: Get.height < 650 ? 53.h : 46.h,
+                                          margin: EdgeInsets.only(left: 5.w),
+                                          padding: EdgeInsets.only(
+                                            left: 10.w,
+                                            right: 10.w,
+                                          ),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: AppColors.buttonColor,
+                                                  width: 1),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: Center(
+                                            child: DropdownButton<String>(
+                                              alignment: Alignment.center,
+                                              value: controller.dropDownValue,
+                                              onChanged: (value) {
+                                                controller.dropDownMenu(value);
+                                              },
+                                              underline: Container(),
+                                              isExpanded: true,
+                                              items: [
+                                                AppStrings.male,
+                                                AppStrings.female,
+                                                AppStrings.other
+                                              ]
+                                                  .map<
+                                                      DropdownMenuItem<String>>(
+                                                    (String value) =>
+                                                        DropdownMenuItem<
+                                                            String>(
+                                                      value: value,
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 2.h),
+                                                        child: Text(value,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style:
+                                                                poppinsTextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              size: 15.sp,
+                                                            )),
+                                                      ),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 16.sbh,
                                 AppTextField(

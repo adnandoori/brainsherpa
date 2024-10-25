@@ -23,6 +23,7 @@ class SignupController extends BaseController {
   TextEditingController textConfirmPasswordController = TextEditingController();
   TextEditingController textDateOfBirthController = TextEditingController();
 
+  TextEditingController textGender = TextEditingController();
   String? dropDownValue = AppStrings.male;
 
   DatabaseReference databaseReference =

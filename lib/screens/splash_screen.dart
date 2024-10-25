@@ -1,4 +1,5 @@
 import 'package:brainsherpa/controllers/splash_controller.dart';
+import 'package:brainsherpa/utils/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +8,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    printf('--height-->${Get.height}');
     return Scaffold(
       body: GetBuilder<SplashController>(
         init: SplashController(context),

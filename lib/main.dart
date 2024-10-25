@@ -74,10 +74,14 @@ class MyApp extends StatelessWidget {
 - Dashboard screen
 - Logout api integration
 
-* work in progress
-- Reaction Time test ui design
+Apk link : https://drive.google.com/file/d/1h7iIT7xLutRDnRT7eQS96vtoAQt40tuT/view?usp=sharing
 
-
+Release note
+- Graph plot band
+- Update ui
+- Add calculation formula in Reaction Test screen
+- History screen
+- Reaction time list screen
 
 
 */

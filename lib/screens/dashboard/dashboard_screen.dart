@@ -1,4 +1,5 @@
 import 'package:brainsherpa/controllers/dashboard/dashboard_controller.dart';
+import 'package:brainsherpa/routes/app_pages.dart';
 import 'package:brainsherpa/utils/app_colors.dart';
 import 'package:brainsherpa/utils/app_string.dart';
 import 'package:brainsherpa/utils/common_widgets.dart';
@@ -52,8 +53,8 @@ class DashboardScreen extends StatelessWidget {
                                   padding: EdgeInsets.only(right: 15.w),
                                   child: Image.asset(
                                     ImagePath.icLogout,
-                                    height: 24,
-                                    width: 24,
+                                    height: 22,
+                                    width: 22,
                                   ),
                                 ),
                               ),
@@ -84,7 +85,7 @@ class DashboardScreen extends StatelessWidget {
                             '${AppStrings.takenAt} ${controller.takenAt}',
                             maxLines: 1,
                             style: poppinsTextStyle(
-                                size: 14.sp,
+                                size: 12.sp,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black),
                           )),
@@ -110,48 +111,58 @@ class DashboardScreen extends StatelessWidget {
     return SfRadialGauge(axes: <RadialAxis>[
       RadialAxis(
           minimum: 0,
-          maximum: 150,
+          maximum: 600,
           showAxisLine: false,
           showLabels: false,
           ranges: <GaugeRange>[
             GaugeRange(
                 startValue: 0,
-                endValue: 50,
+                endValue: 200,
+                color: Colors.red,
+                startWidth: 10,
+                endWidth: 10),
+            GaugeRange(
+                startValue: 200,
+                endValue: 400,
                 color: Colors.green,
                 startWidth: 10,
                 endWidth: 10),
             GaugeRange(
-                startValue: 50,
-                endValue: 100,
-                color: Colors.orange,
-                startWidth: 10,
-                endWidth: 10),
-            GaugeRange(
-                startValue: 100,
-                endValue: 150,
+                startValue: 400,
+                endValue: 600,
                 color: Colors.red,
                 startWidth: 10,
                 endWidth: 10)
           ],
-          pointers: const <GaugePointer>[
+          pointers: <GaugePointer>[
             NeedlePointer(
               needleEndWidth: 5,
               needleStartWidth: 0,
               needleColor: Colors.black,
-              value: 90,
+              value: double.parse(controller.average.toString()),
             )
           ],
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
-                widget: Center(
-                  child: Text(
-                    controller.average,
-                    style: poppinsTextStyle(
-                        size: 22.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400),
-                    //style: const TextStyle(fontSize: 25., fontWeight: FontWeight.bold)
-                  ),
+                widget: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    20.sbh,
+                    Text(
+                     controller.average,
+                      style: poppinsTextStyle(
+                          size: 22.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    Text(
+                      'ms',
+                      style: poppinsTextStyle(
+                          size: 14.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
                 ),
                 angle: 90,
                 positionFactor: 0.5)
@@ -257,22 +268,32 @@ class DashboardScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  AppStrings.reactionTime,
-                                  style: poppinsTextStyle(
-                                      size: 20.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Image.asset(
-                                  ImagePath.icNext,
-                                  height: 16,
-                                  width: 16,
-                                ),
-                              ],
+                            InkWell(
+                              onTap: () {
+                                Get.toNamed(Routes.reactionTimeListScreen,
+                                    arguments: [
+                                      controller.userId,
+                                      controller.reactionTestList
+                                    ]);
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    AppStrings.reactionTime,
+                                    style: poppinsTextStyle(
+                                        size: 20.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Image.asset(
+                                    ImagePath.icNext,
+                                    height: 16,
+                                    width: 16,
+                                  ),
+                                ],
+                              ),
                             ),
                             Expanded(
                                 child: Container(
@@ -310,7 +331,7 @@ class DashboardScreen extends StatelessWidget {
             fit: BoxFit.fill,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 40.w, right: 40.w, top: 25.h),
+            padding: EdgeInsets.only(left: 25.w, right: 40.w, top: 25.h),
             child: Text(
               AppStrings.timeToTakeTheReaction,
               style: poppinsTextStyle(
@@ -337,7 +358,7 @@ class DashboardScreen extends StatelessWidget {
                   child: Text(
                     AppStrings.start,
                     style: poppinsTextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w600),
+                        color: Colors.black, fontWeight: FontWeight.w400),
                   ),
                 ),
               ),

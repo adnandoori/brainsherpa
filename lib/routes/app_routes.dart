@@ -7,4 +7,7 @@ abstract class Routes {
   static const signUp = '/signUp';
   static const dashboard = '/dashboard';
   static const reactionTimeTestScreen = '/reactionTimeTest';
+  static const reactionTimeListScreen = '/reactionTimeList';
+  static const historyScreen = '/historyScreen';
+
 }

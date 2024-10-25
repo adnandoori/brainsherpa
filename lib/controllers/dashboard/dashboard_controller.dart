@@ -20,7 +20,7 @@ class DashboardController extends BaseController {
   var username = '';
   late UserModel userModel;
 
-  var takenAt = '0';
+  var takenAt = '';
   var fastest = '0';
   var slowest = '0';
 
@@ -49,7 +49,7 @@ class DashboardController extends BaseController {
     loaderShow();
     update([stateId]);
     DataSnapshot snapshot = await dbReactionTest.child(userId).get();
-
+    reactionTestList.clear();
     if (snapshot.children.isNotEmpty) {
       for (var element in snapshot.children) {
         final data =
@@ -83,6 +83,7 @@ class DashboardController extends BaseController {
       update([stateId]);
     } else {
       printf('------record_not_found-------------');
+      navigateToReactionTest();
       loaderHide();
       update([stateId]);
     }
@@ -175,6 +176,24 @@ class ReactionTestModel {
   String? slowest;
   String? falseStart;
   String? variation;
+  String? isi0to2;
+  String? isi2to4;
+  String? slowingRate;
+  String? performanceDecline;
+  String? lpm;
+  String? fpm;
+  String? iqr;
+  String? psr;
+  String? rtrt;
+  String? vigilanceIndex;
+  String? alertness;
+  String? resilience;
+  String? fatigue;
+  String? attention;
+  String? cognitiveFlexibility;
+  String? responseControl;
+  String? cognitiveLoad;
+
   List<ReactionTest>? reactionTest;
 
   ReactionTestModel({
@@ -191,6 +210,23 @@ class ReactionTestModel {
     this.slowest,
     this.falseStart,
     this.variation,
+    this.isi0to2,
+    this.isi2to4,
+    this.slowingRate,
+    this.performanceDecline,
+    this.lpm,
+    this.fpm,
+    this.iqr,
+    this.psr,
+    this.rtrt,
+    this.vigilanceIndex,
+    this.alertness,
+    this.resilience,
+    this.fatigue,
+    this.attention,
+    this.cognitiveFlexibility,
+    this.responseControl,
+    this.cognitiveLoad,
     this.reactionTest,
   });
 
@@ -203,12 +239,29 @@ class ReactionTestModel {
       accuracy: map['accuracy'] as String?,
       average: map['average'] as String?,
       timeStamp: map['timeStamp'] ?? 0,
-      speed: map['speed'] as String,
+      speed: map['speed'] as String?,
       plusLapses: map['plusLapses'] as String?,
       fastest: map['fastest'] as String?,
       slowest: map['slowest'] as String?,
       falseStart: map['falseStart'] as String?,
-      variation: map['variation'] as String,
+      variation: map['variation'] as String?,
+      isi0to2: map["isi0to2"] as String?,
+      isi2to4: map["isi2to4"] as String?,
+      slowingRate: map["slowingRate"] as String?,
+      performanceDecline: map["performanceDecline"] as String?,
+      lpm: map["lpm"] as String?,
+      fpm: map["fpm"] as String?,
+      iqr: map["iqr"] as String?,
+      psr: map["psr"] as String?,
+      rtrt: map["rtrt"] as String?,
+      vigilanceIndex: map["vigilanceIndex"] as String?,
+      alertness: map["alertness"] as String?,
+      resilience: map["resilience"] as String?,
+      fatigue: map["fatigue"] as String?,
+      attention: map["attention"] as String?,
+      cognitiveFlexibility: map["cognitiveFlexibility"] as String?,
+      responseControl: map["responseControl"] as String?,
+      cognitiveLoad: map["cognitiveLoad"] as String?,
       reactionTest: (map['reactionTest'] as List<dynamic>?)
           ?.map((item) => ReactionTest.fromMap(Map<String, dynamic>.from(item)))
           .toList(),

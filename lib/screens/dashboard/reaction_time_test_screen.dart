@@ -29,7 +29,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  widgetAppBar(),
+                  widgetAppBar(title: AppStrings.reactionTimeTest),
                   Expanded(
                       child: Padding(
                     padding:
@@ -41,7 +41,8 @@ class ReactionTimeTestScreen extends StatelessWidget {
                             : controller.isGreen
                                 ? widgetGreen(controller)
                                 : widgetStartTest(controller),
-                  ))
+                  )),
+                  15.sbh,
                 ],
               ),
             );
@@ -158,14 +159,38 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                 primaryXAxis: const CategoryAxis(
                                   majorGridLines: MajorGridLines(width: 0),
                                 ),
-                                primaryYAxis: CategoryAxis(
+                                primaryYAxis: NumericAxis(
+                                  axisLine:
+                                      const AxisLine(color: Colors.transparent),
                                   minimum: 0,
                                   maximum: controller.maximumValue,
+                                  plotBands: <PlotBand>[
+                                    const PlotBand(
+                                        horizontalTextAlignment:
+                                            TextAnchor.start,
+                                        start: 0,
+                                        end: 200,
+                                        //max,
+                                        opacity: 0.1,
+                                        color: Colors.red,
+                                        dashArray: <double>[4, 5]),
+                                    PlotBand(
+                                        horizontalTextAlignment:
+                                            TextAnchor.start,
+                                        start: 400,
+                                        end: controller.maximumValue,
+                                        opacity: 0.1,
+                                        color: Colors.red,
+                                        dashArray: const <double>[4, 5]),
+                                  ],
+                                  isVisible: true,
+                                  labelStyle: const TextStyle(
+                                      fontSize: 8, color: Color(0xFF929395)),
                                 ),
                                 legend: const Legend(isVisible: false),
                                 tooltipBehavior: TooltipBehavior(enable: true),
                                 series: <CartesianSeries>[
-                                  LineSeries<GraphModel, String>(
+                                  SplineSeries<GraphModel, String>(
                                       color: AppColors.blueColor,
                                       markerSettings: const MarkerSettings(
                                         isVisible: true,
@@ -183,6 +208,11 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                               showZeroValue: false,
                                               isVisible: false),
                                       dataSource: controller.listForGraph,
+                                      trendlines: <Trendline>[
+                                        Trendline(
+                                            type: TrendlineType.linear,
+                                            color: Colors.black)
+                                      ],
                                       xValueMapper: (GraphModel data, _) =>
                                           data.title,
                                       yValueMapper: (GraphModel data, _) =>
@@ -192,7 +222,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
-                              height: 200.h,
+                              //height: 200.h,
                               width: Get.width,
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -204,7 +234,9 @@ class ReactionTimeTestScreen extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
+                                  10.sbh,
                                   Text(
                                     '${AppStrings.speed}:   ${controller.speed} reactions/s',
                                     style: poppinsTextStyle(
@@ -238,7 +270,127 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                     style: poppinsTextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w400),
-                                  )
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Isi 0 to 2:    ${controller.avgForIsi0to2} ms',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Isi 2 to 4:    ${controller.avgForIsi2to4} ms',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Slowing rate :    ${controller.slowingRate} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Performance decline :    ${controller.performanceDecline} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'lapses/M :    ${controller.LPM} L/m',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'False starts/M :    ${controller.FPM} F/m',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'IQR :    ${controller.IQR} ms',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'PSR :    ${controller.PSR} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Recovery time :    ${controller.RTRT} ms',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Vigilance Index :    ${controller.vigilanceIndex} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Alertness :    ${controller.alertness} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Resilience :    ${controller.resilience} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Fatigue :    ${controller.fatigue} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Attention :  ${controller.attention} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Cognitive Flexibility : ${controller.cognitiveFlexibility} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Response Control :    ${controller.responseControl} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Cognitive Load :    ${controller.cognitiveLoad} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  10.sbh,
                                 ],
                               ),
                             ),
@@ -369,10 +521,37 @@ class ReactionTimeTestScreen extends StatelessWidget {
                               primaryXAxis: const CategoryAxis(
                                 majorGridLines: MajorGridLines(width: 0),
                               ),
+                              primaryYAxis: NumericAxis(
+                                axisLine:
+                                    const AxisLine(color: Colors.transparent),
+                                minimum: 0,
+                                maximum: controller.maximumValue,
+                                plotBands: <PlotBand>[
+                                  const PlotBand(
+                                      horizontalTextAlignment: TextAnchor.start,
+                                      start: 0,
+                                      end: 200,
+                                      //max,
+                                      opacity: 0.1,
+                                      color: Colors.red,
+                                      dashArray: <double>[4, 5]),
+                                  PlotBand(
+                                      horizontalTextAlignment: TextAnchor.start,
+                                      start: 400,
+                                      end: 600,
+                                      //controller.maximumValue,
+                                      opacity: 0.1,
+                                      color: Colors.red,
+                                      dashArray: const <double>[4, 5]),
+                                ],
+                                isVisible: true,
+                                labelStyle: const TextStyle(
+                                    fontSize: 8, color: Color(0xFF929395)),
+                              ),
                               legend: const Legend(isVisible: false),
                               tooltipBehavior: TooltipBehavior(enable: true),
-                              series: <ColumnSeries<GraphModel, String>>[
-                                ColumnSeries<GraphModel, String>(
+                              series: <SplineSeries<GraphModel, String>>[
+                                SplineSeries<GraphModel, String>(
                                     enableTooltip: false,
                                     color: AppColors.buttonColor,
                                     dataSource: controller.listForGraph,
@@ -474,12 +653,15 @@ class ReactionTimeTestScreen extends StatelessWidget {
           height: Get.height,
           width: Get.width,
           child: Center(
-            child: Text(
-              AppStrings.tapToStart,
-              style: poppinsTextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  size: 22.sp),
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 150.h),
+              child: Text(
+                AppStrings.tapToStart,
+                style: poppinsTextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    size: 26.sp),
+              ),
             ),
           ),
         ),
@@ -503,12 +685,15 @@ class ReactionTimeTestScreen extends StatelessWidget {
           height: Get.height,
           width: Get.width,
           child: Center(
-            child: Text(
-              AppStrings.waitForGreen,
-              style: poppinsTextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  size: 22.sp),
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 150.h),
+              child: Text(
+                AppStrings.waitForGreen,
+                style: poppinsTextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    size: 26.sp),
+              ),
             ),
           ),
         ),
@@ -532,53 +717,18 @@ class ReactionTimeTestScreen extends StatelessWidget {
           height: Get.height,
           width: Get.width,
           child: Center(
-            child: Text(
-              AppStrings.tap,
-              style: poppinsTextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  size: 22.sp),
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 150.h),
+              child: Text(
+                AppStrings.tap,
+                style: poppinsTextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    size: 26.sp),
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget widgetAppBar() {
-    return SizedBox(
-      height: 66.h,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Padding(
-            padding: EdgeInsets.only(left: 20.w),
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 18.w),
-                      child: Image.asset(
-                        ImagePath.icBack,
-                        height: 22,
-                        width: 22,
-                      ),
-                    ),
-                  ),
-                ),
-                Text(
-                  AppStrings.reactionTimeTest,
-                  style: poppinsTextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                      size: 22.sp),
-                )
-              ],
-            )),
       ),
     );
   }
