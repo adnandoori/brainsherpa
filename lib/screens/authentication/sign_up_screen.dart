@@ -270,7 +270,8 @@ class SignUpScreen extends StatelessWidget {
                                       ),
                                       Expanded(
                                         child: Container(
-                                           height: Get.height < 650 ? 53.h : 46.h,
+                                          height:
+                                              Get.height < 650 ? 53.h : 46.h,
                                           margin: EdgeInsets.only(left: 5.w),
                                           padding: EdgeInsets.only(
                                             left: 10.w,
@@ -394,13 +395,16 @@ class SignUpScreen extends StatelessWidget {
                                               TextSpan(
                                                   text:
                                                       ' ${AppStrings.termsAndConditions}',
-                                                  style: poppinsTextStyle(
-                                                    size: 14.sp,
-                                                    underline: true,
-                                                    color:
-                                                        AppColors.buttonColor,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color:
+                                                          AppColors.buttonColor,
+                                                      fontSize: 14.sp,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      decorationColor: AppColors
+                                                          .buttonColor),
                                                   recognizer:
                                                       TapGestureRecognizer()
                                                         ..onTap = () {}),

@@ -35,7 +35,7 @@ class AppStrings {
   static const String other = 'Other';
   static const String dateOfBirth = 'Date of birth';
 
-  static const String iAcceptThe = 'i accept the';
+  static const String iAcceptThe = 'I accept the';
   static const String termsAndConditions = 'terms and conditions';
 
   static const String pleaseAcceptTermsConditions =

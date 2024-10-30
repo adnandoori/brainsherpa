@@ -33,15 +33,30 @@ class DashboardController extends BaseController {
 
   DateFormat inputFormat = DateFormat("HH:mm dd-MM-yyyy");
 
+  var arguments = Get.arguments;
+  var from = '';
+
   @override
   void onInit() {
     super.onInit();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       printf('<----init----DashboardController---->');
-      getUserDetails();
-      getUserId().whenComplete(() {
-        getReactionTestList();
-      });
+
+      if (arguments != null) {
+        from = arguments[0];
+        getUserDetails();
+
+        printf('<----from----->$from');
+        if (from == 'login') {
+          getUserId().whenComplete(() {
+            getReactionTestList();
+          });
+        } else {
+          navigateToStartTest();
+        }
+      } else {
+        printf('<---exe--arguments---->');
+      }
     });
   }
 
@@ -83,7 +98,7 @@ class DashboardController extends BaseController {
       update([stateId]);
     } else {
       printf('------record_not_found-------------');
-      navigateToReactionTest();
+      navigateToStartTest();
       loaderHide();
       update([stateId]);
     }
@@ -137,14 +152,14 @@ class DashboardController extends BaseController {
     }
   }
 
-  Future<void> navigateToReactionTest() async {
-    printf('<---navigate-to-reactionTimeTestScreen--->');
-    final result = await Get.toNamed(Routes.reactionTimeTestScreen);
-
-    if (result != null) {
-      getReactionTestList();
-    }
-  }
+  // Future<void> navigateToReactionTest() async {
+  //   printf('<---navigate-to-reactionTimeTestScreen--->');
+  //   final result = await Get.toNamed(Routes.reactionTimeTestScreen);
+  //
+  //   if (result != null) {
+  //     getReactionTestList();
+  //   }
+  // }
 
   void callLogout() {
     Alerts.showAlertWithCancelAction(

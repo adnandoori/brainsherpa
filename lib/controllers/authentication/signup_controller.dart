@@ -145,7 +145,8 @@ class SignupController extends BaseController {
                 update([stateId]);
               }
               loaderHide();
-              Get.offNamedUntil(Routes.dashboard, (route) => false);
+              Get.offNamedUntil(
+                  Routes.dashboard, arguments: ['signup'], (route) => false);
             });
           } else {
             printf('<--error--sign-up-->$result');
