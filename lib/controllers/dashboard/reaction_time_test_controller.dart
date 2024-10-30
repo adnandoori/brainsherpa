@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class ReactionTimeTestController extends BaseController {
+class ReactionTimeTestController extends BaseController
+    with GetSingleTickerProviderStateMixin {
   static String stateId = 'reaction_test_ui';
 
   Timer? timerFor3Minutes, timerWaitForGreen, timerGreen;
@@ -105,6 +106,16 @@ class ReactionTimeTestController extends BaseController {
 
   int startTestTimeInMs = 0;
 
+  double firstQuestion = 0;
+  var isSelected = '';
+  var arguments = Get.arguments;
+
+  double opacity = 1.0;
+
+//  late Timer timerForAnimation;
+
+  var animationText = '';
+
   @override
   void onInit() {
     super.onInit();
@@ -112,16 +123,62 @@ class ReactionTimeTestController extends BaseController {
       printf('<----init----ReactionTimeTestController---->');
       reactionTestModel = ReactionTestModel();
       getUserId();
-      //var now = DateTime.now().millisecondsSinceEpoch;
-      //printf('---milliseconds----->$now');
+
+      if (arguments != null) {
+        try {
+          firstQuestion = arguments[0];
+
+          isSelected = arguments[1];
+
+          printf('<--arguments---->$firstQuestion---->$isSelected');
+        } catch (e) {
+          printf('<----exe-arguments-->$e');
+        }
+      } else {
+        printf('<----null-arguments------>');
+      }
+      startFadeAnimation();
     });
+  }
+
+  @override
+  void onClose() {
+    printf('<---onClose---and--stop--all-timers----->');
+    //timerForAnimation.cancel();
+    stopAllTimer();
+    super.onClose();
   }
 
   @override
   void dispose() {
     printf('<---dispose---and--stop--all-timers----->');
+    //timerForAnimation.cancel();
     stopAllTimer();
     super.dispose();
+  }
+
+  void startFadeAnimation() {
+    // timerForAnimation = Timer(const Duration(milliseconds: 200), () async {
+    //   //opacity = opacity == 1.0 ? 0.0 : 1.0;
+    //   opacity = 0.0;
+    //   update([stateId]);
+    // });
+    showReactionTime();
+  }
+
+  void showReactionTime() async {
+    // Start the fade-in animation
+    opacity = 1.0;
+    update([stateId]);
+    await Future.delayed(const Duration(milliseconds: 200));
+
+    // Stay visible for 400 ms
+    await Future.delayed(const Duration(milliseconds: 400));
+
+    // Start the fade-out animation
+    opacity = 0.0;
+    update([stateId]);
+    await Future.delayed(const Duration(milliseconds: 200));
   }
 
   void getUserId() async {
@@ -432,7 +489,12 @@ class ReactionTimeTestController extends BaseController {
     reactionTestModel.cognitiveFlexibility = cognitiveFlexibility;
     reactionTestModel.responseControl = responseControl;
     reactionTestModel.cognitiveLoad = cognitiveLoad;
+    reactionTestModel.alertnessRating = firstQuestion.toString();
+    reactionTestModel.supplementsTaken = isSelected.toString();
     reactionTestModel.reactionTest = reactionTestListFilter;
+
+    //Alertness rating : 5
+    //Supplements taken : No
 
     printf(
         'reactionTimeTest-Json--->${jsonEncode(reactionTestModel.toJson())}');
@@ -463,297 +525,6 @@ class ReactionTimeTestController extends BaseController {
     });
   }
 
-  double calculateIQR(List<int> data) {
-    // Step 1: Sort the data
-    data.sort();
-
-    // Step 2: Calculate Q1
-    List<int> lowerHalf = data.sublist(0, data.length ~/ 2);
-    double q1 = findMedian(lowerHalf);
-
-    // Step 3: Calculate Q3
-    List<int> upperHalf = data.sublist((data.length + 1) ~/ 2);
-    double q3 = findMedian(upperHalf);
-
-    // Step 4: Calculate IQR
-    double iqr = q3 - q1;
-    return iqr;
-  }
-
-  double calculatePSR(List<int> data) {
-    // Count reactions above 300 ms
-    int slowReactions = data.where((time) => time > 300).length;
-    int totalReactions = data.length;
-
-    // Calculate PSR
-    double psr = (slowReactions / totalReactions) * 100;
-    return psr;
-  }
-
-  double calculateRTRT(List<int> data, int baseline) {
-    List<int> recoveryTimes = [];
-
-    for (int i = 0; i < data.length; i++) {
-      if (data[i] > 355) {
-        // Identify a lapse
-        int j = i + 1;
-        int recoveryTime = 0;
-
-        // Calculate time to recover back to baseline
-        while (j < data.length && data[j] > baseline) {
-          recoveryTime += (data[j] - baseline).abs();
-
-          j++;
-        }
-
-        // Only add to recovery times if we successfully returned to baseline
-
-        if (j <= data.length) {
-          recoveryTimes.add(recoveryTime ~/ (j - i));
-        }
-      }
-    }
-
-    // Calculate average RTRT across all lapses
-    double averageRTRT = recoveryTimes.isNotEmpty
-        ? recoveryTimes.reduce((a, b) => a + b) / recoveryTimes.length
-        : 0.0;
-
-    return averageRTRT;
-  }
-
-  double calculateCVI(List<int> data, int baseline) {
-    // Calculate Mean Reaction Time (MRT Score)
-    double mrt = data.reduce((a, b) => a + b) / data.length;
-    double mrtScore = 100 - ((mrt / baseline) * 100).clamp(0, 100);
-
-    // Calculate Reaction Time Consistency (CV Score)
-    double mean = mrt;
-    double variance = data
-            .map((time) => (time - mean) * (time - mean))
-            .reduce((a, b) => a + b) /
-        data.length;
-    double standardDeviation = sqrt(variance); //variance.sqrt();
-    double cvScore = 100 - ((standardDeviation / mean) * 100).clamp(0, 100);
-
-    // Calculate Lapse Rate Score
-    int lapseCount = data.where((time) => time > 355).length;
-    double lapseScore = 100 - ((lapseCount / data.length) * 100).clamp(0, 100);
-
-    // Calculate Reaction Time Recovery Time (RTRT) Score
-    double rtrtScore = calculateRTRT(data, baseline);
-
-    // Calculate CVI as a weighted sum of all components
-    double cvi = (0.4 * mrtScore) +
-        (0.2 * cvScore) +
-        (0.2 * lapseScore) +
-        (0.2 * rtrtScore);
-    return cvi;
-  }
-
-  double calculateAlertnessScore(List<int> data, int idealFastestRT) {
-    // Step 1: Calculate False Starts (reaction times < 150 ms)
-    int falseStarts = data.where((time) => time < 150).length;
-    int totalReactions = data.length;
-
-    // Step 2: Calculate Fastest 10% Reaction Time (average of fastest 10% reactions)
-    data.sort();
-    int fastest10PercentCount = (data.length * 0.1).round();
-    List<int> fastest10Percent = data.take(fastest10PercentCount).toList();
-    double averageFastest10PercentRT =
-        fastest10Percent.reduce((a, b) => a + b) / fastest10Percent.length;
-
-    // Step 3: Calculate Alertness Score
-    double alertnessScore = 100 -
-        ((falseStarts / totalReactions) * 50) -
-        ((averageFastest10PercentRT / idealFastestRT) * 50);
-
-    return alertnessScore.clamp(
-        0, 100); // Ensure the score is between 0 and 100
-  }
-
-  double calculateResilienceScore(List<int> data) {
-    // Step 1: Calculate Average Reaction Time
-    double avgReactionTime = data.reduce((a, b) => a + b) / data.length;
-
-    // Step 2: Calculate Average Recovery Time
-    List<int> recoveryTimes = [];
-
-    for (int i = 0; i < data.length; i++) {
-      if (data[i] > 355) {
-        // Identify a lapse (reaction time > 355 ms)
-        int j = i + 1;
-        int recoveryTime = 0;
-
-        // Calculate time to recover back to baseline
-        while (j < data.length && data[j] > avgReactionTime) {
-          recoveryTime += (data[j] - avgReactionTime).abs().toInt();
-          j++;
-        }
-
-        if (j < data.length) {
-          recoveryTimes.add(recoveryTime);
-        }
-      }
-    }
-
-    // Step 3: Calculate Average Recovery Time
-    double avgRecoveryTime = recoveryTimes.isNotEmpty
-        ? recoveryTimes.reduce((a, b) => a + b) / recoveryTimes.length
-        : 0.0;
-
-    // Step 4: Calculate Resilience to Distraction Score
-    double resilienceScore = 100 - ((avgRecoveryTime / avgReactionTime) * 100);
-
-    return resilienceScore.clamp(
-        0, 100); // Ensure the score is between 0 and 100
-  }
-
-  double calculateFatigueRisk(List<int> data) {
-    // Step 1: Calculate Baseline Reaction Time
-    double baselineRT = data.reduce((a, b) => a + b) / data.length;
-
-    // Step 2: Calculate CPD (Cumulative Performance Decline)
-    int segments = 3; // Dividing the test into 3 segments
-    int segmentSize = (data.length / segments).floor();
-    List<double> segmentAverages = [];
-
-    for (int i = 0; i < segments; i++) {
-      List<int> segment = data.sublist(i * segmentSize, (i + 1) * segmentSize);
-      double segmentAvg = segment.reduce((a, b) => a + b) / segment.length;
-      segmentAverages.add(segmentAvg);
-    }
-
-    double cpd = (segmentAverages.last - segmentAverages.first) / segments;
-
-    // Step 3: Calculate RTSR (Reaction Time Slowing Rate)
-    double rtsr =
-        (segmentAverages.last - segmentAverages.first) / segmentAverages.first;
-
-    // Step 4: Calculate Fatigue Risk
-    double fatigueRisk = 100 - ((cpd / baselineRT) * 50) - (rtsr * 50);
-
-    return fatigueRisk.clamp(0, 100); // Ensure the score is between 0 and 100
-  }
-
-  double calculateVigilanceAndAttention(List<int> data) {
-    // Step 1: Calculate Total Reactions
-    int totalReactions = data.length;
-
-    // Step 2: Calculate Number of Lapses (reaction times > 355 ms)
-    int lapses = data.where((time) => time > 355).length;
-
-    // Step 3: Calculate RTSR (Reaction Time Slowing Rate)
-    int segments = 3; // Dividing the test into 3 segments
-    int segmentSize = (data.length / segments).floor();
-    List<double> segmentAverages = [];
-
-    for (int i = 0; i < segments; i++) {
-      List<int> segment = data.sublist(i * segmentSize, (i + 1) * segmentSize);
-      double segmentAvg = segment.reduce((a, b) => a + b) / segment.length;
-      segmentAverages.add(segmentAvg);
-    }
-
-    double rtsr =
-        (segmentAverages.last - segmentAverages.first) / segmentAverages.first;
-
-    // Step 4: Calculate Vigilance and Attention Score
-    double vigilanceAndAttention =
-        100 - ((lapses / totalReactions) * 50) - (rtsr * 50);
-
-    return vigilanceAndAttention.clamp(
-        0, 100); // Ensure the score is between 0 and 100
-  }
-
-  double calculateCognitiveFlexibility(List<int> data0to2, List<int> data2to4) {
-    // Step 1: Calculate SD of ISI 0-2 sec
-    double sd0to2 = calculateStandardDeviation(data0to2);
-
-    // Step 2: Calculate SD of ISI 2-4 sec
-    double sd2to4 = calculateStandardDeviation(data2to4);
-
-    // Step 3: Calculate Cognitive Flexibility Score
-    double cognitiveFlexibility = 100 - ((sd0to2 / sd2to4) * 50);
-
-    return cognitiveFlexibility.clamp(
-        0, 100); // Ensure the score is between 0 and 100
-  }
-
-  // Helper function to calculate standard deviation
-  double calculateStandardDeviation(List<int> data) {
-    double mean = data.reduce((a, b) => a + b) / data.length;
-    double sumOfSquaredDiffs = data
-        .map((time) => pow(time - mean, 2))
-        .reduce((a, b) => a + b)
-        .toDouble();
-    double variance = sumOfSquaredDiffs / data.length;
-    return sqrt(variance);
-  }
-
-  double calculateResponseControl(List<int> data) {
-    // Step 1: Calculate Total Reactions
-    int totalReactions = data.length;
-
-    // Step 2: Calculate Number of False Starts (reaction times < 150 ms)
-    int falseStarts = data.where((time) => time < 150).length;
-
-    // Step 3: Calculate Response Control Score
-    double responseControl = 100 - ((falseStarts / totalReactions) * 100);
-
-    return responseControl.clamp(
-        0, 100); // Ensure the score is between 0 and 100
-  }
-
-  double calculateCognitiveLoad(List<int> data0to2, List<int> data2to4) {
-    // Step 1: Calculate Average RT for ISI 0-2 sec
-    double avgRT0to2 = data0to2.reduce((a, b) => a + b) / data0to2.length;
-
-    // Step 2: Calculate Average RT for ISI 2-4 sec
-    double avgRT2to4 = data2to4.reduce((a, b) => a + b) / data2to4.length;
-
-    // Step 3: Calculate Cognitive Load Score
-    double cognitiveLoad = 100 - ((avgRT2to4 / avgRT0to2) * 50);
-
-    return cognitiveLoad.clamp(0, 100); // Ensure the score is between 0 and 100
-  }
-
-  double calculateSleepQualityIndicator(List<int> data, int durationMinutes) {
-    // Step 1: Calculate Baseline Reaction Time
-    double baselineRT = data.reduce((a, b) => a + b) / data.length;
-
-    // Step 2: Calculate CPD (Cumulative Performance Decline)
-    int segments = 3; // Dividing the test into 3 segments
-    int segmentSize = (data.length / segments).floor();
-    List<double> segmentAverages = [];
-
-    for (int i = 0; i < segments; i++) {
-      List<int> segment = data.sublist(i * segmentSize, (i + 1) * segmentSize);
-      double segmentAvg = segment.reduce((a, b) => a + b) / segment.length;
-      segmentAverages.add(segmentAvg);
-    }
-
-    double cpd = (segmentAverages.last - segmentAverages.first) / segments;
-
-    // Step 3: Calculate Number of Lapses per Minute
-    int lapses = data.where((time) => time > 355).length;
-    double lapsesPerMinute = lapses / durationMinutes;
-
-    // Step 4: Calculate Sleep Quality Indicator
-    double sleepQualityIndicator =
-        100 - ((cpd / baselineRT) * 50) - (lapsesPerMinute * 50);
-
-    return sleepQualityIndicator; // Ensure the score is between 0 and 100
-  }
-
-  double findMedian(List<int> list) {
-    int n = list.length;
-    if (n % 2 == 1) {
-      return list[n ~/ 2].toDouble();
-    } else {
-      return (list[n ~/ 2 - 1] + list[n ~/ 2]) / 2;
-    }
-  }
-
   void showWaitForGreen() {
     final random = Random();
     int randomSeconds = 1 + random.nextInt(4);
@@ -764,6 +535,9 @@ class ReactionTimeTestController extends BaseController {
     timerWaitForGreen = Timer(Duration(seconds: randomSeconds), () async {
       showGreen();
     });
+
+    //animationText = randomTime.toString();
+    startFadeAnimation();
 
     isGreen = false;
     isWaitForGreen = true;
@@ -793,7 +567,7 @@ class ReactionTimeTestController extends BaseController {
 
       showWaitForGreen();
     });
-
+    opacity = 1.0;
     isWaitForGreen = false;
     isGreen = true;
     update([stateId]);
@@ -814,7 +588,14 @@ class ReactionTimeTestController extends BaseController {
     double rt =
         (int.parse(tapTimeForGreenCard.toString()) - startTestTimeInMs) / 1000;
 
-    printf('----rt-time---->$rt');
+    //var tapSecond = DateTime.now().second;
+
+    int diff = int.parse(tapTimeForGreenCard.toString()) -
+        int.parse(startTimeForGreenCard.toString());
+
+    animationText = diff.toString();
+
+    printf('----rt-time---->$rt---->$diff');
 
     reactionTestList.add(ReactionTest(
         startTestTime: startTestTime,
@@ -834,7 +615,358 @@ class ReactionTimeTestController extends BaseController {
     showWaitForGreen();
   }
 
+  double calculateIQR(List<int> data) {
+    if (data.isNotEmpty) {
+      // Step 1: Sort the data
+      data.sort();
+
+      // Step 2: Calculate Q1
+      List<int> lowerHalf = data.sublist(0, data.length ~/ 2);
+      double q1 = findMedian(lowerHalf);
+
+      // Step 3: Calculate Q3
+      List<int> upperHalf = data.sublist((data.length + 1) ~/ 2);
+      double q3 = findMedian(upperHalf);
+
+      // Step 4: Calculate IQR
+      double iqr = q3 - q1;
+      return iqr;
+    } else {
+      return 0;
+    }
+  }
+
+  double calculatePSR(List<int> data) {
+    if (data.isNotEmpty) {
+      // Count reactions above 300 ms
+      int slowReactions = data.where((time) => time > 300).length;
+      int totalReactions = data.length;
+
+      // Calculate PSR
+      double psr = (slowReactions / totalReactions) * 100;
+      return psr;
+    } else {
+      return 0;
+    }
+  }
+
+  double calculateRTRT(List<int> data, int baseline) {
+    if (data.isNotEmpty) {
+      List<int> recoveryTimes = [];
+
+      for (int i = 0; i < data.length; i++) {
+        if (data[i] > 355) {
+          // Identify a lapse
+          int j = i + 1;
+          int recoveryTime = 0;
+
+          // Calculate time to recover back to baseline
+          while (j < data.length && data[j] > baseline) {
+            recoveryTime += (data[j] - baseline).abs();
+            j++;
+          }
+
+          // Only add to recovery times if we successfully returned to baseline
+
+          if (j <= data.length) {
+            recoveryTimes.add(recoveryTime ~/ (j - i));
+          }
+        }
+      }
+
+      // Calculate average RTRT across all lapses
+      double averageRTRT = recoveryTimes.isNotEmpty
+          ? recoveryTimes.reduce((a, b) => a + b) / recoveryTimes.length
+          : 0.0;
+
+      double rtrtScore = 100 - ((averageRTRT / baseline) * 100);
+
+      return rtrtScore.clamp(0, 100); // Ensure the score is within 0-100 range
+    } else {
+      return 0;
+    }
+
+    //return averageRTRT;
+  }
+
+  double calculateCVI(List<int> data, int baseline) {
+    if (data.isNotEmpty) {
+      // Calculate Mean Reaction Time (MRT Score)
+      double mrt = data.reduce((a, b) => a + b) / data.length;
+      double mrtScore = 100 - ((mrt / baseline) * 100).clamp(0, 100);
+
+      // Calculate Reaction Time Consistency (CV Score)
+      double mean = mrt;
+      double variance = data
+              .map((time) => (time - mean) * (time - mean))
+              .reduce((a, b) => a + b) /
+          data.length;
+      double standardDeviation = sqrt(variance); //variance.sqrt();
+      double cvScore = 100 - ((standardDeviation / mean) * 100).clamp(0, 100);
+
+      // Calculate Lapse Rate Score
+      int lapseCount = data.where((time) => time > 355).length;
+      double lapseScore =
+          100 - ((lapseCount / data.length) * 100).clamp(0, 100);
+
+      // Calculate Reaction Time Recovery Time (RTRT) Score
+      double rtrtScore = calculateRTRT(data, baseline);
+
+      // Calculate CVI as a weighted sum of all components
+      double cvi = (0.4 * mrtScore) +
+          (0.2 * cvScore) +
+          (0.2 * lapseScore) +
+          (0.2 * rtrtScore);
+      return cvi.clamp(0, 100);
+    } else {
+      return 0;
+    }
+  }
+
+  double calculateAlertnessScore(List<int> data, int idealFastestRT) {
+    if (data.isNotEmpty) {
+      // Step 1: Calculate False Starts (reaction times < 150 ms)
+      int falseStarts = data.where((time) => time < 150).length;
+      int totalReactions = data.length;
+
+      // Step 2: Calculate Fastest 10% Reaction Time (average of fastest 10% reactions)
+      data.sort();
+      int fastest10PercentCount = (data.length * 0.1).round();
+      List<int> fastest10Percent = data.take(fastest10PercentCount).toList();
+      double averageFastest10PercentRT =
+          fastest10Percent.reduce((a, b) => a + b) / fastest10Percent.length;
+
+      // Step 3: Calculate Alertness Score
+      double alertnessScore = 100 -
+          ((falseStarts / totalReactions) * 50) -
+          ((averageFastest10PercentRT / idealFastestRT) * 50);
+
+      return alertnessScore.clamp(0, 100);
+    } else {
+      return 0;
+    } // Ensure the score is between 0 and 100
+  }
+
+  double calculateResilienceScore(List<int> data) {
+    if (data.isNotEmpty) {
+      // Step 1: Calculate Average Reaction Time
+      double avgReactionTime = data.reduce((a, b) => a + b) / data.length;
+
+      // Step 2: Calculate Average Recovery Time
+      List<int> recoveryTimes = [];
+
+      for (int i = 0; i < data.length; i++) {
+        if (data[i] > 355) {
+          // Identify a lapse (reaction time > 355 ms)
+          int j = i + 1;
+          int recoveryTime = 0;
+
+          // Calculate time to recover back to baseline
+          while (j < data.length && data[j] > avgReactionTime) {
+            recoveryTime += (data[j] - avgReactionTime).abs().toInt();
+            j++;
+          }
+
+          if (j < data.length) {
+            recoveryTimes.add(recoveryTime);
+          }
+        }
+      }
+
+      // Step 3: Calculate Average Recovery Time
+      double avgRecoveryTime = recoveryTimes.isNotEmpty
+          ? recoveryTimes.reduce((a, b) => a + b) / recoveryTimes.length
+          : 0.0;
+
+      // Step 4: Calculate Resilience to Distraction Score
+      double resilienceScore =
+          100 - ((avgRecoveryTime / avgReactionTime) * 100);
+
+      return resilienceScore.clamp(0, 100);
+    } else {
+      return 0;
+    } // Ensure the score is between 0 and 100
+  }
+
+  double calculateFatigueRisk(List<int> data) {
+    if (data.isNotEmpty) {
+      // Step 1: Calculate Baseline Reaction Time
+      double baselineRT = data.reduce((a, b) => a + b) / data.length;
+
+      // Step 2: Calculate CPD (Cumulative Performance Decline)
+      int segments = 3; // Dividing the test into 3 segments
+      int segmentSize = (data.length / segments).floor();
+      List<double> segmentAverages = [];
+
+      for (int i = 0; i < segments; i++) {
+        List<int> segment =
+            data.sublist(i * segmentSize, (i + 1) * segmentSize);
+        double segmentAvg = segment.reduce((a, b) => a + b) / segment.length;
+        segmentAverages.add(segmentAvg);
+      }
+
+      double cpd = (segmentAverages.last - segmentAverages.first) / segments;
+
+      // Step 3: Calculate RTSR (Reaction Time Slowing Rate)
+      double rtsr = (segmentAverages.last - segmentAverages.first) /
+          segmentAverages.first;
+
+      // Step 4: Calculate Fatigue Risk
+      double fatigueRisk = 100 - ((cpd / baselineRT) * 50) - (rtsr * 50);
+
+      return fatigueRisk.clamp(0, 100); // Ensure the score is between 0 and 100
+    } else {
+      return 0;
+    }
+  }
+
+  double calculateVigilanceAndAttention(List<int> data) {
+    if (data.isNotEmpty) {
+      // Step 1: Calculate Total Reactions
+      int totalReactions = data.length;
+
+      // Step 2: Calculate Number of Lapses (reaction times > 355 ms)
+      int lapses = data.where((time) => time > 355).length;
+
+      // Step 3: Calculate RTSR (Reaction Time Slowing Rate)
+      int segments = 3; // Dividing the test into 3 segments
+      int segmentSize = (data.length / segments).floor();
+      List<double> segmentAverages = [];
+
+      for (int i = 0; i < segments; i++) {
+        List<int> segment =
+            data.sublist(i * segmentSize, (i + 1) * segmentSize);
+        double segmentAvg = segment.reduce((a, b) => a + b) / segment.length;
+        segmentAverages.add(segmentAvg);
+      }
+
+      double rtsr = (segmentAverages.last - segmentAverages.first) /
+          segmentAverages.first;
+
+      // Step 4: Calculate Vigilance and Attention Score
+      double vigilanceAndAttention =
+          100 - ((lapses / totalReactions) * 50) - (rtsr * 50);
+
+      return vigilanceAndAttention.clamp(0, 100);
+    } else {
+      return 0;
+    }
+    // Ensure the score is between 0 and 100
+  }
+
+  double calculateCognitiveFlexibility(List<int> data0to2, List<int> data2to4) {
+    // Step 1: Calculate SD of ISI 0-2 sec
+    if (data0to2.isNotEmpty && data2to4.isNotEmpty) {
+      double sd0to2 = calculateStandardDeviation(data0to2);
+
+      // Step 2: Calculate SD of ISI 2-4 sec
+      double sd2to4 = calculateStandardDeviation(data2to4);
+
+      // Step 3: Calculate Cognitive Flexibility Score
+      double cognitiveFlexibility = 100 - ((sd0to2 / sd2to4) * 50);
+
+      return cognitiveFlexibility.clamp(
+          0, 100); // Ensure the score is between 0 and 100
+    } else {
+      return 0;
+    }
+  }
+
+  // Helper function to calculate standard deviation
+  double calculateStandardDeviation(List<int> data) {
+    if (data.isNotEmpty) {
+      double mean = data.reduce((a, b) => a + b) / data.length;
+      double sumOfSquaredDiffs = data
+          .map((time) => pow(time - mean, 2))
+          .reduce((a, b) => a + b)
+          .toDouble();
+      double variance = sumOfSquaredDiffs / data.length;
+      return sqrt(variance);
+    } else {
+      return 0;
+    }
+  }
+
+  double calculateResponseControl(List<int> data) {
+    if (data.isNotEmpty) {
+      // Step 1: Calculate Total Reactions
+      int totalReactions = data.length;
+
+      // Step 2: Calculate Number of False Starts (reaction times < 150 ms)
+      int falseStarts = data.where((time) => time < 150).length;
+
+      // Step 3: Calculate Response Control Score
+      double responseControl = 100 - ((falseStarts / totalReactions) * 100);
+
+      return responseControl.clamp(0, 100);
+    } else {
+      return 0;
+    }
+    // Ensure the score is between 0 and 100
+  }
+
+  double calculateCognitiveLoad(List<int> data0to2, List<int> data2to4) {
+    if (data0to2.isNotEmpty && data2to4.isNotEmpty) {
+      // Step 1: Calculate Average RT for ISI 0-2 sec
+      double avgRT0to2 = data0to2.reduce((a, b) => a + b) / data0to2.length;
+
+      // Step 2: Calculate Average RT for ISI 2-4 sec
+      double avgRT2to4 = data2to4.reduce((a, b) => a + b) / data2to4.length;
+
+      // Step 3: Calculate Cognitive Load Score
+      double cognitiveLoad = 100 - ((avgRT2to4 / avgRT0to2) * 50);
+
+      return cognitiveLoad.clamp(0, 100);
+    } else {
+      return 0;
+    }
+    // Ensure the score is between 0 and 100
+  }
+
+  double calculateSleepQualityIndicator(List<int> data, int durationMinutes) {
+    if (data.isNotEmpty) {
+      // Step 1: Calculate Baseline Reaction Time
+      double baselineRT = data.reduce((a, b) => a + b) / data.length;
+
+      // Step 2: Calculate CPD (Cumulative Performance Decline)
+      int segments = 3; // Dividing the test into 3 segments
+      int segmentSize = (data.length / segments).floor();
+      List<double> segmentAverages = [];
+
+      for (int i = 0; i < segments; i++) {
+        List<int> segment =
+            data.sublist(i * segmentSize, (i + 1) * segmentSize);
+        double segmentAvg = segment.reduce((a, b) => a + b) / segment.length;
+        segmentAverages.add(segmentAvg);
+      }
+
+      double cpd = (segmentAverages.last - segmentAverages.first) / segments;
+
+      // Step 3: Calculate Number of Lapses per Minute
+      int lapses = data.where((time) => time > 355).length;
+      double lapsesPerMinute = lapses / durationMinutes;
+
+      // Step 4: Calculate Sleep Quality Indicator
+      double sleepQualityIndicator =
+          100 - ((cpd / baselineRT) * 50) - (lapsesPerMinute * 50);
+
+      return sleepQualityIndicator; // Ensure the score is between 0 and 100
+    } else {
+      return 0;
+    }
+  }
+
+  double findMedian(List<int> list) {
+    int n = list.length;
+    if (n % 2 == 1) {
+      return list[n ~/ 2].toDouble();
+    } else {
+      return (list[n ~/ 2 - 1] + list[n ~/ 2]) / 2;
+    }
+  }
+
   void stopAllTimer() {
+    printf('<-----stopAllTimer----->');
     timerFor3Minutes?.cancel();
     timerWaitForGreen?.cancel();
     timerGreen?.cancel();

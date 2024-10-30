@@ -9,5 +9,6 @@ abstract class Routes {
   static const reactionTimeTestScreen = '/reactionTimeTest';
   static const reactionTimeListScreen = '/reactionTimeList';
   static const historyScreen = '/historyScreen';
+  static const startTestScreen = '/startTestScreen';
 
 }

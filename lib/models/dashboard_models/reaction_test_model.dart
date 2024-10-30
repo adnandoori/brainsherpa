@@ -37,7 +37,8 @@ class ReactionTestModel {
   String? cognitiveFlexibility;
   String? responseControl;
   String? cognitiveLoad;
-
+  String? alertnessRating;
+  String? supplementsTaken;
   List<ReactionTest>? reactionTest;
 
   ReactionTestModel({
@@ -71,6 +72,8 @@ class ReactionTestModel {
     this.cognitiveFlexibility,
     this.responseControl,
     this.cognitiveLoad,
+    this.alertnessRating,
+    this.supplementsTaken,
     this.reactionTest,
   });
 
@@ -106,6 +109,8 @@ class ReactionTestModel {
         cognitiveFlexibility: json["cognitiveFlexibility"],
         responseControl: json["responseControl"],
         cognitiveLoad: json["cognitiveLoad"],
+        alertnessRating: json["alertnessRating"],
+        supplementsTaken: json["supplementsTaken"],
         reactionTest: json["reactionTest"] == null
             ? []
             : List<ReactionTest>.from(
@@ -143,6 +148,8 @@ class ReactionTestModel {
         "cognitiveFlexibility": cognitiveFlexibility,
         "responseControl": responseControl,
         "cognitiveLoad": cognitiveLoad,
+        "alertnessRating": alertnessRating,
+        "supplementsTaken": supplementsTaken,
         "reactionTest": reactionTest == null
             ? []
             : List<dynamic>.from(reactionTest!.map((x) => x.toJson())),

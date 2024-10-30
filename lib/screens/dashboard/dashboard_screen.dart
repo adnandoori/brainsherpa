@@ -180,140 +180,149 @@ class DashboardScreen extends StatelessWidget {
       child: Material(
         elevation: 1,
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        child: Container(
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-                color: Colors.white),
-            width: Get.width,
-            child: Stack(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 12.h),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Column(
-                            children: [
-                              Text(
-                                controller.fastest,
-                                style: poppinsTextStyle(
-                                    color: Colors.black,
-                                    size: 25.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              6.sbh,
-                              Text(
-                                '${AppStrings.fastest}(in ms)',
-                                style: poppinsTextStyle(
-                                    color: Colors.black,
-                                    size: 13.sp,
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          )),
-                          Container(
-                            width: 1,
-                            height: 64.h,
-                            color: Colors.grey,
-                          ),
-                          Expanded(
-                              child: Column(
-                            children: [
-                              Text(
-                                controller.slowest,
-                                style: poppinsTextStyle(
-                                    color: Colors.black,
-                                    size: 25.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              6.sbh,
-                              Text(
-                                '${AppStrings.slowest}(in ms)',
-                                style: poppinsTextStyle(
-                                    color: Colors.black,
-                                    size: 13.sp,
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          )),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Material(
-                    elevation: 1,
-                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    child: Container(
-                      height: 220.h,
-                      width: Get.width,
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Colors.grey.shade50, width: 1),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                        color: AppColors.white,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 16.w, right: 16.w, top: 12.h, bottom: 12.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
+        child: InkWell(
+          onTap: (){
+            Get.toNamed(Routes.reactionTimeListScreen,
+                arguments: [
+                  controller.userId,
+                  controller.reactionTestList
+                ]);
+          },
+          child: Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  color: Colors.white),
+              width: Get.width,
+              child: Stack(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 12.h),
+                        child: Row(
                           children: [
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(Routes.reactionTimeListScreen,
-                                    arguments: [
-                                      controller.userId,
-                                      controller.reactionTestList
-                                    ]);
-                              },
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    AppStrings.reactionTime,
-                                    style: poppinsTextStyle(
-                                        size: 20.sp,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Image.asset(
-                                    ImagePath.icNext,
-                                    height: 16,
-                                    width: 16,
-                                  ),
-                                ],
-                              ),
+                            Expanded(
+                                child: Column(
+                              children: [
+                                Text(
+                                  controller.fastest,
+                                  style: poppinsTextStyle(
+                                      color: Colors.black,
+                                      size: 25.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                6.sbh,
+                                Text(
+                                  '${AppStrings.fastest}(in ms)',
+                                  style: poppinsTextStyle(
+                                      color: Colors.black,
+                                      size: 13.sp,
+                                      fontWeight: FontWeight.w500),
+                                )
+                              ],
+                            )),
+                            Container(
+                              width: 1,
+                              height: 64.h,
+                              color: Colors.grey,
                             ),
                             Expanded(
-                                child: Container(
-                              margin: EdgeInsets.only(
-                                left: 50.w,
-                                right: 50.w,
-                                top: 16.h,
-                              ),
-                              height: Get.height,
-                              width: Get.width,
-                              child: getRadialGauge(controller),
-                            ))
+                                child: Column(
+                              children: [
+                                Text(
+                                  controller.slowest,
+                                  style: poppinsTextStyle(
+                                      color: Colors.black,
+                                      size: 25.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                6.sbh,
+                                Text(
+                                  '${AppStrings.slowest}(in ms)',
+                                  style: poppinsTextStyle(
+                                      color: Colors.black,
+                                      size: 13.sp,
+                                      fontWeight: FontWeight.w500),
+                                )
+                              ],
+                            )),
                           ],
+                        ),
+                      )
+                    ],
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Material(
+                      elevation: 1,
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                      child: Container(
+                        height: 220.h,
+                        width: Get.width,
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Colors.grey.shade50, width: 1),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(12)),
+                          color: AppColors.white,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 16.w, right: 16.w, top: 12.h, bottom: 12.h),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed(Routes.reactionTimeListScreen,
+                                      arguments: [
+                                        controller.userId,
+                                        controller.reactionTestList
+                                      ]);
+                                },
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      AppStrings.reactionTime,
+                                      style: poppinsTextStyle(
+                                          size: 20.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Image.asset(
+                                      ImagePath.icNext,
+                                      height: 16,
+                                      width: 16,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                  child: Container(
+                                margin: EdgeInsets.only(
+                                  left: 50.w,
+                                  right: 50.w,
+                                  top: 16.h,
+                                ),
+                                height: Get.height,
+                                width: Get.width,
+                                child: getRadialGauge(controller),
+                              ))
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            )),
+                ],
+              )),
+        ),
       ),
     );
   }
@@ -342,7 +351,8 @@ class DashboardScreen extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              controller.navigateToReactionTest();
+              controller.navigateToStartTest();
+              //controller.navigateToReactionTest();
             },
             child: Align(
               alignment: Alignment.bottomCenter,

@@ -4,6 +4,7 @@ import 'package:brainsherpa/screens/dashboard/dashboard_screen.dart';
 import 'package:brainsherpa/screens/dashboard/history_screen.dart';
 import 'package:brainsherpa/screens/dashboard/reaction_time_list_screen.dart';
 import 'package:brainsherpa/screens/dashboard/reaction_time_test_screen.dart';
+import 'package:brainsherpa/screens/dashboard/start_test_screen.dart';
 import 'package:brainsherpa/screens/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -37,7 +38,11 @@ class AppPages {
         transition: Transition.rightToLeftWithFade),
     GetPage(
         name: Routes.historyScreen,
-        page: () => HistoryScreen(),
+        page: () => const HistoryScreen(),
+        transition: Transition.rightToLeftWithFade),
+    GetPage(
+        name: Routes.startTestScreen,
+        page: () => StartTestScreen(),
         transition: Transition.rightToLeftWithFade),
   ];
 }

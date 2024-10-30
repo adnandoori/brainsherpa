@@ -3,7 +3,6 @@ import 'package:brainsherpa/utils/app_colors.dart';
 import 'package:brainsherpa/utils/app_string.dart';
 import 'package:brainsherpa/utils/common_widgets.dart';
 import 'package:brainsherpa/utils/extension_classes.dart';
-import 'package:brainsherpa/utils/image_paths.dart';
 import 'package:brainsherpa/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -78,7 +77,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            height: 300.h,
+                            height: 250.h,
                             child: Container(
                               width: Get.width,
                               decoration: const BoxDecoration(
@@ -158,12 +157,15 @@ class ReactionTimeTestScreen extends StatelessWidget {
                             child: SfCartesianChart(
                                 primaryXAxis: const CategoryAxis(
                                   majorGridLines: MajorGridLines(width: 0),
+                                  title: AxisTitle(text: 'Elapsed Time (secs)'),
+                                  //controller.maximumValue,
                                 ),
                                 primaryYAxis: NumericAxis(
                                   axisLine:
                                       const AxisLine(color: Colors.transparent),
-                                  minimum: 0,
-                                  maximum: controller.maximumValue,
+                                  minimum: controller.maximumValue,
+                                  maximum: 0,
+                                  isInversed: true,
                                   plotBands: <PlotBand>[
                                     const PlotBand(
                                         horizontalTextAlignment:
@@ -526,8 +528,8 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                     const AxisLine(color: Colors.transparent),
                                 minimum: 0,
                                 maximum: controller.maximumValue,
-                                plotBands: <PlotBand>[
-                                  const PlotBand(
+                                plotBands: const <PlotBand>[
+                                  PlotBand(
                                       horizontalTextAlignment: TextAnchor.start,
                                       start: 0,
                                       end: 200,
@@ -542,7 +544,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                       //controller.maximumValue,
                                       opacity: 0.1,
                                       color: Colors.red,
-                                      dashArray: const <double>[4, 5]),
+                                      dashArray: <double>[4, 5]),
                                 ],
                                 isVisible: true,
                                 labelStyle: const TextStyle(
@@ -567,58 +569,6 @@ class ReactionTimeTestScreen extends StatelessWidget {
                         )
                       ],
                     ),
-                    // Align(
-                    //   alignment: Alignment.bottomCenter,
-                    //   child: Container(
-                    //     height: 200.h,
-                    //     width: Get.width,
-                    //     decoration: BoxDecoration(
-                    //       border: Border.all(color: AppColors.blueColor, width: 1),
-                    //       borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    //       color: AppColors.whiteShadow,
-                    //     ),
-                    //     child: Column(
-                    //       mainAxisAlignment: MainAxisAlignment.center,
-                    //       crossAxisAlignment: CrossAxisAlignment.center,
-                    //       children: [
-                    //         Text(
-                    //           '${AppStrings.speed}:   ${controller.speed} reactions/s',
-                    //           style: poppinsTextStyle(
-                    //               color: Colors.black,
-                    //               fontWeight: FontWeight.w400),
-                    //         ),
-                    //         2.sbh,
-                    //         Text(
-                    //           '${AppStrings.falseStart}:  ${controller.falseStart} reactions',
-                    //           style: poppinsTextStyle(
-                    //               color: Colors.black,
-                    //               fontWeight: FontWeight.w400),
-                    //         ),
-                    //         2.sbh,
-                    //         Text(
-                    //           '${AppStrings.performanceScore}:  ${controller.accuracy}%',
-                    //           style: poppinsTextStyle(
-                    //               color: Colors.black,
-                    //               fontWeight: FontWeight.w400),
-                    //         ),
-                    //         2.sbh,
-                    //         Text(
-                    //           '${AppStrings.variation}:   ${controller.variation} ms',
-                    //           style: poppinsTextStyle(
-                    //               color: Colors.black,
-                    //               fontWeight: FontWeight.w400),
-                    //         ),
-                    //         2.sbh,
-                    //         Text(
-                    //           '${AppStrings.plusLapses}:    ${controller.plusLapses} reactions',
-                    //           style: poppinsTextStyle(
-                    //               color: Colors.black,
-                    //               fontWeight: FontWeight.w400),
-                    //         )
-                    //       ],
-                    //     ),
-                    //   ),
-                    // )
                   ],
                 )),
           )),
@@ -684,17 +634,54 @@ class ReactionTimeTestScreen extends StatelessWidget {
           ),
           height: Get.height,
           width: Get.width,
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 150.h),
-              child: Text(
-                AppStrings.waitForGreen,
-                style: poppinsTextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                    size: 26.sp),
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 200),
+                  opacity: controller.opacity,
+                  child: Padding(
+                      padding: EdgeInsets.only(top: 80.h),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            controller.animationText,
+                            style: poppinsTextStyle(
+                                size: 52.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          5.sbw,
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 8.h),
+                            child: Text(
+                              controller.animationText.isNotEmpty ? 'ms' : '',
+                              style: poppinsTextStyle(
+                                  size: 22.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
               ),
-            ),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 150.h),
+                  child: Text(
+                    AppStrings.waitForGreen,
+                    style: poppinsTextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        size: 26.sp),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

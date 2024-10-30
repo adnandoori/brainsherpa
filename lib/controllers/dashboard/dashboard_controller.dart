@@ -128,6 +128,15 @@ class DashboardController extends BaseController {
     }
   }
 
+  Future<void> navigateToStartTest() async {
+    printf('<---navigate-to-StartTestScreen--->');
+    final result = await Get.toNamed(Routes.startTestScreen);
+
+    if (result != null) {
+      getReactionTestList();
+    }
+  }
+
   Future<void> navigateToReactionTest() async {
     printf('<---navigate-to-reactionTimeTestScreen--->');
     final result = await Get.toNamed(Routes.reactionTimeTestScreen);
@@ -193,7 +202,8 @@ class ReactionTestModel {
   String? cognitiveFlexibility;
   String? responseControl;
   String? cognitiveLoad;
-
+  String? alertnessRating;
+  String? supplementsTaken;
   List<ReactionTest>? reactionTest;
 
   ReactionTestModel({
@@ -227,6 +237,8 @@ class ReactionTestModel {
     this.cognitiveFlexibility,
     this.responseControl,
     this.cognitiveLoad,
+    this.alertnessRating,
+    this.supplementsTaken,
     this.reactionTest,
   });
 
@@ -262,6 +274,8 @@ class ReactionTestModel {
       cognitiveFlexibility: map["cognitiveFlexibility"] as String?,
       responseControl: map["responseControl"] as String?,
       cognitiveLoad: map["cognitiveLoad"] as String?,
+      alertnessRating: map["alertnessRating"],
+      supplementsTaken: map["supplementsTaken"],
       reactionTest: (map['reactionTest'] as List<dynamic>?)
           ?.map((item) => ReactionTest.fromMap(Map<String, dynamic>.from(item)))
           .toList(),

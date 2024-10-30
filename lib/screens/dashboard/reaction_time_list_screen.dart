@@ -71,15 +71,14 @@ class ReactionTimeListScreen extends StatelessWidget {
                   Expanded(
                       child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20.w),
-                          child: controller.todayResults.isNotEmpty
-                              ? SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ListView.builder(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                controller.todayResults.isNotEmpty
+                                    ? ListView.builder(
                                         primary: false,
                                         shrinkWrap: true,
                                         itemCount:
@@ -88,26 +87,29 @@ class ReactionTimeListScreen extends StatelessWidget {
                                           return widgetReactionTime(
                                               controller.todayResults[index]);
                                         },
+                                      )
+                                    : SizedBox(
+                                        height: 200.h,
+                                        child: widgetNoRecordFound(),
                                       ),
-                                      10.sbh,
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 10.w),
-                                        child: Text(
-                                          maxLines: 1,
-                                          AppStrings.trends,
-                                          style: poppinsTextStyle(
-                                              color: Colors.black,
-                                              size: 14.sp,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ),
-                                      20.sbh,
-                                      widgetGraph(controller),
-                                      20.sbh
-                                    ],
+                                10.sbh,
+                                Padding(
+                                  padding: EdgeInsets.only(left: 10.w),
+                                  child: Text(
+                                    maxLines: 1,
+                                    AppStrings.trends,
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        size: 14.sp,
+                                        fontWeight: FontWeight.w400),
                                   ),
-                                )
-                              : widgetNoRecordFound()))
+                                ),
+                                20.sbh,
+                                widgetGraph(controller),
+                                20.sbh
+                              ],
+                            ),
+                          )))
                 ],
               ),
             );
@@ -333,6 +335,12 @@ class ReactionTimeListScreen extends StatelessWidget {
 
     var takenAt = inputFormat.format(currentDate);
 
+    var alertRate =
+        data.alertnessRating != null ? data.alertnessRating.toString() : '0';
+
+    var supplementsTaken =
+        data.supplementsTaken != null ? data.supplementsTaken.toString() : 'No';
+
     return Container(
       margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
       width: Get.width,
@@ -359,7 +367,23 @@ class ReactionTimeListScreen extends StatelessWidget {
                             size: 12.sp,
                           ),
                         ),
-                        10.sbh,
+                        5.sbh,
+                        Text(
+                          'Alertness rating : $alertRate',
+                          style: poppinsTextStyle(
+                            color: Colors.black,
+                            size: 12.sp,
+                          ),
+                        ),
+                        5.sbh,
+                        Text(
+                          'Supplements taken : $supplementsTaken',
+                          style: poppinsTextStyle(
+                            color: Colors.black,
+                            size: 12.sp,
+                          ),
+                        ),
+                        5.sbh,
                         Text(
                           AppStrings.reactionTime,
                           style: poppinsTextStyle(
@@ -381,7 +405,7 @@ class ReactionTimeListScreen extends StatelessWidget {
                   flex: 4,
                   child: Center(
                     child: Padding(
-                      padding: EdgeInsets.only(top: 25.h, right: 16.w),
+                      padding: EdgeInsets.only(top: 50.h, right: 16.w),
                       child: Text(
                         data.average.toString(),
                         style: poppinsTextStyle(
@@ -398,5 +422,4 @@ class ReactionTimeListScreen extends StatelessWidget {
       ),
     );
   }
-
 }

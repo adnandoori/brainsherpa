@@ -74,14 +74,15 @@ class MyApp extends StatelessWidget {
 - Dashboard screen
 - Logout api integration
 
-Apk link : https://drive.google.com/file/d/1h7iIT7xLutRDnRT7eQS96vtoAQt40tuT/view?usp=sharing
+
+Apk link : https://drive.google.com/file/d/1C7mrb9Qlku1TRg-Z5FoHxMJ7JHH-xWZV/view?usp=sharing
 
 Release note
-- Graph plot band
-- Update ui
-- Add calculation formula in Reaction Test screen
-- History screen
-- Reaction time list screen
-
+- Added new Test Screen
+- Added fade in fade out animation in test screen
+- Added
+  - Alertness rating
+  - Supplements taken
+  in Test list screen and History screen 
 
 */

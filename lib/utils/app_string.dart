@@ -7,6 +7,9 @@ class AppStrings {
   static const String successFullyLogout = "Successfully logged out";
   static const String testAddedSuccessFully = "Test Added Successfully.";
 
+  static const String yes = 'Yes';
+  static const String no = 'No';
+
   static const String ok = 'OK';
   static const String cancel = 'Cancel';
   static const String logout = 'Logout';
@@ -97,6 +100,14 @@ class AppStrings {
 
   // History
   static const String history = 'History';
+
+  //
+
+
+  static const String questionFirst = "How alert do you feel?";
+  static const String questionSecond =
+      "Have you consumed any attention enhancement supplements?";
+//
 
 //Time to take the Reaction Time Test
 // dashboard

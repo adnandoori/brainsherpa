@@ -137,6 +137,13 @@ class HistoryScreen extends StatelessWidget {
 
     double max = double.parse(data.slowest.toString()) + 100;
 
+    var alertRate =
+    data.alertnessRating != null ? data.alertnessRating.toString() : '0';
+
+    var supplementsTaken =
+    data.supplementsTaken != null ? data.supplementsTaken.toString() : 'No';
+
+
     return Container(
       margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
       width: Get.width,
@@ -145,6 +152,7 @@ class HistoryScreen extends StatelessWidget {
         color: AppColors.white,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           16.sbh,
           Row(
@@ -329,6 +337,28 @@ class HistoryScreen extends StatelessWidget {
               ],
             ),
           ),
+          20.sbh,
+          Padding(
+            padding:  EdgeInsets.only(left: 20.w, right: 10.w),
+            child: Text(
+              'Alertness rating : $alertRate',
+              style: poppinsTextStyle(
+                color: Colors.black,
+                size: 12.sp,
+              ),
+            ),
+          ),
+          5.sbh,
+          Padding(
+            padding:  EdgeInsets.only(left: 20.w, right: 10.w),
+            child: Text(
+              'Supplements taken : $supplementsTaken',
+              style: poppinsTextStyle(
+                color: Colors.black,
+                size: 12.sp,
+              ),
+            ),
+          ),
           25.sbh,
         ],
       ),
@@ -339,14 +369,19 @@ class HistoryScreen extends StatelessWidget {
     return SfCartesianChart(
         primaryXAxis: const CategoryAxis(
           majorGridLines: MajorGridLines(width: 0),
+          title: AxisTitle(text: 'Elapsed Time (secs)'),
+          //controller.maximumValue,
         ),
         primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(color: Colors.transparent),
-          minimum: 0,
-          maximum: max,
+          axisLine:
+          const AxisLine(color: Colors.transparent),
+          minimum: max,
+          maximum: 0,
+          isInversed: true,
           plotBands: <PlotBand>[
             const PlotBand(
-                horizontalTextAlignment: TextAnchor.start,
+                horizontalTextAlignment:
+                TextAnchor.start,
                 start: 0,
                 end: 200,
                 //max,
@@ -354,7 +389,8 @@ class HistoryScreen extends StatelessWidget {
                 color: Colors.red,
                 dashArray: <double>[4, 5]),
             PlotBand(
-                horizontalTextAlignment: TextAnchor.start,
+                horizontalTextAlignment:
+                TextAnchor.start,
                 start: 400,
                 end: max,
                 opacity: 0.1,
@@ -362,31 +398,91 @@ class HistoryScreen extends StatelessWidget {
                 dashArray: const <double>[4, 5]),
           ],
           isVisible: true,
-          labelStyle: const TextStyle(fontSize: 8, color: Color(0xFF929395)),
+          labelStyle: const TextStyle(
+              fontSize: 8, color: Color(0xFF929395)),
         ),
         legend: const Legend(isVisible: false),
         tooltipBehavior: TooltipBehavior(enable: true),
-        series: <CartesianSeries<GraphModel, String>>[
+        series: <CartesianSeries>[
           SplineSeries<GraphModel, String>(
-            enableTooltip: false,
-            color: AppColors.blueColor,
-            dataSource: listForGraph,
-            width: 4,
-            dataLabelSettings:
-                const DataLabelSettings(showZeroValue: true, isVisible: true),
-            markerSettings: const MarkerSettings(
-                borderWidth: 5.0,
-                color: Colors.white,
+              color: AppColors.blueColor,
+              markerSettings: const MarkerSettings(
                 isVisible: true,
-                height: 5,
-                width: 5,
+                color: AppColors.blueColor,
                 borderColor: AppColors.blueColor,
-                shape: DataMarkerType.circle),
-            xValueMapper: (GraphModel sales, _) {
-              return sales.title;
-            },
-            yValueMapper: (GraphModel sales, _) => sales.value,
-          ),
+                shape: DataMarkerType.circle,
+                width: 5,
+                height: 5,
+              ),
+              dataLabelSettings:
+              const DataLabelSettings(
+                  textStyle: TextStyle(
+                      fontSize: 9,
+                      color: Color(0xFF0080FF)),
+                  showZeroValue: false,
+                  isVisible: false),
+              dataSource: listForGraph,
+              trendlines: <Trendline>[
+                Trendline(
+                    type: TrendlineType.linear,
+                    color: Colors.black)
+              ],
+              xValueMapper: (GraphModel data, _) =>
+              data.title,
+              yValueMapper: (GraphModel data, _) =>
+              data.value),
         ]);
+    // return SfCartesianChart(
+    //     primaryXAxis: const CategoryAxis(
+    //       majorGridLines: MajorGridLines(width: 0),
+    //     ),
+    //     primaryYAxis: NumericAxis(
+    //       axisLine: const AxisLine(color: Colors.transparent),
+    //       minimum: 0,
+    //       maximum: max,
+    //       plotBands: <PlotBand>[
+    //         const PlotBand(
+    //             horizontalTextAlignment: TextAnchor.start,
+    //             start: 0,
+    //             end: 200,
+    //             //max,
+    //             opacity: 0.1,
+    //             color: Colors.red,
+    //             dashArray: <double>[4, 5]),
+    //         PlotBand(
+    //             horizontalTextAlignment: TextAnchor.start,
+    //             start: 400,
+    //             end: max,
+    //             opacity: 0.1,
+    //             color: Colors.red,
+    //             dashArray: const <double>[4, 5]),
+    //       ],
+    //       isVisible: true,
+    //       labelStyle: const TextStyle(fontSize: 8, color: Color(0xFF929395)),
+    //     ),
+    //     legend: const Legend(isVisible: false),
+    //     tooltipBehavior: TooltipBehavior(enable: true),
+    //     series: <CartesianSeries<GraphModel, String>>[
+    //       SplineSeries<GraphModel, String>(
+    //         enableTooltip: false,
+    //         color: AppColors.blueColor,
+    //         dataSource: listForGraph,
+    //         width: 3,
+    //         dataLabelSettings:
+    //             const DataLabelSettings(showZeroValue: true, isVisible: true),
+    //         markerSettings: const MarkerSettings(
+    //             borderWidth: 5.0,
+    //             color: Colors.white,
+    //             isVisible: true,
+    //             height: 5,
+    //             width: 5,
+    //             borderColor: AppColors.blueColor,
+    //             shape: DataMarkerType.circle),
+    //         xValueMapper: (GraphModel sales, _) {
+    //           return sales.title;
+    //         },
+    //         yValueMapper: (GraphModel sales, _) => sales.value,
+    //       ),
+    //     ]);
   }
 }

@@ -65,7 +65,7 @@ class ReactionTimeListController extends BaseController
           reactionTestList = arguments[1];
 
           printf('<--userId---->$userId-->${reactionTestList.length}');
-          date = '23-Oct-2024';
+          //date = '23-Oct-2024';
 
           displayDateText = formatter.format(todayDate);
           displayWeekText = formatterWeek.format(currentWeek);
