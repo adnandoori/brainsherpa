@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:brainsherpa/controllers/base_controller.dart';
 import 'package:brainsherpa/fcm/authentication_helper.dart';
 import 'package:brainsherpa/models/authentication_model/user_model.dart';
@@ -41,10 +43,9 @@ class DashboardController extends BaseController {
     super.onInit();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       printf('<----init----DashboardController---->');
-
+      getUserDetails();
       if (arguments != null) {
         from = arguments[0];
-        getUserDetails();
 
         printf('<----from----->$from');
         if (from == 'login') {
@@ -62,9 +63,10 @@ class DashboardController extends BaseController {
 
   Future<void> getReactionTestList() async {
     loaderShow();
-    update([stateId]);
-    DataSnapshot snapshot = await dbReactionTest.child(userId).get();
     reactionTestList.clear();
+    update([stateId]);
+    printf('---last-user---->$userId');
+    DataSnapshot snapshot = await dbReactionTest.child(userId).get();
     if (snapshot.children.isNotEmpty) {
       for (var element in snapshot.children) {
         final data =
@@ -92,10 +94,10 @@ class DashboardController extends BaseController {
         fastest = reactionTestList.last.fastest.toString();
 
         average = reactionTestList.last.average.toString();
-      }
 
-      loaderHide();
-      update([stateId]);
+        loaderHide();
+        update([stateId]);
+      }
     } else {
       printf('------record_not_found-------------');
       navigateToStartTest();
@@ -148,7 +150,9 @@ class DashboardController extends BaseController {
     final result = await Get.toNamed(Routes.startTestScreen);
 
     if (result != null) {
-      getReactionTestList();
+      getUserId().whenComplete(() {
+        getReactionTestList();
+      });
     }
   }
 
@@ -176,7 +180,7 @@ class DashboardController extends BaseController {
           Utility().snackBarSuccess(AppStrings.successFullyLogout);
           Utility().clearSession();
           Get.deleteAll();
-          Get.offNamedUntil(Routes.login, (route) => false);
+          Get.offAndToNamed(Routes.login);
           loaderHide();
         });
       },

@@ -29,7 +29,8 @@ class SplashController extends BaseController {
     );
     Timer(duration, () async {
       if (isUserLogin) {
-        Get.offNamedUntil(Routes.dashboard, (route) => false);
+        Get.offNamedUntil(
+            Routes.dashboard, arguments: ['login'], (route) => false);
       } else {
         Get.offNamedUntil(Routes.login, (route) => false);
       }
