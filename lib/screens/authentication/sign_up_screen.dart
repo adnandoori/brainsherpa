@@ -76,6 +76,43 @@ class SignUpScreen extends StatelessWidget {
                                             color: Colors.white,
                                             fontWeight: FontWeight.w400),
                                       ),
+                                      SizedBox(
+                                        height: 2.h,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            AppStrings.alreadyHaveAnAccount,
+                                            style: poppinsTextStyle(
+                                                size: 16.sp,
+                                                color: Colors.white,
+                                                fontWeight:
+                                                FontWeight.w200),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                             Get.back();
+                                            },
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 5.w),
+                                              child: Text(
+                                                AppStrings.login,
+                                                style: poppinsTextStyle(
+                                                    size: 16.sp,
+                                                    underline: true,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                    FontWeight.w200),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
                                     ],
                                   ),
                                 ),

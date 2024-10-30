@@ -23,6 +23,7 @@ class AppStrings {
 
   static const String hey = 'Hey,';
   static const String notAMember = 'Not a member?';
+  static const String alreadyHaveAnAccount = 'Already have an account?';
   static const String signUp = 'Sign up';
   static const String login = 'Login';
   static const String continueText = 'Continue';

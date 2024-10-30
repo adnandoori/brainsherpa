@@ -75,14 +75,10 @@ class MyApp extends StatelessWidget {
 - Logout api integration
 
 
-Apk link : https://drive.google.com/file/d/1C7mrb9Qlku1TRg-Z5FoHxMJ7JHH-xWZV/view?usp=sharing
+Apk link : https://drive.google.com/file/d/1vHtt0jX3jjR52Ju7QH1ucsMR1FXyT2uh/view?usp=drive_link
 
 Release note
-- Added new Test Screen
-- Added fade in fade out animation in test screen
-- Added
-  - Alertness rating
-  - Supplements taken
-  in Test list screen and History screen 
+- Fixed minor issues
+
 
 */
