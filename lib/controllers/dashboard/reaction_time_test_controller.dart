@@ -376,14 +376,15 @@ class ReactionTimeTestController extends BaseController
       //printf('----total--iso--value--->$totalIsoValue----count-->$countForIso');
       //printf('----total--iso--value--greater->$totalIsoValueGreater----count-->$countForIsoGreater');
 
-      if (listOfDifference.isNotEmpty) {
-        int l = findHighest(list: listOfDifference);
-        slowest = l.toString();
+      if (listOfDifference.isNotEmpty)
+      {
+        //int l = findHighest(list: listOfDifference);
+        //slowest = l.toString();
 
-        maximumValue = l + 100;
 
-        int f = findLowest(list: listOfDifference);
-        fastest = f.toString();
+
+        //int f = findLowest(list: listOfDifference);
+        //fastest = f.toString();
 
         avg = total / listOfDifference.length;
 
@@ -402,6 +403,22 @@ class ReactionTimeTestController extends BaseController
         double avgIsi2to4 = (totalIsi2to4 / countForIsi2to4);
 
         avgForIsi2to4 = avgIsi2to4.toDouble().toStringAsFixed(2);
+
+        double fastest10Per =
+            calculateAverageFastest10Percent(listOfDifference);
+
+        double slowest10per =
+            calculateAverageSlowest10Percent(listOfDifference);
+
+        slowest = slowest10per.toInt().toString();
+
+        maximumValue = slowest10per.toInt() + 100;
+
+        fastest = fastest10Per.toInt().toString();
+
+        printf('-------fastest---->$fastest------slowest-->$slowest');
+        printf(
+            '----new---fastest---->$fastest10Per------slowest-->$slowest10per');
 
         update([stateId]);
         //printf('---lowest--->$slowest----fastest-->$fastest---avg-->$average---speed-->$sp');
@@ -549,7 +566,7 @@ class ReactionTimeTestController extends BaseController
     startTimeForGreenCard = now.toString();
     update([stateId]);
 
-    timerGreen = Timer(const Duration(milliseconds: 10000), () async {
+    timerGreen = Timer(const Duration(milliseconds: 1000), () async {
       printf('<------attempt-fail----->');
       reactionTestList.add(ReactionTest(
           startTestTime: startTestTime,
@@ -613,6 +630,28 @@ class ReactionTimeTestController extends BaseController
 
     timerGreen?.cancel();
     showWaitForGreen();
+  }
+
+  double calculateAverageFastest10Percent(List<int> reactionTimes) {
+    // Sort the list in ascending order
+    List<int> sortedTimes = List.from(reactionTimes)..sort();
+    // Calculate the number of elements that make up 10%
+    int count = (sortedTimes.length * 0.1).ceil();
+    // Get the fastest 10% from the start of the sorted list
+    List<int> fastest10Percent = sortedTimes.take(count).toList();
+    // Calculate and return the average of the fastest 10%
+    return fastest10Percent.reduce((a, b) => a + b) / fastest10Percent.length;
+  }
+
+  double calculateAverageSlowest10Percent(List<int> reactionTimes) {
+    // Sort the list in ascending order
+    List<int> sortedTimes = List.from(reactionTimes)..sort();
+    // Calculate the number of elements that make up 10%
+    int count = (sortedTimes.length * 0.1).ceil();
+    // Get the slowest 10% from the end of the sorted list
+    List<int> slowest10Percent = sortedTimes.reversed.take(count).toList();
+    // Calculate and return the average of the slowest 10%
+    return slowest10Percent.reduce((a, b) => a + b) / slowest10Percent.length;
   }
 
   double calculateIQR(List<int> data) {
@@ -767,7 +806,7 @@ class ReactionTimeTestController extends BaseController
             j++;
           }
 
-          if (j < data.length) {
+          if (j <= data.length) {
             recoveryTimes.add(recoveryTime);
           }
         }
@@ -779,10 +818,14 @@ class ReactionTimeTestController extends BaseController
           : 0.0;
 
       // Step 4: Calculate Resilience to Distraction Score
-      double resilienceScore =
-          100 - ((avgRecoveryTime / avgReactionTime) * 100);
+      //double resilienceScore = 100 - ((avgRecoveryTime / avgReactionTime) * 100);
 
-      return resilienceScore.clamp(0, 100);
+      printf(
+          '---resilienceScore-value---->avgRtime-->$avgRecoveryTime---avgRecTime-->$avgReactionTime');
+
+      double resilienceScore = 100 - (avgRecoveryTime * 100 / avgReactionTime);
+
+      return resilienceScore;
     } else {
       return 0;
     } // Ensure the score is between 0 and 100

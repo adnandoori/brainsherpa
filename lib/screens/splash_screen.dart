@@ -1,5 +1,7 @@
 import 'package:brainsherpa/controllers/splash_controller.dart';
+import 'package:brainsherpa/utils/app_colors.dart';
 import 'package:brainsherpa/utils/common_widgets.dart';
+import 'package:brainsherpa/utils/image_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,8 +18,14 @@ class SplashScreen extends StatelessWidget {
           return Container(
             height: Get.height,
             width: Get.width,
-            color: Colors.black,
-            child: const Center(),
+            color: AppColors.white,
+            child: Center(
+              child: Image.asset(
+                ImagePath.icAppIcon,
+                height: 120,
+                width: 120,
+              ),
+            ),
           );
         },
       ),

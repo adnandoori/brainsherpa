@@ -110,14 +110,14 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                         MainAxisAlignment.spaceAround,
                                     children: [
                                       Text(
-                                        '${AppStrings.fastest}(ms):',
+                                        '${AppStrings.fastest} 10% (ms):',
                                         style: poppinsTextStyle(
                                             size: 14.sp,
                                             fontWeight: FontWeight.w400,
                                             color: Colors.white),
                                       ),
                                       Text(
-                                        '${AppStrings.slowest}(ms):',
+                                        '${AppStrings.slowest} 10% (ms):',
                                         style: poppinsTextStyle(
                                             size: 14.sp,
                                             fontWeight: FontWeight.w400,
@@ -610,7 +610,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
                 style: poppinsTextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w400,
-                    size: 26.sp),
+                    size: 40.sp),
               ),
             ),
           ),
@@ -636,39 +636,39 @@ class ReactionTimeTestScreen extends StatelessWidget {
           width: Get.width,
           child: Stack(
             children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 200),
-                  opacity: controller.opacity,
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 80.h),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            controller.animationText,
-                            style: poppinsTextStyle(
-                                size: 52.sp,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          5.sbw,
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 8.h),
-                            child: Text(
-                              controller.animationText.isNotEmpty ? 'ms' : '',
-                              style: poppinsTextStyle(
-                                  size: 22.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                        ],
-                      )),
-                ),
-              ),
+              // Align(
+              //   alignment: Alignment.topCenter,
+              //   child: AnimatedOpacity(
+              //     duration: const Duration(milliseconds: 200),
+              //     opacity: controller.opacity,
+              //     child: Padding(
+              //         padding: EdgeInsets.only(top: 80.h),
+              //         child: Row(
+              //           crossAxisAlignment: CrossAxisAlignment.end,
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             Text(
+              //               controller.animationText,
+              //               style: poppinsTextStyle(
+              //                   size: 52.sp,
+              //                   color: Colors.black,
+              //                   fontWeight: FontWeight.w600),
+              //             ),
+              //             5.sbw,
+              //             Padding(
+              //               padding: EdgeInsets.only(bottom: 8.h),
+              //               child: Text(
+              //                 controller.animationText.isNotEmpty ? 'ms' : '',
+              //                 style: poppinsTextStyle(
+              //                     size: 22.sp,
+              //                     color: Colors.black,
+              //                     fontWeight: FontWeight.w400),
+              //               ),
+              //             ),
+              //           ],
+              //         )),
+              //   ),
+              // ),
               Center(
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 150.h),
@@ -677,7 +677,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
                     style: poppinsTextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
-                        size: 26.sp),
+                        size: 40.sp),
                   ),
                 ),
               ),
@@ -711,7 +711,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
                 style: poppinsTextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w400,
-                    size: 26.sp),
+                    size: 40.sp),
               ),
             ),
           ),

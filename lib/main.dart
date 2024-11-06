@@ -75,10 +75,14 @@ class MyApp extends StatelessWidget {
 - Logout api integration
 
 
-Apk link : https://drive.google.com/file/d/1vHtt0jX3jjR52Ju7QH1ucsMR1FXyT2uh/view?usp=drive_link
+Apk link :
 
 Release note
-- Fixed minor issues
+
+- Add App icon
+- Update splash screen
+- Remove reaction time animation
+- Changed RTT formula
 
 
 */

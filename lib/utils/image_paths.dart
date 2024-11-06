@@ -6,6 +6,7 @@ class ImagePath {
   static const String icBack = 'assets/icons/ic_back.png';
   static const String icNext = 'assets/icons/ic_next.png';
   static const String icNextDate = 'assets/icons/ic_next_date.png';
+  static const String icAppIcon = 'assets/images/app_icon.png';
 
 
 }
