@@ -68,21 +68,37 @@ class MyApp extends StatelessWidget {
 
 /*
 
-- User Authentication
-- Signup screen ui design and validation
-- Login screen ui design and validation
-- Dashboard screen
-- Logout api integration
 
-
-Apk link :
+Apk link : https://drive.google.com/file/d/1Zs_B_NBFXbA2aMfczuoBeyk9xJM4KGLi/view?usp=sharing
 
 Release note
 
-- Add App icon
-- Update splash screen
-- Remove reaction time animation
-- Changed RTT formula
+- Added notes field
+- Graph customisation
+- Find positive difference for reaction test result
+- Portrait to landscape
 
+
+Test Credential
+
+1. jd101@gmail.com - 12345678
+2. jd@gmail.com - 12345678
+
+- added new fields in database
+
+  notes
+  deltaSF
+  lapseProbability
+  miniLapse
+  plusLapse
+  sLapse
+  deltaIsi
+  falseStartIsi0to2
+  falseStartIsi2to4
+  plusLapseIsi0to2
+  plusLapseIsi2to4
+  averageFirstMin
+  averageSecondMin
+  averageThirdMin
 
 */

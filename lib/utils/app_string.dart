@@ -91,6 +91,10 @@ class AppStrings {
   static const String variation = 'Variation';
   static const String plusLapses = 'Plus Lapses';
 
+  static const String successRate = 'Success Rate';
+  static const String delta = 'Delta';
+  static const String lapseProbability='Lapse Probability';
+
   // Reaction time
   static const String todayResult = "Today's Results";
   static const String viewHistory = 'View History';

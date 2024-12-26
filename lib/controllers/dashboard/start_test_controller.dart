@@ -9,6 +9,7 @@ class StartTestController extends BaseController {
 
   double currentRatingForFirst = 1;
   String isSelected = "No";
+  TextEditingController textNotes = TextEditingController();
 
   @override
   void onInit() {
@@ -31,7 +32,7 @@ class StartTestController extends BaseController {
   Future<void> navigateToReactionTest() async {
     printf('<---navigate-to-reactionTimeTestScreen--->');
     final result = await Get.toNamed(Routes.reactionTimeTestScreen,
-        arguments: [currentRatingForFirst, isSelected]);
+        arguments: [currentRatingForFirst, isSelected, textNotes.text]);
 
     printf('<---result--->$result');
     if (result != null) {
@@ -44,7 +45,6 @@ class StartTestController extends BaseController {
     currentRatingForFirst = v;
     update([stateId]);
   }
-
 
   void clickSelected(v) {
     printf('-----selected--->$v');

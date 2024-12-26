@@ -39,6 +39,23 @@ class ReactionTestModel {
   String? cognitiveLoad;
   String? alertnessRating;
   String? supplementsTaken;
+  String? performanceScore;
+  String? successRate;
+  String? deltaSF;
+  String? lapseProbability;
+  String? miniLapse;
+  String? plusLapse;
+  String? sLapse;
+  String? deltaIsi;
+  String? falseStartIsi0to2;
+  String? falseStartIsi2to4;
+  String? plusLapseIsi0to2;
+  String? plusLapseIsi2to4;
+  String? averageFirstMin;
+  String? averageSecondMin;
+  String? averageThirdMin;
+  String? notes;
+
   List<ReactionTest>? reactionTest;
 
   ReactionTestModel({
@@ -74,6 +91,22 @@ class ReactionTestModel {
     this.cognitiveLoad,
     this.alertnessRating,
     this.supplementsTaken,
+    this.performanceScore,
+    this.successRate,
+    this.deltaSF,
+    this.lapseProbability,
+    this.miniLapse,
+    this.plusLapse,
+    this.sLapse,
+    this.deltaIsi,
+    this.falseStartIsi0to2,
+    this.falseStartIsi2to4,
+    this.plusLapseIsi0to2,
+    this.plusLapseIsi2to4,
+    this.averageFirstMin,
+    this.averageSecondMin,
+    this.averageThirdMin,
+    this.notes,
     this.reactionTest,
   });
 
@@ -111,6 +144,22 @@ class ReactionTestModel {
         cognitiveLoad: json["cognitiveLoad"],
         alertnessRating: json["alertnessRating"],
         supplementsTaken: json["supplementsTaken"],
+        performanceScore: json["performanceScore"],
+        successRate: json["successRate"],
+        deltaSF: json["deltaSF"],
+        lapseProbability: json["lapseProbability"],
+        miniLapse: json["miniLapse"],
+        plusLapse: json["plusLapse"],
+        sLapse: json["sLapse"],
+        deltaIsi: json["deltaIsi"],
+        falseStartIsi0to2: json["falseStartIsi0to2"],
+        falseStartIsi2to4: json["falseStartIsi2to4"],
+        plusLapseIsi0to2: json["plusLapseIsi0to2"],
+        plusLapseIsi2to4: json["plusLapseIsi2to4"],
+        averageFirstMin: json["averageFirstMin"],
+        averageSecondMin: json["averageSecondMin"],
+        averageThirdMin: json["averageThirdMin"],
+        notes: json["notes"],
         reactionTest: json["reactionTest"] == null
             ? []
             : List<ReactionTest>.from(
@@ -150,6 +199,22 @@ class ReactionTestModel {
         "cognitiveLoad": cognitiveLoad,
         "alertnessRating": alertnessRating,
         "supplementsTaken": supplementsTaken,
+        "performanceScore": performanceScore,
+        "successRate": successRate,
+        "deltaSF": deltaSF,
+        "lapseProbability": lapseProbability,
+        "miniLapse": miniLapse,
+        "plusLapse": plusLapse,
+        "sLapse": sLapse,
+        "deltaIsi": deltaIsi,
+        "falseStartIsi0to2": falseStartIsi0to2,
+        "falseStartIsi2to4": falseStartIsi2to4,
+        "plusLapseIsi0to2": plusLapseIsi0to2,
+        "plusLapseIsi2to4": plusLapseIsi2to4,
+        "averageFirstMin": averageFirstMin,
+        "averageSecondMin": averageSecondMin,
+        "averageThirdMin": averageThirdMin,
+        "notes": notes,
         "reactionTest": reactionTest == null
             ? []
             : List<dynamic>.from(reactionTest!.map((x) => x.toJson())),

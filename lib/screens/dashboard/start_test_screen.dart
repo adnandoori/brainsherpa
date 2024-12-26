@@ -33,84 +33,108 @@ class StartTestScreen extends StatelessWidget {
                   widgetAppBar(title: AppStrings.reactionTimeTest),
                   Expanded(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5.w),
-                            child: widgetSlider(
-                                question: '1.',
-                                title: AppStrings.questionFirst,
-                                value: controller.currentRatingForFirst,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5.w),
+                        child: widgetSlider(
+                            question: '1.',
+                            title: AppStrings.questionFirst,
+                            value: controller.currentRatingForFirst,
+                            onChanged: (v) {
+                              controller.changeRatingForFirst(v);
+                            }),
+                      ),
+                      30.sbh,
+                      Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 30.w),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '2.',
+                                style: poppinsTextStyle(
+                                    size: 16.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                                textAlign: TextAlign.start,
+                              ),
+                              6.sbw,
+                              Expanded(
+                                child: Text(
+                                  AppStrings.questionSecond,
+                                  style: poppinsTextStyle(
+                                      size: 16.sp,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ],
+                          )),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 25.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 100.w,
+                              child: RadioListTile(
+                                activeColor: AppColors.blueColor,
+                                title: const Text(AppStrings.yes),
+                                contentPadding: const EdgeInsets.all(0),
+                                value: "Yes",
+                                groupValue: controller.isSelected,
                                 onChanged: (v) {
-                                  controller.changeRatingForFirst(v);
-                                }),
-                          ),
-                          30.sbh,
-                          Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 30.w),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '2.',
-                                    style: poppinsTextStyle(
-                                        size: 16.sp,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                  6.sbw,
-                                  Expanded(
-                                    child: Text(
-                                      AppStrings.questionSecond,
-                                      style: poppinsTextStyle(
-                                          size: 16.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 25.w),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: 100.w,
-                                  child: RadioListTile(
-                                    activeColor: AppColors.blueColor,
-                                    title: const Text(AppStrings.yes),
-                                    contentPadding: const EdgeInsets.all(0),
-                                    value: "Yes",
-                                    groupValue: controller.isSelected,
-                                    onChanged: (v) {
-                                      controller.clickSelected(v);
-                                    },
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 100.w,
-                                  child: RadioListTile(
-                                    activeColor: AppColors.blueColor,
-                                    title: const Text(AppStrings.no),
-                                    value: "No",
-                                    contentPadding: const EdgeInsets.all(0),
-                                    groupValue: controller.isSelected,
-                                    onChanged: (v) {
-                                      controller.clickSelected(v);
-                                    },
-                                  ),
-                                ),
-                              ],
+                                  controller.clickSelected(v);
+                                },
+                              ),
                             ),
-                          )
-                          //
-                        ],
-                      )),
+                            SizedBox(
+                              width: 100.w,
+                              child: RadioListTile(
+                                activeColor: AppColors.blueColor,
+                                title: const Text(AppStrings.no),
+                                value: "No",
+                                contentPadding: const EdgeInsets.all(0),
+                                groupValue: controller.isSelected,
+                                onChanged: (v) {
+                                  controller.clickSelected(v);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 30.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(3),
+                          border: Border.all(color: Colors.black, width: 0.5),
+                        ),
+                        child: TextField(
+                          controller: controller.textNotes,
+                          maxLines: 5,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.all(8),
+                            hintText: 'Put your notes here',
+                            labelStyle: poppinsTextStyle(
+                                size: 16.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400),
+                            hintStyle: poppinsTextStyle(
+                                size: 16.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
                   Container(
                     margin: EdgeInsets.only(
                         bottom: 20.h, top: 20.h, left: 20.w, right: 20.w),

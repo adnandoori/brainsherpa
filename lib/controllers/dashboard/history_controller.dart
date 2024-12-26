@@ -68,7 +68,7 @@ class HistoryController extends BaseController {
       todayResults.clear();
       for (int i = 0; i < totalRecords.length; i++) {
         var record = totalRecords[i];
-        printf('----date--->${record.dateTime}');
+        //printf('----date--->${record.dateTime}');
         if (record.dateTime.toString() == date.toString()) {
           printf('today--data--->${record.average}');
           todayResults.add(record);

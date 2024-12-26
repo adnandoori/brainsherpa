@@ -5,6 +5,7 @@ import 'package:brainsherpa/routes/app_pages.dart';
 import 'package:brainsherpa/utils/common_widgets.dart';
 import 'package:brainsherpa/utils/utility.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:get/get.dart';
 
 class SplashController extends BaseController {
@@ -18,9 +19,24 @@ class SplashController extends BaseController {
   void onInit() {
     super.onInit();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      //fetchRefreshRate();
       checkLoginOrNot();
       navigateToHomeScreen();
+
+      // printf('---refresh-rate------->${ui.window.devicePixelRatio}');
     });
+  }
+
+  Future<void> fetchRefreshRate() async {
+    try {
+      // Get the current display mode
+      final DisplayMode? currentMode = await FlutterDisplayMode.active;
+
+      printf('-----refreshRate----->${currentMode?.refreshRate}');
+      // refreshRate =
+    } catch (e) {
+      printf("Error fetching screen refresh rate: $e");
+    }
   }
 
   void navigateToHomeScreen() {

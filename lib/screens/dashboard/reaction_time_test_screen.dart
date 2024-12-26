@@ -19,6 +19,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
         backgroundColor: AppColors.bgColor,
         body: GetBuilder<ReactionTimeTestController>(
           init: ReactionTimeTestController(),
+          autoRemove: true,
           id: ReactionTimeTestController.stateId,
           builder: (controller) {
             return SizedBox(
@@ -31,8 +32,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
                   widgetAppBar(title: AppStrings.reactionTimeTest),
                   Expanded(
                       child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                     child: controller.isResult
                         ? widgetResult(controller)
                         : controller.isWaitForGreen
@@ -149,77 +149,244 @@ class ReactionTimeTestScreen extends StatelessWidget {
                               ),
                             ),
                           ),
+                          // Container(
+                          //     margin: EdgeInsets.only(top: 10.h),
+                          //     height: 220.h,
+                          //     color: Colors.white,
+                          //     width: Get.width,
+                          //     child: SfCartesianChart(
+                          //         primaryXAxis: const CategoryAxis(
+                          //           majorGridLines: MajorGridLines(width: 0),
+                          //           title:
+                          //               AxisTitle(text: 'Elapsed Time (secs)'),
+                          //           //isVisible: false,
+                          //         ),
+                          //         primaryYAxis: NumericAxis(
+                          //           axisLine: const AxisLine(
+                          //               color: Colors.transparent),
+                          //           minimum: controller.maximumValue,
+                          //           maximum: 0,
+                          //           isInversed: true,
+                          //           plotBands: <PlotBand>[
+                          //             const PlotBand(
+                          //                 horizontalTextAlignment:
+                          //                     TextAnchor.start,
+                          //                 start: 0,
+                          //                 end: 200,
+                          //                 opacity: 0.1,
+                          //                 color: Colors.red,
+                          //                 dashArray: <double>[4, 5]),
+                          //             PlotBand(
+                          //                 horizontalTextAlignment:
+                          //                     TextAnchor.start,
+                          //                 start: 400,
+                          //                 end: controller.maximumValue,
+                          //                 opacity: 0.1,
+                          //                 color: Colors.red,
+                          //                 dashArray: const <double>[4, 5]),
+                          //           ],
+                          //           isVisible: true,
+                          //           labelStyle: const TextStyle(
+                          //               fontSize: 8, color: Color(0xFF929395)),
+                          //         ),
+                          //         legend: const Legend(isVisible: false),
+                          //         tooltipBehavior:
+                          //             TooltipBehavior(enable: true),
+                          //         series: <CartesianSeries>[
+                          //           SplineSeries<GraphModel, String>(
+                          //               color: AppColors.blueColor,
+                          //               markerSettings: const MarkerSettings(
+                          //                 isVisible: true,
+                          //                 color: AppColors.blueColor,
+                          //                 borderColor: AppColors.blueColor,
+                          //                 shape: DataMarkerType.circle,
+                          //                 width: 5,
+                          //                 height: 5,
+                          //               ),
+                          //               dataLabelSettings:
+                          //                   const DataLabelSettings(
+                          //                       textStyle: TextStyle(
+                          //                           fontSize: 9,
+                          //                           color: Color(0xFF0080FF)),
+                          //                       showZeroValue: false,
+                          //                       isVisible: false),
+                          //               dataSource: controller.listForGraph,
+                          //               trendlines: <Trendline>[
+                          //                 Trendline(
+                          //                     type: TrendlineType.linear,
+                          //                     color: Colors.black)
+                          //               ],
+                          //               xValueMapper: (GraphModel data, _) =>
+                          //                   data.title,
+                          //               yValueMapper: (GraphModel data, _) =>
+                          //                   data.value),
+                          //         ])),
                           Container(
-                            margin: EdgeInsets.only(top: 10.h),
-                            height: 220.h,
-                            color: Colors.white,
-                            width: Get.width,
-                            child: SfCartesianChart(
-                                primaryXAxis: const CategoryAxis(
-                                  majorGridLines: MajorGridLines(width: 0),
-                                  title: AxisTitle(text: 'Elapsed Time (secs)'),
-                                  //controller.maximumValue,
-                                ),
-                                primaryYAxis: NumericAxis(
-                                  axisLine:
-                                      const AxisLine(color: Colors.transparent),
-                                  minimum: controller.maximumValue,
-                                  maximum: 0,
-                                  isInversed: true,
-                                  plotBands: <PlotBand>[
-                                    const PlotBand(
-                                        horizontalTextAlignment:
-                                            TextAnchor.start,
-                                        start: 0,
-                                        end: 200,
-                                        //max,
-                                        opacity: 0.1,
-                                        color: Colors.red,
-                                        dashArray: <double>[4, 5]),
-                                    PlotBand(
-                                        horizontalTextAlignment:
-                                            TextAnchor.start,
-                                        start: 400,
-                                        end: controller.maximumValue,
-                                        opacity: 0.1,
-                                        color: Colors.red,
-                                        dashArray: const <double>[4, 5]),
-                                  ],
-                                  isVisible: true,
-                                  labelStyle: const TextStyle(
-                                      fontSize: 8, color: Color(0xFF929395)),
-                                ),
-                                legend: const Legend(isVisible: false),
-                                tooltipBehavior: TooltipBehavior(enable: true),
-                                series: <CartesianSeries>[
-                                  SplineSeries<GraphModel, String>(
-                                      color: AppColors.blueColor,
-                                      markerSettings: const MarkerSettings(
-                                        isVisible: true,
-                                        color: AppColors.blueColor,
-                                        borderColor: AppColors.blueColor,
-                                        shape: DataMarkerType.circle,
-                                        width: 5,
-                                        height: 5,
+                              margin: EdgeInsets.only(top: 10.h),
+                              height: 220.h,
+                              color: Colors.white,
+                              width: Get.width,
+                              child: Stack(
+                                children: [
+                                  SfCartesianChart(
+                                      primaryXAxis: const CategoryAxis(
+                                        majorGridLines:
+                                            MajorGridLines(width: 0),
+                                        title: AxisTitle(
+                                            text: 'Elapsed Time (secs)'),
+                                        isVisible: false,
                                       ),
-                                      dataLabelSettings:
-                                          const DataLabelSettings(
-                                              textStyle: TextStyle(
-                                                  fontSize: 9,
-                                                  color: Color(0xFF0080FF)),
-                                              showZeroValue: false,
-                                              isVisible: false),
-                                      dataSource: controller.listForGraph,
-                                      trendlines: <Trendline>[
-                                        Trendline(
-                                            type: TrendlineType.linear,
-                                            color: Colors.black)
-                                      ],
-                                      xValueMapper: (GraphModel data, _) =>
-                                          data.title,
-                                      yValueMapper: (GraphModel data, _) =>
-                                          data.value),
-                                ]),
+                                      primaryYAxis: NumericAxis(
+                                        axisLine: const AxisLine(
+                                            color: Colors.transparent),
+                                        minimum: controller.maximumValue,
+                                        maximum: 0,
+                                        isInversed: true,
+                                        plotBands: <PlotBand>[
+                                          const PlotBand(
+                                              horizontalTextAlignment:
+                                                  TextAnchor.start,
+                                              start: 0,
+                                              end: 200,
+                                              opacity: 0.1,
+                                              color: Colors.red,
+                                              dashArray: <double>[4, 5]),
+                                          PlotBand(
+                                              horizontalTextAlignment:
+                                                  TextAnchor.start,
+                                              start: 400,
+                                              end: controller.maximumValue,
+                                              opacity: 0.1,
+                                              color: Colors.red,
+                                              dashArray: const <double>[4, 5]),
+                                        ],
+                                        isVisible: true,
+                                        labelStyle: const TextStyle(
+                                            fontSize: 8,
+                                            color: Colors
+                                                .transparent //Color(0xFF929395)
+                                            ),
+                                      ),
+                                      legend: const Legend(isVisible: false),
+                                      tooltipBehavior:
+                                          TooltipBehavior(enable: true),
+                                      series: <CartesianSeries>[
+                                        SplineSeries<GraphModel, String>(
+                                            color: AppColors.blueColor,
+                                            markerSettings:
+                                                const MarkerSettings(
+                                              isVisible: true,
+                                              color: AppColors.blueColor,
+                                              borderColor: AppColors.blueColor,
+                                              shape: DataMarkerType.circle,
+                                              width: 5,
+                                              height: 5,
+                                            ),
+                                            dataLabelSettings:
+                                                const DataLabelSettings(
+                                                    textStyle: TextStyle(
+                                                        fontSize: 9,
+                                                        color:
+                                                            Color(0xFF0080FF)),
+                                                    showZeroValue: false,
+                                                    isVisible: false),
+                                            dataSource: controller.listForGraph,
+                                            trendlines: <Trendline>[
+                                              Trendline(
+                                                  type: TrendlineType.linear,
+                                                  color: Colors.black)
+                                            ],
+                                            xValueMapper:
+                                                (GraphModel data, _) =>
+                                                    data.title,
+                                            yValueMapper:
+                                                (GraphModel data, _) =>
+                                                    data.value),
+                                      ]),
+                                  Row(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                              top: 5.h, bottom: 5.h),
+                                          width: 34.w,
+                                          //color: Colors.red,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                  child: widgetText('100')),
+                                              Expanded(
+                                                  child: widgetText('150')),
+                                              Expanded(
+                                                  child: widgetText('200')),
+                                              Expanded(
+                                                  child: widgetText('250')),
+                                              Expanded(
+                                                  child: widgetText('300')),
+                                              Expanded(
+                                                  child: widgetText('350')),
+                                              Expanded(
+                                                  child: widgetText('400')),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                          child: Container(
+                                        margin: EdgeInsets.symmetric(
+                                            vertical: 8.h, horizontal: 10.w),
+                                        //color: Colors.green.shade100,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                                child: Row(
+                                              children: [
+                                                Expanded(child: Container()),
+                                                Container(
+                                                  alignment: Alignment.topRight,
+                                                  width: 1,
+                                                  color: Colors.black,
+                                                ),
+                                              ],
+                                            )),
+                                            Expanded(
+                                                child: Row(
+                                              children: [
+                                                Expanded(child: Container()),
+                                                Container(
+                                                  alignment: Alignment.topRight,
+                                                  width: 1,
+                                                  color: Colors.black,
+                                                ),
+                                              ],
+                                            )),
+                                            Expanded(
+                                                child: Row(
+                                              children: [
+                                                Expanded(child: Container()),
+                                                Container(
+                                                  alignment: Alignment.topRight,
+                                                  width: 1,
+                                                  color: Colors.black,
+                                                ),
+                                              ],
+                                            )),
+                                          ],
+                                        ),
+                                      ))
+                                    ],
+                                  )
+                                ],
+                              )),
+                          SizedBox(
+                            height: 20.h,
                           ),
                           Align(
                             alignment: Alignment.bottomCenter,
@@ -254,7 +421,56 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                   ),
                                   2.sbh,
                                   Text(
-                                    '${AppStrings.performanceScore}:  ${controller.accuracy}%',
+                                    '${AppStrings.performanceScore}:  ${controller.performanceScore} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    '${AppStrings.accuracy}:  ${controller.accuracy}%',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    '${AppStrings.successRate}:  ${controller.successRate}%',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    '${AppStrings.delta} s-f:  ${controller.delta} ms',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    '${AppStrings.lapseProbability}:  ${controller.lapseProbability}',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Mini Lapse:  ${controller.listForPlusLapses355.length} Reactions',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Plus Lapse:  ${controller.listForPlusLapses500.length} Reactions',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'S Lapse:  ${controller.listForPlusLapses700.length} Reactions',
                                     style: poppinsTextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w400),
@@ -283,6 +499,41 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                   2.sbh,
                                   Text(
                                     'Isi 2 to 4:    ${controller.avgForIsi2to4} ms',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Delta Isi:    ${controller.deltaIsi} ms',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'False Start Isi 0 to 2:    ${controller.countForFalseStartIsi0to2}',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'False Start Isi 2 to 4:    ${controller.countForFalseStartIsi2to4}',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Plus Lapse Isi 0 to 2:    ${controller.countForPlusLapsesIsi0to2}',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Plus Lapse Isi 2 to 4:    ${controller.countForPlusLapsesIsi2to4}',
                                     style: poppinsTextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w400),
@@ -388,6 +639,27 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                   2.sbh,
                                   Text(
                                     'Cognitive Load :    ${controller.cognitiveLoad} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Avg for first min :    ${controller.avgForFirstMin} ms',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Avg for second min :    ${controller.avgForSecondMin} ms',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Avg for third min :    ${controller.avgForThirdMin} ms',
                                     style: poppinsTextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w400),
@@ -590,7 +862,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
     return Material(
       elevation: 3,
       borderRadius: const BorderRadius.all(Radius.circular(12)),
-      child: InkWell(
+      child: GestureDetector(
         onTap: () {
           printf('---tap-t-start---->');
           controller.startTest();
@@ -604,13 +876,16 @@ class ReactionTimeTestScreen extends StatelessWidget {
           width: Get.width,
           child: Center(
             child: Padding(
-              padding: EdgeInsets.only(bottom: 150.h),
-              child: Text(
-                AppStrings.tapToStart,
-                style: poppinsTextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                    size: 40.sp),
+              padding: EdgeInsets.only(bottom: 0.h),
+              child: RotatedBox(
+                quarterTurns: 1,
+                child: Text(
+                  AppStrings.tapToStart,
+                  style: poppinsTextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                      size: 40.sp),
+                ),
               ),
             ),
           ),
@@ -623,8 +898,8 @@ class ReactionTimeTestScreen extends StatelessWidget {
     return Material(
       elevation: 3,
       borderRadius: const BorderRadius.all(Radius.circular(12)),
-      child: InkWell(
-        onTap: () {
+      child: GestureDetector(
+        onTapDown: (_) {
           controller.clickOnRedTap();
         },
         child: Container(
@@ -671,13 +946,16 @@ class ReactionTimeTestScreen extends StatelessWidget {
               // ),
               Center(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 150.h),
-                  child: Text(
-                    AppStrings.waitForGreen,
-                    style: poppinsTextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        size: 40.sp),
+                  padding: EdgeInsets.only(bottom: 0.h),
+                  child: RotatedBox(
+                    quarterTurns: 1,
+                    child: Text(
+                      AppStrings.waitForGreen,
+                      style: poppinsTextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          size: 40.sp),
+                    ),
                   ),
                 ),
               ),
@@ -692,10 +970,14 @@ class ReactionTimeTestScreen extends StatelessWidget {
     return Material(
       elevation: 3,
       borderRadius: const BorderRadius.all(Radius.circular(12)),
-      child: InkWell(
-        onTap: () {
+      child: GestureDetector(
+        onTapDown: (_) {
           controller.clickOnGreen();
         },
+        // onTap: ()
+        // {
+        //
+        // },
         child: Container(
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -705,18 +987,29 @@ class ReactionTimeTestScreen extends StatelessWidget {
           width: Get.width,
           child: Center(
             child: Padding(
-              padding: EdgeInsets.only(bottom: 150.h),
-              child: Text(
-                AppStrings.tap,
-                style: poppinsTextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                    size: 40.sp),
+              padding: EdgeInsets.only(bottom: 0.h),
+              child: RotatedBox(
+                quarterTurns: 1,
+                child: Text(
+                  AppStrings.tap,
+                  style: poppinsTextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                      size: 40.sp),
+                ),
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget widgetText(text) {
+    return Text(
+      textAlign: TextAlign.center,
+      text,
+      style: const TextStyle(fontSize: 10),
     );
   }
 }
