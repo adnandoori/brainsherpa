@@ -69,15 +69,11 @@ class MyApp extends StatelessWidget {
 /*
 
 
-Apk link : https://drive.google.com/file/d/1Zs_B_NBFXbA2aMfczuoBeyk9xJM4KGLi/view?usp=sharing
+Apk link : https://drive.google.com/file/d/1q8sW_MR9ZsVBfj8YZ7TEVaEmkd7wDHY8/view?usp=sharing
 
 Release note
 
-- Added notes field
-- Graph customisation
-- Find positive difference for reaction test result
-- Portrait to landscape
-
+- Change top band line color
 
 Test Credential
 

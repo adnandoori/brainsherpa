@@ -32,7 +32,8 @@ class ReactionTimeTestScreen extends StatelessWidget {
                   widgetAppBar(title: AppStrings.reactionTimeTest),
                   Expanded(
                       child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                     child: controller.isResult
                         ? widgetResult(controller)
                         : controller.isWaitForGreen
@@ -236,36 +237,35 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                             text: 'Elapsed Time (secs)'),
                                         isVisible: false,
                                       ),
-                                      primaryYAxis: NumericAxis(
-                                        axisLine: const AxisLine(
-                                            color: Colors.transparent),
-                                        minimum: controller.maximumValue,
+                                      primaryYAxis: const NumericAxis(
+                                        axisLine: AxisLine(color: Colors.black),
+                                        minimum: 400,
+                                        //controller.maximumValue,
                                         maximum: 0,
                                         isInversed: true,
                                         plotBands: <PlotBand>[
-                                          const PlotBand(
+                                          PlotBand(
                                               horizontalTextAlignment:
                                                   TextAnchor.start,
                                               start: 0,
-                                              end: 200,
+                                              end: 100,
                                               opacity: 0.1,
-                                              color: Colors.red,
+                                              color: Colors.yellow,
                                               dashArray: <double>[4, 5]),
                                           PlotBand(
                                               horizontalTextAlignment:
                                                   TextAnchor.start,
-                                              start: 400,
-                                              end: controller.maximumValue,
+                                              start: 350,
+                                              end: 400,
+                                              // controller.maximumValue,
                                               opacity: 0.1,
                                               color: Colors.red,
-                                              dashArray: const <double>[4, 5]),
+                                              dashArray: <double>[4, 5]),
                                         ],
                                         isVisible: true,
-                                        labelStyle: const TextStyle(
+                                        labelStyle: TextStyle(
                                             fontSize: 8,
-                                            color: Colors
-                                                .transparent //Color(0xFF929395)
-                                            ),
+                                            color: Color(0xFF929395)),
                                       ),
                                       legend: const Legend(isVisible: false),
                                       tooltipBehavior:
@@ -1009,7 +1009,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
     return Text(
       textAlign: TextAlign.center,
       text,
-      style: const TextStyle(fontSize: 10),
+      style: const TextStyle(fontSize: 10, color: Colors.transparent),
     );
   }
 }
