@@ -420,27 +420,27 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                         fontWeight: FontWeight.w400),
                                   ),
                                   2.sbh,
-                                  Text(
-                                    '${AppStrings.performanceScore}:  ${controller.performanceScore} %',
-                                    style: poppinsTextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  2.sbh,
-                                  Text(
-                                    '${AppStrings.accuracy}:  ${controller.accuracy}%',
-                                    style: poppinsTextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  2.sbh,
-                                  Text(
-                                    '${AppStrings.successRate}:  ${controller.successRate}%',
-                                    style: poppinsTextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  2.sbh,
+                                  // Text(
+                                  //   '${AppStrings.performanceScore}:  ${controller.performanceScore} %',
+                                  //   style: poppinsTextStyle(
+                                  //       color: Colors.black,
+                                  //       fontWeight: FontWeight.w400),
+                                  // ),
+                                  // 2.sbh,
+                                  // Text(
+                                  //   '${AppStrings.accuracy}:  ${controller.accuracy}%',
+                                  //   style: poppinsTextStyle(
+                                  //       color: Colors.black,
+                                  //       fontWeight: FontWeight.w400),
+                                  // ),
+                                  // 2.sbh,
+                                  // Text(
+                                  //   '${AppStrings.successRate}:  ${controller.successRate}%',
+                                  //   style: poppinsTextStyle(
+                                  //       color: Colors.black,
+                                  //       fontWeight: FontWeight.w400),
+                                  // ),
+                                  // 2.sbh,
                                   Text(
                                     '${AppStrings.delta} s-f:  ${controller.delta} ms',
                                     style: poppinsTextStyle(
@@ -463,7 +463,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                   ),
                                   2.sbh,
                                   Text(
-                                    'Plus Lapse:  ${controller.listForPlusLapses500.length} Reactions',
+                                    'Total Lapse:  ${controller.listForPlusLapses500.length} Reactions',
                                     style: poppinsTextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w400),
@@ -539,41 +539,41 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                         fontWeight: FontWeight.w400),
                                   ),
                                   2.sbh,
-                                  Text(
-                                    'Slowing rate :    ${controller.slowingRate} %',
-                                    style: poppinsTextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  2.sbh,
-                                  Text(
-                                    'Performance decline :    ${controller.performanceDecline} %',
-                                    style: poppinsTextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  2.sbh,
-                                  Text(
-                                    'lapses/M :    ${controller.LPM} L/m',
-                                    style: poppinsTextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  2.sbh,
-                                  Text(
-                                    'False starts/M :    ${controller.FPM} F/m',
-                                    style: poppinsTextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  2.sbh,
-                                  Text(
-                                    'IQR :    ${controller.IQR} ms',
-                                    style: poppinsTextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  2.sbh,
+                                  // Text(
+                                  //   'Slowing rate :    ${controller.slowingRate} %',
+                                  //   style: poppinsTextStyle(
+                                  //       color: Colors.black,
+                                  //       fontWeight: FontWeight.w400),
+                                  // ),
+                                  // 2.sbh,
+                                  // Text(
+                                  //   'Performance decline :    ${controller.performanceDecline} %',
+                                  //   style: poppinsTextStyle(
+                                  //       color: Colors.black,
+                                  //       fontWeight: FontWeight.w400),
+                                  // ),
+                                  // 2.sbh,
+                                  // Text(
+                                  //   'lapses/M :    ${controller.LPM} L/m',
+                                  //   style: poppinsTextStyle(
+                                  //       color: Colors.black,
+                                  //       fontWeight: FontWeight.w400),
+                                  // ),
+                                  // 2.sbh,
+                                  // Text(
+                                  //   'False starts/M :    ${controller.FPM} F/m',
+                                  //   style: poppinsTextStyle(
+                                  //       color: Colors.black,
+                                  //       fontWeight: FontWeight.w400),
+                                  // ),
+                                  // 2.sbh,
+                                  // Text(
+                                  //   'IQR :    ${controller.IQR} ms',
+                                  //   style: poppinsTextStyle(
+                                  //       color: Colors.black,
+                                  //       fontWeight: FontWeight.w400),
+                                  // ),
+                                  // 2.sbh,
                                   Text(
                                     'PSR :    ${controller.PSR} %',
                                     style: poppinsTextStyle(

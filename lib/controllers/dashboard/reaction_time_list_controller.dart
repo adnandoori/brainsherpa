@@ -150,12 +150,14 @@ class ReactionTimeListController extends BaseController
           DateTime parsedTime =
               DateFormat("HH:mm:ss").parse(record.reactionTestTime.toString());
 
+          // String formattedTime = DateFormat("HH:mm").format(parsedTime);
           String formattedTime = DateFormat("HH:mm").format(parsedTime);
+          // printf('-----------Adnan>$formattedTime');
 
           graphDayList.add(GraphModelForDay(formattedTime, y));
         }
       }
-      graphDayList = graphDayList.reversed.toList();
+      // graphDayList = graphDayList.reversed.toList();
       update([stateId]);
     } else {
       printf('<-----no-record-found-for-day-------->');

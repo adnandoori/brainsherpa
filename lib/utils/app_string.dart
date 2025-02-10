@@ -64,8 +64,7 @@ class AppStrings {
   static const String sherpa = 'SHERPA';
 
   // dashboard
-  static const String timeToTakeTheReaction =
-      'Time to take the Reaction Time Test';
+  static const String timeToTakeTheReaction = 'Take Your Test';
   static const String start = 'START';
   static const String takenAt = 'Taken at:';
   static const String reactionTime = 'Reaction time:';
@@ -91,9 +90,13 @@ class AppStrings {
   static const String variation = 'Variation';
   static const String plusLapses = 'Plus Lapses';
 
+  static const String cognitiveSpeed = 'Cognitive Speed';
+  static const String cognitiveVariability = 'Cognitive Variability';
+  static const String cognitivePerformance = 'Cognitive Performance';
+
   static const String successRate = 'Success Rate';
   static const String delta = 'Delta';
-  static const String lapseProbability='Lapse Probability';
+  static const String lapseProbability = 'Lapse Probability';
 
   // Reaction time
   static const String todayResult = "Today's Results";
@@ -107,7 +110,6 @@ class AppStrings {
   static const String history = 'History';
 
   //
-
 
   static const String questionFirst = "How alert do you feel?";
   static const String questionSecond =

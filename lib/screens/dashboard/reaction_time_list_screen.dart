@@ -364,23 +364,7 @@ class ReactionTimeListScreen extends StatelessWidget {
                           '${AppStrings.takenAt} $takenAt',
                           style: poppinsTextStyle(
                             color: Colors.black,
-                            size: 12.sp,
-                          ),
-                        ),
-                        5.sbh,
-                        Text(
-                          'Alertness rating : $alertRate',
-                          style: poppinsTextStyle(
-                            color: Colors.black,
-                            size: 12.sp,
-                          ),
-                        ),
-                        5.sbh,
-                        Text(
-                          'Supplements taken : $supplementsTaken',
-                          style: poppinsTextStyle(
-                            color: Colors.black,
-                            size: 12.sp,
+                            size: 10.sp,
                           ),
                         ),
                         5.sbh,
@@ -397,7 +381,23 @@ class ReactionTimeListScreen extends StatelessWidget {
                             color: Colors.black,
                             size: 14.sp,
                           ),
-                        )
+                        ),
+                        10.sbh,
+                        Text(
+                          'Alertness rating : $alertRate',
+                          style: poppinsTextStyle(
+                            color: Colors.black,
+                            size: 12.sp,
+                          ),
+                        ),
+                        5.sbh,
+                        Text(
+                          'Supplements taken : $supplementsTaken',
+                          style: poppinsTextStyle(
+                            color: Colors.black,
+                            size: 12.sp,
+                          ),
+                        ),
                       ],
                     ),
                   )),
@@ -405,7 +405,7 @@ class ReactionTimeListScreen extends StatelessWidget {
                   flex: 4,
                   child: Center(
                     child: Padding(
-                      padding: EdgeInsets.only(top: 50.h, right: 16.w),
+                      padding: EdgeInsets.only(right: 16.w),
                       child: Text(
                         data.average.toString(),
                         style: poppinsTextStyle(
@@ -417,7 +417,7 @@ class ReactionTimeListScreen extends StatelessWidget {
                   )),
             ],
           ),
-          35.sbh,
+          20.sbh,
         ],
       ),
     );

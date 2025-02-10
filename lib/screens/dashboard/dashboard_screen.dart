@@ -62,16 +62,16 @@ class DashboardScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 25.w),
-                        child: Text(
-                          'Hi ${controller.username},',
-                          style: poppinsTextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.black,
-                              size: 22.sp),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.symmetric(horizontal: 25.w),
+                      //   child: Text(
+                      //     'Hi ${controller.username},',
+                      //     style: poppinsTextStyle(
+                      //         fontWeight: FontWeight.w500,
+                      //         color: AppColors.black,
+                      //         size: 22.sp),
+                      //   ),
+                      // ),
                       10.sbh,
                       widgetStart(controller),
                       Container(
@@ -119,20 +119,20 @@ class DashboardScreen extends StatelessWidget {
                 startValue: 0,
                 endValue: 200,
                 color: Colors.red,
-                startWidth: 10,
-                endWidth: 10),
+                startWidth: 30,
+                endWidth: 30),
             GaugeRange(
                 startValue: 200,
                 endValue: 400,
                 color: Colors.green,
-                startWidth: 10,
-                endWidth: 10),
+                startWidth: 30,
+                endWidth: 30),
             GaugeRange(
                 startValue: 400,
                 endValue: 600,
                 color: Colors.red,
-                startWidth: 10,
-                endWidth: 10)
+                startWidth: 30,
+                endWidth: 30)
           ],
           pointers: <GaugePointer>[
             NeedlePointer(
@@ -149,7 +149,7 @@ class DashboardScreen extends StatelessWidget {
                   children: [
                     20.sbh,
                     Text(
-                     controller.average,
+                      controller.average,
                       style: poppinsTextStyle(
                           size: 22.sp,
                           color: Colors.black,
@@ -181,12 +181,9 @@ class DashboardScreen extends StatelessWidget {
         elevation: 1,
         borderRadius: const BorderRadius.all(Radius.circular(12)),
         child: InkWell(
-          onTap: (){
+          onTap: () {
             Get.toNamed(Routes.reactionTimeListScreen,
-                arguments: [
-                  controller.userId,
-                  controller.reactionTestList
-                ]);
+                arguments: [controller.userId, controller.reactionTestList]);
           },
           child: Container(
               decoration: const BoxDecoration(
@@ -339,41 +336,53 @@ class DashboardScreen extends StatelessWidget {
             width: Get.width,
             fit: BoxFit.fill,
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 25.w, right: 40.w, top: 25.h),
-            child: Text(
-              AppStrings.timeToTakeTheReaction,
-              style: poppinsTextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.white,
-                  size: 23.sp),
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              controller.navigateToStartTest();
-              //controller.navigateToReactionTest();
-            },
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                margin: EdgeInsets.only(bottom: 30.h),
-                height: 44.h,
-                width: 90.w,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: AppColors.buttonColorGrey,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Hi ${controller.username},',
+                style: poppinsTextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.white,
+                    size: 22.sp),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 10.h),
+                child: Text(
+                  AppStrings.timeToTakeTheReaction,
+                  style: poppinsTextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.white,
+                      size: 23.sp),
                 ),
-                child: Center(
-                  child: Text(
-                    AppStrings.start,
-                    style: poppinsTextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w400),
+              ),
+              SizedBox(height: 25.h),
+              Center(
+                child: InkWell(
+                  onTap: () {
+                    controller.navigateToStartTest();
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 10.h),
+                    height: 44.h,
+                    width: 90.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: AppColors.buttonColorGrey,
+                    ),
+                    child: Center(
+                      child: Text(
+                        AppStrings.start,
+                        style: poppinsTextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w400),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
+            ],
+          ),
         ],
       ),
     );

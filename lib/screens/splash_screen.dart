@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
           return Container(
             height: Get.height,
             width: Get.width,
-            color: AppColors.white,
+            color: AppColors.purplecolor,
             child: Center(
               child: Image.asset(
                 ImagePath.icAppIcon,

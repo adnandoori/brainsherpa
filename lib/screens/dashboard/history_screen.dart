@@ -254,10 +254,16 @@ class HistoryScreen extends StatelessWidget {
           ),
           16.sbh,
           Container(
-              margin: EdgeInsets.symmetric(horizontal: 10.w),
-              height: 180.h,
-              width: Get.width,
-              child: widgetGraph(listForGraph, data.average, max)),
+            margin: EdgeInsets.symmetric(horizontal: 10.w),
+            height: 180.h,
+            width: Get.width,
+            child: widgetGraphtwo(listForGraph),
+          ),
+          // Container(
+          //     margin: EdgeInsets.symmetric(horizontal: 10.w),
+          //     height: 180.h,
+          //     width: Get.width,
+          //     child: widgetGraph(listForGraph, data.average, max)),
           Container(
             margin: EdgeInsets.only(top: 20.h, left: 10.w, right: 10.w),
             child: Row(
@@ -273,13 +279,16 @@ class HistoryScreen extends StatelessWidget {
                           fontWeight: FontWeight.w500),
                     ),
                     6.sbh,
-                    Text(
-                      AppStrings.speed,
-                      style: poppinsTextStyle(
-                          color: Colors.black,
-                          size: 12.sp,
-                          fontWeight: FontWeight.w500),
-                    )
+                    Center(
+                      child: Text(
+                        AppStrings.cognitiveSpeed,
+                        textAlign: TextAlign.center,
+                        style: poppinsTextStyle(
+                            color: Colors.black,
+                            size: 10.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
                   ],
                 )),
                 Container(
@@ -298,13 +307,16 @@ class HistoryScreen extends StatelessWidget {
                           fontWeight: FontWeight.w500),
                     ),
                     6.sbh,
-                    Text(
-                      AppStrings.variation,
-                      style: poppinsTextStyle(
-                          color: Colors.black,
-                          size: 12.sp,
-                          fontWeight: FontWeight.w500),
-                    )
+                    Center(
+                      child: Text(
+                        AppStrings.cognitiveVariability,
+                        textAlign: TextAlign.center,
+                        style: poppinsTextStyle(
+                            color: Colors.black,
+                            size: 10.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
                   ],
                 )),
                 Container(
@@ -323,42 +335,22 @@ class HistoryScreen extends StatelessWidget {
                           fontWeight: FontWeight.w500),
                     ),
                     6.sbh,
-                    Text(
-                      AppStrings.performance,
-                      textAlign: TextAlign.center,
-                      style: poppinsTextStyle(
-                          color: Colors.black,
-                          size: 12.sp,
-                          fontWeight: FontWeight.w500),
-                    )
+                    Center(
+                      child: Text(
+                        AppStrings.cognitivePerformance,
+                        textAlign: TextAlign.center,
+                        style: poppinsTextStyle(
+                            color: Colors.black,
+                            size: 10.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
                   ],
                 )),
               ],
             ),
           ),
           20.sbh,
-          Padding(
-            padding: EdgeInsets.only(left: 20.w, right: 10.w),
-            child: Text(
-              'Alertness rating : $alertRate',
-              style: poppinsTextStyle(
-                color: Colors.black,
-                size: 12.sp,
-              ),
-            ),
-          ),
-          5.sbh,
-          Padding(
-            padding: EdgeInsets.only(left: 20.w, right: 10.w),
-            child: Text(
-              'Supplements taken : $supplementsTaken',
-              style: poppinsTextStyle(
-                color: Colors.black,
-                size: 12.sp,
-              ),
-            ),
-          ),
-          25.sbh,
         ],
       ),
     );
@@ -473,4 +465,150 @@ class HistoryScreen extends StatelessWidget {
     //       ),
     //     ]);
   }
+}
+
+Widget widgetGraphtwo(List<GraphModel> listForGraph) {
+  return Container(
+      margin: EdgeInsets.only(top: 10.h),
+      height: 220.h,
+      color: Colors.white,
+      width: Get.width,
+      child: Stack(
+        children: [
+          SfCartesianChart(
+              primaryXAxis: const CategoryAxis(
+                majorGridLines: MajorGridLines(width: 0),
+                title: AxisTitle(text: 'Elapsed Time (secs)'),
+                isVisible: false,
+              ),
+              primaryYAxis: const NumericAxis(
+                axisLine: AxisLine(color: Colors.black),
+                minimum: 400,
+                //controller.maximumValue,
+                maximum: 0,
+                isInversed: true,
+                plotBands: <PlotBand>[
+                  PlotBand(
+                      horizontalTextAlignment: TextAnchor.start,
+                      start: 0,
+                      end: 100,
+                      opacity: 0.1,
+                      color: Colors.yellow,
+                      dashArray: <double>[4, 5]),
+                  PlotBand(
+                      horizontalTextAlignment: TextAnchor.start,
+                      start: 350,
+                      end: 400,
+                      // controller.maximumValue,
+                      opacity: 0.1,
+                      color: Colors.red,
+                      dashArray: <double>[4, 5]),
+                ],
+                isVisible: true,
+                labelStyle: TextStyle(fontSize: 8, color: Color(0xFF929395)),
+              ),
+              legend: const Legend(isVisible: false),
+              tooltipBehavior: TooltipBehavior(enable: true),
+              series: <CartesianSeries>[
+                SplineSeries<GraphModel, String>(
+                    color: AppColors.blueColor,
+                    markerSettings: const MarkerSettings(
+                      isVisible: true,
+                      color: AppColors.blueColor,
+                      borderColor: AppColors.blueColor,
+                      shape: DataMarkerType.circle,
+                      width: 5,
+                      height: 5,
+                    ),
+                    dataLabelSettings: const DataLabelSettings(
+                        textStyle:
+                            TextStyle(fontSize: 9, color: Color(0xFF0080FF)),
+                        showZeroValue: false,
+                        isVisible: false),
+                    dataSource: listForGraph,
+                    trendlines: <Trendline>[
+                      Trendline(type: TrendlineType.linear, color: Colors.black)
+                    ],
+                    xValueMapper: (GraphModel data, _) => data.title,
+                    yValueMapper: (GraphModel data, _) => data.value),
+              ]),
+          Row(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
+                  width: 34.w,
+                  //color: Colors.red,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(child: widgetText('100')),
+                      Expanded(child: widgetText('150')),
+                      Expanded(child: widgetText('200')),
+                      Expanded(child: widgetText('250')),
+                      Expanded(child: widgetText('300')),
+                      Expanded(child: widgetText('350')),
+                      Expanded(child: widgetText('400')),
+                      Expanded(child: widgetText('500')),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                  child: Container(
+                margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
+                //color: Colors.green.shade100,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        child: Row(
+                      children: [
+                        Expanded(child: Container()),
+                        Container(
+                          alignment: Alignment.topRight,
+                          width: 1,
+                          color: Colors.black,
+                        ),
+                      ],
+                    )),
+                    Expanded(
+                        child: Row(
+                      children: [
+                        Expanded(child: Container()),
+                        Container(
+                          alignment: Alignment.topRight,
+                          width: 1,
+                          color: Colors.black,
+                        ),
+                      ],
+                    )),
+                    Expanded(
+                        child: Row(
+                      children: [
+                        Expanded(child: Container()),
+                        Container(
+                          alignment: Alignment.topRight,
+                          width: 1,
+                          color: Colors.black,
+                        ),
+                      ],
+                    )),
+                  ],
+                ),
+              ))
+            ],
+          )
+        ],
+      ));
+}
+
+Widget widgetText(text) {
+  return Text(
+    textAlign: TextAlign.center,
+    text,
+    style: const TextStyle(fontSize: 10, color: Colors.transparent),
+  );
 }
