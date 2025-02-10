@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:brainsherpa/controllers/base_controller.dart';
 import 'package:brainsherpa/fcm/authentication_helper.dart';
 import 'package:brainsherpa/models/authentication_model/user_model.dart';
-import 'package:brainsherpa/models/dashboard_models/reaction_test_model.dart';
 import 'package:brainsherpa/routes/app_pages.dart';
 import 'package:brainsherpa/utils/app_constants.dart';
 import 'package:brainsherpa/utils/app_string.dart';

@@ -4,12 +4,10 @@ import 'package:brainsherpa/models/authentication_model/user_model.dart';
 import 'package:brainsherpa/utils/app_constants.dart';
 import 'package:brainsherpa/utils/app_string.dart';
 import 'package:brainsherpa/utils/common_widgets.dart';
-import 'package:brainsherpa/utils/style.dart';
 // import 'package:connectivity/connectivity.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

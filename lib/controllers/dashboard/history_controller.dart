@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'dashboard_controller.dart';
-import 'reaction_time_list_controller.dart';
 import 'reaction_time_test_controller.dart';
 
 class HistoryController extends BaseController {

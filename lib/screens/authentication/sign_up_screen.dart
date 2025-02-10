@@ -13,7 +13,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -81,25 +80,24 @@ class SignUpScreen extends StatelessWidget {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             AppStrings.alreadyHaveAnAccount,
                                             style: poppinsTextStyle(
                                                 size: 16.sp,
                                                 color: Colors.white,
-                                                fontWeight:
-                                                FontWeight.w200),
+                                                fontWeight: FontWeight.w200),
                                           ),
                                           InkWell(
                                             onTap: () {
-                                             Get.back();
+                                              Get.back();
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 5.w),
+                                              padding:
+                                                  EdgeInsets.only(left: 5.w),
                                               child: Text(
                                                 AppStrings.login,
                                                 style: poppinsTextStyle(
@@ -107,7 +105,7 @@ class SignUpScreen extends StatelessWidget {
                                                     underline: true,
                                                     color: Colors.white,
                                                     fontWeight:
-                                                    FontWeight.w200),
+                                                        FontWeight.w200),
                                               ),
                                             ),
                                           ),

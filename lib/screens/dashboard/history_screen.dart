@@ -138,11 +138,10 @@ class HistoryScreen extends StatelessWidget {
     double max = double.parse(data.slowest.toString()) + 100;
 
     var alertRate =
-    data.alertnessRating != null ? data.alertnessRating.toString() : '0';
+        data.alertnessRating != null ? data.alertnessRating.toString() : '0';
 
     var supplementsTaken =
-    data.supplementsTaken != null ? data.supplementsTaken.toString() : 'No';
-
+        data.supplementsTaken != null ? data.supplementsTaken.toString() : 'No';
 
     return Container(
       margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
@@ -339,7 +338,7 @@ class HistoryScreen extends StatelessWidget {
           ),
           20.sbh,
           Padding(
-            padding:  EdgeInsets.only(left: 20.w, right: 10.w),
+            padding: EdgeInsets.only(left: 20.w, right: 10.w),
             child: Text(
               'Alertness rating : $alertRate',
               style: poppinsTextStyle(
@@ -350,7 +349,7 @@ class HistoryScreen extends StatelessWidget {
           ),
           5.sbh,
           Padding(
-            padding:  EdgeInsets.only(left: 20.w, right: 10.w),
+            padding: EdgeInsets.only(left: 20.w, right: 10.w),
             child: Text(
               'Supplements taken : $supplementsTaken',
               style: poppinsTextStyle(
@@ -373,15 +372,13 @@ class HistoryScreen extends StatelessWidget {
           //controller.maximumValue,
         ),
         primaryYAxis: NumericAxis(
-          axisLine:
-          const AxisLine(color: Colors.transparent),
+          axisLine: const AxisLine(color: Colors.transparent),
           minimum: max,
           maximum: 0,
           isInversed: true,
           plotBands: <PlotBand>[
             const PlotBand(
-                horizontalTextAlignment:
-                TextAnchor.start,
+                horizontalTextAlignment: TextAnchor.start,
                 start: 0,
                 end: 200,
                 //max,
@@ -389,8 +386,7 @@ class HistoryScreen extends StatelessWidget {
                 color: Colors.red,
                 dashArray: <double>[4, 5]),
             PlotBand(
-                horizontalTextAlignment:
-                TextAnchor.start,
+                horizontalTextAlignment: TextAnchor.start,
                 start: 400,
                 end: max,
                 opacity: 0.1,
@@ -398,8 +394,7 @@ class HistoryScreen extends StatelessWidget {
                 dashArray: const <double>[4, 5]),
           ],
           isVisible: true,
-          labelStyle: const TextStyle(
-              fontSize: 8, color: Color(0xFF929395)),
+          labelStyle: const TextStyle(fontSize: 8, color: Color(0xFF929395)),
         ),
         legend: const Legend(isVisible: false),
         tooltipBehavior: TooltipBehavior(enable: true),
@@ -414,23 +409,16 @@ class HistoryScreen extends StatelessWidget {
                 width: 5,
                 height: 5,
               ),
-              dataLabelSettings:
-              const DataLabelSettings(
-                  textStyle: TextStyle(
-                      fontSize: 9,
-                      color: Color(0xFF0080FF)),
+              dataLabelSettings: const DataLabelSettings(
+                  textStyle: TextStyle(fontSize: 9, color: Color(0xFF0080FF)),
                   showZeroValue: false,
                   isVisible: false),
               dataSource: listForGraph,
               trendlines: <Trendline>[
-                Trendline(
-                    type: TrendlineType.linear,
-                    color: Colors.black)
+                Trendline(type: TrendlineType.linear, color: Colors.black)
               ],
-              xValueMapper: (GraphModel data, _) =>
-              data.title,
-              yValueMapper: (GraphModel data, _) =>
-              data.value),
+              xValueMapper: (GraphModel data, _) => data.title,
+              yValueMapper: (GraphModel data, _) => data.value),
         ]);
     // return SfCartesianChart(
     //     primaryXAxis: const CategoryAxis(

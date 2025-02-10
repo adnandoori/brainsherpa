@@ -30,7 +30,7 @@ class SplashController extends BaseController {
   Future<void> fetchRefreshRate() async {
     try {
       // Get the current display mode
-      final DisplayMode? currentMode = await FlutterDisplayMode.active;
+      final DisplayMode currentMode = await FlutterDisplayMode.active;
 
       printf('-----refreshRate----->${currentMode?.refreshRate}');
       // refreshRate =

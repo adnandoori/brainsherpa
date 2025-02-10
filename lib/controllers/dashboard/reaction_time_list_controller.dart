@@ -508,7 +508,7 @@ class ReactionTimeListController extends BaseController
   void getWeekData(List<ReactionTestModel> weekReactionTestList) {
     var resultFormatter = DateFormat('dd-MMM-yyyy');
     if (weekReactionTestList.isNotEmpty) {
-      weekReactionTestList.forEach((e) {
+      for (var e in weekReactionTestList) {
         var dateTime = DateTime.fromMillisecondsSinceEpoch(
             int.parse(e.timeStamp.toString()));
         if (weekDateList.contains(resultFormatter.format(dateTime))) {
@@ -539,7 +539,7 @@ class ReactionTimeListController extends BaseController
           }
           listWeekData.sort((a, b) => a.title.compareTo(b.title));
         }
-      });
+      }
 
       // for (int i = 0; i < listWeekData.length; i++) {
       //   printf('-------list-week---->${listWeekData[i].title}---2-->${listWeekData[i].value}---count--->${listWeekData[i].count}');

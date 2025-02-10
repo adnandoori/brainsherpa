@@ -1,8 +1,5 @@
 import 'package:brainsherpa/controllers/dashboard/start_test_controller.dart';
-import 'package:brainsherpa/main.dart';
-import 'package:brainsherpa/screens/authentication/login_screen.dart';
 import 'package:brainsherpa/utils/app_colors.dart';
-import 'package:brainsherpa/utils/app_constants.dart';
 import 'package:brainsherpa/utils/app_string.dart';
 import 'package:brainsherpa/utils/common_widgets.dart';
 import 'package:brainsherpa/utils/extension_classes.dart';

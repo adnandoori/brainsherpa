@@ -42,7 +42,7 @@ class AppPages {
         transition: Transition.rightToLeftWithFade),
     GetPage(
         name: Routes.startTestScreen,
-        page: () => StartTestScreen(),
+        page: () => const StartTestScreen(),
         transition: Transition.rightToLeftWithFade),
   ];
 }

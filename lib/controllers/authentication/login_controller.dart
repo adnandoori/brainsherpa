@@ -4,7 +4,6 @@ import 'package:brainsherpa/controllers/base_controller.dart';
 import 'package:brainsherpa/fcm/authentication_helper.dart';
 import 'package:brainsherpa/routes/app_pages.dart';
 import 'package:brainsherpa/utils/app_constants.dart';
-import 'package:brainsherpa/utils/app_string.dart';
 import 'package:brainsherpa/utils/common_widgets.dart';
 import 'package:brainsherpa/utils/utility.dart';
 import 'package:firebase_auth/firebase_auth.dart';
