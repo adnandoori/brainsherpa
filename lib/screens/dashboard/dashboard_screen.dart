@@ -62,16 +62,16 @@ class DashboardScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      // Padding(
-                      //   padding: EdgeInsets.symmetric(horizontal: 25.w),
-                      //   child: Text(
-                      //     'Hi ${controller.username},',
-                      //     style: poppinsTextStyle(
-                      //         fontWeight: FontWeight.w500,
-                      //         color: AppColors.black,
-                      //         size: 22.sp),
-                      //   ),
-                      // ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 25.w),
+                        child: Text(
+                          'Hi ${controller.username},',
+                          style: poppinsTextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.black,
+                              size: 22.sp),
+                        ),
+                      ),
                       10.sbh,
                       widgetStart(controller),
                       Container(
@@ -340,23 +340,17 @@ class DashboardScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'Hi ${controller.username},',
-                style: poppinsTextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.white,
-                    size: 22.sp),
-              ),
               Padding(
-                padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 10.h),
-                child: Text(
-                  AppStrings.timeToTakeTheReaction,
-                  style: poppinsTextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.white,
-                      size: 23.sp),
-                ),
-              ),
+                  padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 10.h),
+                  child: Center(
+                    child: Text(
+                      AppStrings.dashboardMessage,
+                      style: poppinsTextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.white,
+                          size: 20.sp),
+                    ),
+                  )),
               SizedBox(height: 25.h),
               Center(
                 child: InkWell(

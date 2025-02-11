@@ -65,6 +65,7 @@ class AppStrings {
 
   // dashboard
   static const String timeToTakeTheReaction = 'Take Your Test';
+  static const String dashboardMessage = 'Tap, React Outsmart Yourself';
   static const String start = 'START';
   static const String takenAt = 'Taken at:';
   static const String reactionTime = 'Reaction time:';
