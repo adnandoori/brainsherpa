@@ -9,6 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+
 class ReactionTimeTestScreen extends StatelessWidget {
   const ReactionTimeTestScreen({super.key});
 
@@ -16,7 +18,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.bgColor,
+        // backgroundColor: AppColors.bgColor,
         body: GetBuilder<ReactionTimeTestController>(
           init: ReactionTimeTestController(),
           autoRemove: true,
@@ -77,79 +79,45 @@ class ReactionTimeTestScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            height: 250.h,
-                            child: Container(
-                              width: Get.width,
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12)),
-                                color: AppColors.blueColor,
-                              ),
-                              child: Column(
-                                children: [
-                                  25.sbh,
-                                  Text(
-                                    '${AppStrings.average}(ms):',
-                                    style: poppinsTextStyle(
-                                        size: 22.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white),
+                          Container(
+                            margin: EdgeInsets.all(2.h),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 16,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.1),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  AppStrings.performanceScore,
+                                  style: poppinsTextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                  10.sbh,
-                                  Text(
-                                    controller.average.toString(),
-                                    style: poppinsTextStyle(
-                                        size: 52.sp,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white),
+                                ),
+                                Text(
+                                  '${controller.performanceScore} %',
+                                  style: poppinsTextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                  30.sbh,
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text(
-                                        '${AppStrings.fastest} 10% (ms):',
-                                        style: poppinsTextStyle(
-                                            size: 14.sp,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.white),
-                                      ),
-                                      Text(
-                                        '${AppStrings.slowest} 10% (ms):',
-                                        style: poppinsTextStyle(
-                                            size: 14.sp,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text(
-                                        controller.fastest.toString(),
-                                        style: poppinsTextStyle(
-                                            size: 38.sp,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.white),
-                                      ),
-                                      Text(
-                                        controller.slowest.toString(),
-                                        style: poppinsTextStyle(
-                                            size: 38.sp,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.white),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
+
                           // Container(
                           //     margin: EdgeInsets.only(top: 10.h),
                           //     height: 220.h,
@@ -224,8 +192,12 @@ class ReactionTimeTestScreen extends StatelessWidget {
                           //         ])),
                           Container(
                               margin: EdgeInsets.only(top: 10.h),
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                              ),
                               height: 220.h,
-                              color: Colors.white,
                               width: Get.width,
                               child: Stack(
                                 children: [
@@ -382,12 +354,352 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                         ),
                                       ))
                                     ],
-                                  )
+                                  ),
                                 ],
                               )),
                           SizedBox(
                             height: 20.h,
                           ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.all(2.h),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 16,
+                                    horizontal: 16,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '${AppStrings.average} (ms)',
+                                        style: poppinsTextStyle(
+                                          size: 10.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        textAlign: TextAlign
+                                            .center, // Apply textAlign directly to Text widget
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        controller.average.toString(),
+                                        style: poppinsTextStyle(
+                                          size: 15.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign
+                                            .center, // Apply textAlign directly to Text widget
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 2),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.all(2.h),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 16,
+                                    horizontal: 16,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '${AppStrings.fastest} 10% (ms)',
+                                        style: poppinsTextStyle(
+                                          size: 10.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        textAlign: TextAlign
+                                            .center, // Apply textAlign directly to Text widget
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        controller.fastest.toString(),
+                                        style: poppinsTextStyle(
+                                          size: 15.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign
+                                            .center, // Apply textAlign directly to Text widget
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 2),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.all(2.h),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 16,
+                                    horizontal: 16,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '${AppStrings.slowest} 10% (ms)',
+                                        style: poppinsTextStyle(
+                                          size: 10.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        textAlign: TextAlign
+                                            .center, // Apply textAlign directly to Text widget
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        controller.slowest.toString(),
+                                        style: poppinsTextStyle(
+                                          size: 15.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign
+                                            .center, // Apply textAlign directly to Text widget
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.all(2.h),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 16,
+                                    horizontal: 16,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Cognitive Flexibility',
+                                        style: poppinsTextStyle(
+                                          size: 10.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              8), // Small gap between the text and gauge
+                                      Container(
+                                        height: 100,
+                                        // Adjust the height of the gauge to reduce space
+                                        child: SfRadialGauge(
+                                          axes: [
+                                            RadialAxis(
+                                              minimum: 0,
+                                              maximum: 100,
+                                              showAxisLine: true,
+                                              showLabels: false,
+                                              ranges: [
+                                                GaugeRange(
+                                                  startValue: 0,
+                                                  endValue: 40,
+                                                  color: Colors.red,
+                                                ),
+                                                GaugeRange(
+                                                  startValue: 40,
+                                                  endValue: 60,
+                                                  color: Colors.yellow,
+                                                ),
+                                                GaugeRange(
+                                                  startValue: 60,
+                                                  endValue: 100,
+                                                  color: Colors.green,
+                                                ),
+                                              ],
+                                              pointers: [
+                                                NeedlePointer(
+                                                  value: double.parse(controller
+                                                      .cognitiveFlexibility
+                                                      .toString()),
+                                                  needleLength: 0.6,
+                                                  needleStartWidth: 1,
+                                                  needleEndWidth: 1,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      // Small gap between the gauge and the value text
+                                      Text(
+                                        controller.cognitiveFlexibility
+                                            .toString(),
+                                        style: poppinsTextStyle(
+                                          size: 15.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 5),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.all(2.h),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 16,
+                                    horizontal: 16,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .center, // Ensure items are aligned
+                                    children: [
+                                      Text(
+                                        'Vigilance Index',
+                                        style: poppinsTextStyle(
+                                          size: 10.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              8), // Small gap between text and gauge
+                                      Container(
+                                        height:
+                                            100, // Adjust height to make it smaller if necessary
+                                        child: SfRadialGauge(
+                                          axes: [
+                                            RadialAxis(
+                                              minimum: 0,
+                                              maximum: 100,
+                                              showAxisLine: true,
+                                              showLabels: false,
+                                              ranges: [
+                                                GaugeRange(
+                                                  startValue: 0,
+                                                  endValue: 40,
+                                                  color: Colors.red,
+                                                ),
+                                                GaugeRange(
+                                                  startValue: 40,
+                                                  endValue: 60,
+                                                  color: Colors.yellow,
+                                                ),
+                                                GaugeRange(
+                                                  startValue: 60,
+                                                  endValue: 100,
+                                                  color: Colors.green,
+                                                ),
+                                              ],
+                                              pointers: [
+                                                NeedlePointer(
+                                                  value: double.parse(controller
+                                                      .vigilanceIndex
+                                                      .toString()),
+                                                  needleLength: 0.6,
+                                                  needleStartWidth: 1,
+                                                  needleEndWidth: 1,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      // Small gap between the gauge and the value text
+                                      Text(
+                                        controller.vigilanceIndex.toString(),
+                                        style: poppinsTextStyle(
+                                          size: 15.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
