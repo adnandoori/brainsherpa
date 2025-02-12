@@ -362,149 +362,17 @@ class ReactionTimeTestScreen extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.all(2.h),
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 16,
-                                    horizontal: 16,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.1),
-                                        spreadRadius: 1,
-                                        blurRadius: 5,
-                                        offset: Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '${AppStrings.average} (ms)',
-                                        style: poppinsTextStyle(
-                                          size: 10.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        textAlign: TextAlign
-                                            .center, // Apply textAlign directly to Text widget
-                                      ),
-                                      SizedBox(height: 8),
-                                      Text(
-                                        controller.average.toString(),
-                                        style: poppinsTextStyle(
-                                          size: 15.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        textAlign: TextAlign
-                                            .center, // Apply textAlign directly to Text widget
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              AverageCard(
+                                  label: '${AppStrings.average} 10% (ms)',
+                                  value: controller.average.toString()),
                               SizedBox(width: 2),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.all(2.h),
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 16,
-                                    horizontal: 16,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.1),
-                                        spreadRadius: 1,
-                                        blurRadius: 5,
-                                        offset: Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '${AppStrings.fastest} 10% (ms)',
-                                        style: poppinsTextStyle(
-                                          size: 10.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        textAlign: TextAlign
-                                            .center, // Apply textAlign directly to Text widget
-                                      ),
-                                      SizedBox(height: 8),
-                                      Text(
-                                        controller.fastest.toString(),
-                                        style: poppinsTextStyle(
-                                          size: 15.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        textAlign: TextAlign
-                                            .center, // Apply textAlign directly to Text widget
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              AverageCard(
+                                  label: '${AppStrings.fastest} 10% (ms)',
+                                  value: controller.fastest.toString()),
                               SizedBox(width: 2),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.all(2.h),
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 16,
-                                    horizontal: 16,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.1),
-                                        spreadRadius: 1,
-                                        blurRadius: 5,
-                                        offset: Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '${AppStrings.slowest} 10% (ms)',
-                                        style: poppinsTextStyle(
-                                          size: 10.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        textAlign: TextAlign
-                                            .center, // Apply textAlign directly to Text widget
-                                      ),
-                                      SizedBox(height: 8),
-                                      Text(
-                                        controller.slowest.toString(),
-                                        style: poppinsTextStyle(
-                                          size: 15.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        textAlign: TextAlign
-                                            .center, // Apply textAlign directly to Text widget
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              AverageCard(
+                                  label: '${AppStrings.slowest} 10% (ms)',
+                                  value: controller.slowest.toString()),
                             ],
                           ),
                           SizedBox(
@@ -512,188 +380,18 @@ class ReactionTimeTestScreen extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.all(2.h),
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 16,
-                                    horizontal: 16,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.1),
-                                        spreadRadius: 1,
-                                        blurRadius: 5,
-                                        offset: Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Cognitive Flexibility',
-                                        style: poppinsTextStyle(
-                                          size: 10.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              8), // Small gap between the text and gauge
-                                      Container(
-                                        height: 100,
-                                        // Adjust the height of the gauge to reduce space
-                                        child: SfRadialGauge(
-                                          axes: [
-                                            RadialAxis(
-                                              minimum: 0,
-                                              maximum: 100,
-                                              showAxisLine: true,
-                                              showLabels: false,
-                                              ranges: [
-                                                GaugeRange(
-                                                  startValue: 0,
-                                                  endValue: 40,
-                                                  color: Colors.red,
-                                                ),
-                                                GaugeRange(
-                                                  startValue: 40,
-                                                  endValue: 60,
-                                                  color: Colors.yellow,
-                                                ),
-                                                GaugeRange(
-                                                  startValue: 60,
-                                                  endValue: 100,
-                                                  color: Colors.green,
-                                                ),
-                                              ],
-                                              pointers: [
-                                                NeedlePointer(
-                                                  value: double.parse(controller
-                                                      .cognitiveFlexibility
-                                                      .toString()),
-                                                  needleLength: 0.6,
-                                                  needleStartWidth: 1,
-                                                  needleEndWidth: 1,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      // Small gap between the gauge and the value text
-                                      Text(
-                                        controller.cognitiveFlexibility
-                                            .toString(),
-                                        style: poppinsTextStyle(
-                                          size: 15.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              GuageScoreWidgetBox(
+                                  labelText: 'Cognitive Flexibiltiy',
+                                  score: controller.cognitiveFlexibility
+                                      .toString(),
+                                  minValue: 0,
+                                  maxValue: 100),
                               SizedBox(width: 5),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.all(2.h),
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 16,
-                                    horizontal: 16,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.1),
-                                        spreadRadius: 1,
-                                        blurRadius: 5,
-                                        offset: Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .center, // Ensure items are aligned
-                                    children: [
-                                      Text(
-                                        'Vigilance Index',
-                                        style: poppinsTextStyle(
-                                          size: 10.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              8), // Small gap between text and gauge
-                                      Container(
-                                        height:
-                                            100, // Adjust height to make it smaller if necessary
-                                        child: SfRadialGauge(
-                                          axes: [
-                                            RadialAxis(
-                                              minimum: 0,
-                                              maximum: 100,
-                                              showAxisLine: true,
-                                              showLabels: false,
-                                              ranges: [
-                                                GaugeRange(
-                                                  startValue: 0,
-                                                  endValue: 40,
-                                                  color: Colors.red,
-                                                ),
-                                                GaugeRange(
-                                                  startValue: 40,
-                                                  endValue: 60,
-                                                  color: Colors.yellow,
-                                                ),
-                                                GaugeRange(
-                                                  startValue: 60,
-                                                  endValue: 100,
-                                                  color: Colors.green,
-                                                ),
-                                              ],
-                                              pointers: [
-                                                NeedlePointer(
-                                                  value: double.parse(controller
-                                                      .vigilanceIndex
-                                                      .toString()),
-                                                  needleLength: 0.6,
-                                                  needleStartWidth: 1,
-                                                  needleEndWidth: 1,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      // Small gap between the gauge and the value text
-                                      Text(
-                                        controller.vigilanceIndex.toString(),
-                                        style: poppinsTextStyle(
-                                          size: 15.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              GuageScoreWidgetBox(
+                                  labelText: 'Vigilance Index',
+                                  score: controller.vigilanceIndex.toString(),
+                                  minValue: 0,
+                                  maxValue: 100),
                             ],
                           ),
                           SizedBox(

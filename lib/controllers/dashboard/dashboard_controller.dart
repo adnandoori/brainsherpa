@@ -27,8 +27,12 @@ class DashboardController extends BaseController {
   var slowest = '0';
 
   var average = '0';
+  var accuracy = '0';
+  var cognitiveFlexibility = '0';
+  var vigilanceIndex = '0';
 
   var performanceScore = '0';
+  var pfs = '0';
 
   DatabaseReference databaseReference =
       FirebaseDatabase.instance.ref().child(AppConstants.userTable);
@@ -48,6 +52,7 @@ class DashboardController extends BaseController {
     super.onInit();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       printf('<----init----DashboardController---->');
+
       getUserDetails();
 
       if (arguments != null) {
@@ -77,7 +82,9 @@ class DashboardController extends BaseController {
       for (var element in snapshot.children) {
         final data =
             Map<String, dynamic>.from(element.value as Map<Object?, Object?>);
+        printf('------------------->adnan$data');
         ReactionTestModel dataModel = ReactionTestModel.fromMap(data);
+        printf('----------->adnan 2$dataModel');
         reactionTestList.add(dataModel);
       }
       printf('total------>${reactionTestList.length}');
@@ -98,8 +105,17 @@ class DashboardController extends BaseController {
 
         slowest = reactionTestList.last.slowest.toString();
         fastest = reactionTestList.last.fastest.toString();
-
         average = reactionTestList.last.average.toString();
+        accuracy = reactionTestList.last.accuracy.toString();
+
+        vigilanceIndex = reactionTestList.last.vigilanceIndex.toString();
+
+        cognitiveFlexibility =
+            reactionTestList.last.cognitiveFlexibility.toString();
+
+        pfs = reactionTestList.last.plusLapses.toString();
+
+        performanceScore = pfs;
 
         loaderHide();
         update([stateId]);
