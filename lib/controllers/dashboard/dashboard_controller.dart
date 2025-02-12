@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:convert';
 import 'package:brainsherpa/controllers/base_controller.dart';
 import 'package:brainsherpa/fcm/authentication_helper.dart';
 import 'package:brainsherpa/models/authentication_model/user_model.dart';
@@ -12,6 +12,7 @@ import 'package:brainsherpa/widgets/alert_widget.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
 class DashboardController extends BaseController {
@@ -26,6 +27,11 @@ class DashboardController extends BaseController {
   var slowest = '0';
 
   var average = '0';
+
+  var performanceScore = '0';
+
+  DatabaseReference databaseReference =
+      FirebaseDatabase.instance.ref().child(AppConstants.userTable);
 
   DatabaseReference dbReactionTest =
       FirebaseDatabase.instance.ref().child(AppConstants.reactionTestTable);
@@ -43,6 +49,7 @@ class DashboardController extends BaseController {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       printf('<----init----DashboardController---->');
       getUserDetails();
+
       if (arguments != null) {
         from = arguments[0];
 
@@ -109,6 +116,8 @@ class DashboardController extends BaseController {
     printf('<---get_user-id----->');
     try {
       userId = await Utility.getUserId();
+      checkUserStatus(userId);
+
       printf('<--user-id------->$userId');
       update([stateId]);
     } catch (exe) {
@@ -123,7 +132,6 @@ class DashboardController extends BaseController {
         if (value != null) {
           userModel = value;
           username = userModel.name.toString();
-
           update([stateId]);
         }
       });
@@ -163,6 +171,55 @@ class DashboardController extends BaseController {
   //     getReactionTestList();
   //   }
   // }
+
+  void _showInactiveUserDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // User must close the dialog manually
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppStrings.inactiveAlertTitle),
+          content: Text(AppStrings.inactiveAlertMessage),
+          actions: <Widget>[
+            TextButton(
+              child: Text(AppStrings.inactiveAlertButton),
+              onPressed: () {
+                launchUrl(
+                    Uri.parse(AppStrings.subscriptionUrl)); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> checkUserStatus(String userId) async {
+    if (userId.isNotEmpty) {
+      DataSnapshot snapshot = await databaseReference.child(userId).get();
+      if (snapshot.exists) {
+        final data = Map<String, dynamic>.from(snapshot.value as Map);
+        String userStatus = data['status'] ?? 'inactive';
+        if (userStatus == 'active') {
+          Utility.setUserDetails(jsonEncode(data));
+          update([stateId]);
+          getUserDetails();
+          print('<----User is active--->');
+        } else {
+          Utility.setUserDetails('');
+          update([stateId]);
+          print('<----User is inactive--->');
+          _showInactiveUserDialog(Get.context!);
+        }
+      } else {
+        print('<----User data does not exist--->');
+        Utility().snackBarError('User not found or data is missing!');
+      }
+    } else {
+      print('<----Invalid userId--->');
+      Utility().snackBarError('Invalid user ID!');
+    }
+  }
 
   void callLogout() {
     Alerts.showAlertWithCancelAction(

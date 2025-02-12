@@ -129,6 +129,7 @@ class SignupController extends BaseController {
               'date': formattedDate,
               'time': '${now.hour}:${now.minute}:${now.second}',
               'timeStamp': now.millisecondsSinceEpoch.toString(),
+              'status': 'active',
             };
 
             printf('<---request-body--->$users');

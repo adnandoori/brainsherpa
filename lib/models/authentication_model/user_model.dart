@@ -8,6 +8,7 @@ class UserModel {
   String? dateForRegister;
   String? time;
   String? timeStamp;
+  String? status;
 
   UserModel({
     this.name,
@@ -19,6 +20,7 @@ class UserModel {
     this.dateForRegister,
     this.time,
     this.timeStamp,
+    this.status,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -31,14 +33,19 @@ class UserModel {
         dateForRegister: json['date'] ?? " ",
         time: json['time'] ?? " ",
         timeStamp: json['timeStamp'] ?? " ",
+        status: json['status'] ?? 'inactive',
       );
 
   Map<String, dynamic> toJson() => {
         "name": name,
         "email": email,
+        "dob": dob,
+        "gender": gender,
+        "age": age,
         "token": token,
         "date": dateForRegister,
         "time": time,
-        "timeStamp": timeStamp
+        "timeStamp": timeStamp,
+        "status": status ?? 'inactive',
       };
 }

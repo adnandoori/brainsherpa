@@ -35,7 +35,11 @@ class AppStrings {
   static const String female = 'Female';
   static const String other = 'Other';
   static const String dateOfBirth = 'Date of birth';
+  static const String inactiveAlertButton = 'Get Your Subscription';
+  static const String inactiveAlertMessage = 'Your account is inactive.';
+  static const String inactiveAlertTitle = 'Account Inactive';
 
+  static const String subscriptionUrl = 'https://www.doori.co.in/';
   static const String iAcceptThe = 'I accept the';
   static const String termsAndConditions = 'terms and conditions';
 
