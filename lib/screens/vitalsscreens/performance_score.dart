@@ -7,17 +7,20 @@ import 'package:brainsherpa/utils/app_colors.dart';
 import 'package:brainsherpa/utils/app_string.dart';
 import 'package:brainsherpa/utils/image_paths.dart';
 import 'package:brainsherpa/utils/style.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:brainsherpa/utils/common_widgets.dart';
-import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:intl/intl.dart';
+import 'package:brainsherpa/utils/extension_classes.dart';
 
 class PerformanceScreen extends StatelessWidget {
   const PerformanceScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final dashboardController = Get.put(DashboardController());
+
     return SafeArea(
         child: Scaffold(
             backgroundColor: AppColors.bgColor,
@@ -34,6 +37,49 @@ class PerformanceScreen extends StatelessWidget {
                       children: [
                         widgetAppBar(title: 'Performance Score'),
                         Container(
+                          margin: EdgeInsets.all(20),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Performance Score',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      dashboardController.performanceScore
+                                          .toString(),
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
                           padding: EdgeInsets.symmetric(horizontal: 20.w),
                           child: widgetGraph(controller),
                         ),
@@ -45,11 +91,12 @@ class PerformanceScreen extends StatelessWidget {
 }
 
 Widget widgetGraph(ReactionTimeListController controller) {
+  final dashboardController = Get.put(DashboardController());
   return Container(
     width: Get.width,
     height: 300.h,
     decoration: const BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(25)),
+      borderRadius: BorderRadius.all(Radius.circular(10)),
       color: AppColors.white,
     ),
     child: DefaultTabController(
@@ -112,7 +159,6 @@ Widget widgetGraph(ReactionTimeListController controller) {
                               initialDate: DateTime.now(),
                               firstDate: DateTime(1900),
                               lastDate: DateTime(2100));
-
                           if (pickedDate != null) {
                             controller.selectDate(pickedDate);
                           }
@@ -155,8 +201,8 @@ Widget widgetGraph(ReactionTimeListController controller) {
               controller: controller.tabController,
               children: [
                 widgetDay(controller),
-                // widgetWeek(controller),
-                // widgetMonth(controller),
+                widgetWeek(controller),
+                widgetMonth(controller),
               ],
             ),
           ),
@@ -194,5 +240,53 @@ Widget widgetDay(ReactionTimeListController controller) {
           },
           yValueMapper: (GraphModelForDay sales, _) => sales.yValue,
         ),
+      ]);
+}
+
+Widget widgetWeek(ReactionTimeListController controller) {
+  return SfCartesianChart(
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
+      ),
+      legend: const Legend(isVisible: false),
+      tooltipBehavior: TooltipBehavior(enable: true),
+      series: <ColumnSeries<WeekModel, String>>[
+        ColumnSeries<WeekModel, String>(
+            enableTooltip: false,
+            color: AppColors.blueColor,
+            dataSource: controller.listWeekData,
+            xValueMapper: (WeekModel sales, _) => DateFormat('dd-MMM-yyyy')
+                .format(
+                    DateTime.fromMillisecondsSinceEpoch(int.parse(sales.title)))
+                .toString()
+                .substring(0, 2),
+            yValueMapper: (WeekModel sales, _) {
+              if (sales.count > 0) {
+                double avg = sales.value / sales.count;
+                return avg.toInt();
+              } else {
+                return sales.value;
+              }
+            },
+            // Enable data label
+            dataLabelSettings: const DataLabelSettings(isVisible: true))
+      ]);
+}
+
+Widget widgetMonth(ReactionTimeListController controller) {
+  return SfCartesianChart(
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
+      ),
+      legend: const Legend(isVisible: false),
+      tooltipBehavior: TooltipBehavior(enable: true),
+      series: <ColumnSeries<GraphModelForDay, String>>[
+        ColumnSeries<GraphModelForDay, String>(
+            enableTooltip: false,
+            color: AppColors.blueColor,
+            dataSource: controller.monthGraphPlot,
+            xValueMapper: (GraphModelForDay sales, _) => sales.xValue,
+            yValueMapper: (GraphModelForDay sales, _) => sales.yValue,
+            dataLabelSettings: const DataLabelSettings(isVisible: true))
       ]);
 }
