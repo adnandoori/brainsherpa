@@ -11,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 import '../../controllers/dashboard/dashboard_controller.dart';
 
 class ReactionTimeListScreen extends StatelessWidget {

@@ -24,6 +24,7 @@ class ReactionTimeListController extends BaseController
   var userId = '';
   List<ReactionTestModel> reactionTestList = [];
   List<ReactionTestModel> todayResults = [];
+
   var arguments = Get.arguments;
 
   late TabController tabController = TabController(length: 3, vsync: this);
@@ -63,6 +64,7 @@ class ReactionTimeListController extends BaseController
         try {
           userId = arguments[0];
           reactionTestList = arguments[1];
+          // printf('<--reactionTestList---->${reactionTestList}');
 
           printf('<--userId---->$userId-->${reactionTestList.length}');
           //date = '23-Oct-2024';
@@ -73,6 +75,7 @@ class ReactionTimeListController extends BaseController
 
           getListOfReactionTest(
               userId: userId, date: date, totalRecords: reactionTestList);
+          printf('$reactionTestList');
         } catch (e) {
           printf('<----exe--->$e');
         }
@@ -126,8 +129,10 @@ class ReactionTimeListController extends BaseController
         }
       }
       todayResults = todayResults.reversed.toList();
+      // printf('------------------------todays results>$todayResults');
 
       getResultForDay(date: date.toString(), list: reactionTestList);
+
       getCurrentWeekForFirstTime(today, reactionTestList);
       printf('--current-month--->$currentMonth');
       getMonthDataForFirstTime(currentMonth, reactionTestList);
@@ -299,10 +304,6 @@ class ReactionTimeListController extends BaseController
     printf('Total Days in Month first-time : ${lastDateOfMonth.day}');
 
     prepareWeeksOfMonthData(firstDateOfMonth, lastDateOfMonth);
-
-    ///Fetching from Firebase
-
-    // firstDateOfMonth.millisecondsSinceEpoch
 
     DateTime endDt = DateTime.fromMillisecondsSinceEpoch(
             lastDateOfMonth.millisecondsSinceEpoch)

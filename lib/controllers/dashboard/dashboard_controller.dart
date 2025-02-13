@@ -34,6 +34,16 @@ class DashboardController extends BaseController {
   var performanceScore = '0';
   var pfs = '0';
 
+  // var displayMonthText = '';
+  // var displayWeekText = '';
+  // var displayDateText = '';
+  // var todayDate = DateTime.now();
+  // var formatter = DateFormat('dd-MMM-yyyy');
+  // var currentWeek = DateTime.now();
+  // var formatterWeek = DateFormat('dd-MMM-yyyy');
+  // var currentMonth = DateTime.now();
+  // var formatterMonth = DateFormat(' MMM, yyyy');
+
   DatabaseReference databaseReference =
       FirebaseDatabase.instance.ref().child(AppConstants.userTable);
 
@@ -54,7 +64,9 @@ class DashboardController extends BaseController {
       printf('<----init----DashboardController---->');
 
       getUserDetails();
-
+      // displayDateText = formatter.format(todayDate);
+      // displayWeekText = formatterWeek.format(currentWeek);
+      // displayMonthText = formatterMonth.format(currentMonth);
       if (arguments != null) {
         from = arguments[0];
 
@@ -84,7 +96,7 @@ class DashboardController extends BaseController {
             Map<String, dynamic>.from(element.value as Map<Object?, Object?>);
         printf('------------------->adnan$data');
         ReactionTestModel dataModel = ReactionTestModel.fromMap(data);
-        printf('----------->adnan 2$dataModel');
+        // printf('----------->adnan 2$dataModel');
         reactionTestList.add(dataModel);
       }
       printf('total------>${reactionTestList.length}');
