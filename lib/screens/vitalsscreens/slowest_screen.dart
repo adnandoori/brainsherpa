@@ -6,8 +6,8 @@ import 'package:brainsherpa/utils/app_colors.dart';
 import 'package:brainsherpa/utils/app_string.dart';
 import 'package:brainsherpa/utils/common_widgets.dart';
 
-class PerformanceScreen extends StatelessWidget {
-  const PerformanceScreen({super.key});
+class SlowestScreen extends StatelessWidget {
+  const SlowestScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -20,13 +20,7 @@ class PerformanceScreen extends StatelessWidget {
                   return SizedBox(
                     height: Get.height,
                     width: Get.width,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        widgetAppBar(title: 'Performance Score'),
-                      ],
-                    ),
+                    child: Text('Slowest Screen'),
                   );
                 })));
   }

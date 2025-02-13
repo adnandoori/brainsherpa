@@ -364,15 +364,18 @@ class ReactionTimeTestScreen extends StatelessWidget {
                             children: [
                               AverageCard(
                                   label: '${AppStrings.average} 10% (ms)',
-                                  value: controller.average.toString()),
+                                  value: controller.average.toString(),
+                                  onTap: () {}),
                               SizedBox(width: 2),
                               AverageCard(
                                   label: '${AppStrings.fastest} 10% (ms)',
-                                  value: controller.fastest.toString()),
+                                  value: controller.fastest.toString(),
+                                  onTap: () {}),
                               SizedBox(width: 2),
                               AverageCard(
                                   label: '${AppStrings.slowest} 10% (ms)',
-                                  value: controller.slowest.toString()),
+                                  value: controller.slowest.toString(),
+                                  onTap: () {}),
                             ],
                           ),
                           SizedBox(
@@ -385,13 +388,15 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                   score: controller.cognitiveFlexibility
                                       .toString(),
                                   minValue: 0,
-                                  maxValue: 100),
+                                  maxValue: 100,
+                                  onTap: () {}),
                               SizedBox(width: 5),
                               GuageScoreWidgetBox(
                                   labelText: 'Vigilance Index',
                                   score: controller.vigilanceIndex.toString(),
                                   minValue: 0,
-                                  maxValue: 100),
+                                  maxValue: 100,
+                                  onTap: () {}),
                             ],
                           ),
                           SizedBox(

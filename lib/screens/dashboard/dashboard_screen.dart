@@ -179,10 +179,6 @@ class DashboardScreen extends StatelessWidget {
       child: Material(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
         child: InkWell(
-          onTap: () {
-            Get.toNamed(Routes.reactionTimeListScreen,
-                arguments: [controller.userId, controller.reactionTestList]);
-          },
           child: Container(
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(
@@ -204,57 +200,108 @@ class DashboardScreen extends StatelessWidget {
                             child: PerformanceScoreWidget(
                                 labelText: 'Performance Score',
                                 performanceScore:
-                                    controller.performanceScore.toString()),
+                                    controller.performanceScore.toString(),
+                                onTap: () {
+                                  Get.toNamed(Routes.performanceScreen);
+                                }),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                  child: AverageCard(
+                          InkWell(
+                            onTap: () {
+                              Get.toNamed(Routes.reactionTimeListScreen,
+                                  arguments: [
+                                    controller.userId,
+                                    controller.reactionTestList
+                                  ]);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Expanded(
+                                    child: AverageCard(
                                       label: '${AppStrings.average} 10% (ms)',
-                                      value: controller.average.toString()),
-                                ),
-                                SizedBox(width: 2),
-                                Expanded(
-                                  child: AverageCard(
+                                      value: controller.average.toString(),
+                                      onTap: () {
+                                        Get.toNamed(
+                                            Routes.reactionTimeListScreen,
+                                            arguments: [
+                                              controller.userId,
+                                              controller.reactionTestList
+                                            ]);
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 2),
+                                  Expanded(
+                                    child: AverageCard(
                                       label: '${AppStrings.fastest} 10% (ms)',
-                                      value: controller.fastest.toString()),
-                                ),
-                                SizedBox(width: 2),
-                                Expanded(
-                                  child: AverageCard(
+                                      value: controller.fastest.toString(),
+                                      onTap: () {
+                                        Get.toNamed(
+                                            Routes.reactionTimeListScreen,
+                                            arguments: [
+                                              controller.userId,
+                                              controller.reactionTestList
+                                            ]);
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 2),
+                                  Expanded(
+                                    child: AverageCard(
                                       label: '${AppStrings.slowest} 10% (ms)',
-                                      value: controller.slowest.toString()),
-                                ),
-                              ],
+                                      value: controller.slowest.toString(),
+                                      onTap: () {
+                                        Get.toNamed(
+                                            Routes.reactionTimeListScreen,
+                                            arguments: [
+                                              controller.userId,
+                                              controller.reactionTestList
+                                            ]);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           // Cognitive Flexibility and Vigilance Index Section
                           Container(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 5),
+                                horizontal: 10, vertical: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Expanded(
                                   child: GuageScoreWidgetBox(
-                                      labelText: 'Cognitive Flexibility',
-                                      score: controller.cognitiveFlexibility
-                                          .toString(),
-                                      minValue: 0,
-                                      maxValue: 100),
+                                    labelText: 'Cognitive Flexibility',
+                                    score: controller.cognitiveFlexibility
+                                        .toString(),
+                                    minValue: 0,
+                                    maxValue: 100,
+                                    onTap: () {
+                                      Get.toNamed(
+                                        Routes.cognitiveFlexibilityScreen,
+                                      );
+                                    },
+                                  ),
                                 ),
                                 SizedBox(width: 5),
                                 Expanded(
                                   child: GuageScoreWidgetBox(
-                                      labelText: 'Vigilance Index',
-                                      score:
-                                          controller.vigilanceIndex.toString(),
-                                      minValue: 0,
-                                      maxValue: 100),
+                                    labelText: 'Vigilance Index',
+                                    score: controller.vigilanceIndex.toString(),
+                                    minValue: 0,
+                                    maxValue: 100,
+                                    onTap: () {
+                                      Get.toNamed(
+                                        Routes.vigilanceIndexScreen,
+                                      );
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
