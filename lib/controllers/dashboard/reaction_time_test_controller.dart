@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:brainsherpa/controllers/base_controller.dart';
+import 'package:brainsherpa/controllers/dashboard/start_test_controller.dart';
 import 'package:brainsherpa/models/dashboard_models/reaction_test_model.dart';
 import 'package:brainsherpa/utils/app_constants.dart';
 import 'package:brainsherpa/utils/app_string.dart';
@@ -15,6 +16,7 @@ import 'package:intl/intl.dart';
 class ReactionTimeTestController extends BaseController
     with GetSingleTickerProviderStateMixin {
   static String stateId = 'reaction_test_ui';
+  final startTestController = Get.put(StartTestController());
 
   Timer? timerFor3Minutes, timerWaitForGreen, timerGreen;
 
@@ -659,7 +661,8 @@ class ReactionTimeTestController extends BaseController
     reactionTestModel.responseControl = responseControl;
     reactionTestModel.cognitiveLoad = cognitiveLoad;
     reactionTestModel.alertnessRating = firstQuestion.toString();
-    reactionTestModel.supplementsTaken = isSelected.toString();
+    reactionTestModel.supplementsTaken =
+        startTestController.isSelected.toString();
     //
     reactionTestModel.deltaSF = delta;
     reactionTestModel.lapseProbability = lapseProbability;
