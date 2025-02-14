@@ -6,8 +6,8 @@ import 'package:brainsherpa/utils/app_colors.dart';
 import 'package:brainsherpa/utils/app_string.dart';
 import 'package:brainsherpa/utils/common_widgets.dart';
 
-class FastestScreen extends StatelessWidget {
-  const FastestScreen({super.key});
+class falseLapsesScreen extends StatelessWidget {
+  const falseLapsesScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -20,7 +20,12 @@ class FastestScreen extends StatelessWidget {
                   return SizedBox(
                     height: Get.height,
                     width: Get.width,
-                    child: Text('Fastest Screen'),
+                    child: Column(
+                      children: [
+                        widgetAppBar(title: 'False Lapse Statistics'),
+                        Text('false Lapses Stats Screen'),
+                      ],
+                    ),
                   );
                 })));
   }

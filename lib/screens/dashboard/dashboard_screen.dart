@@ -16,6 +16,24 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
+  void _showModal(BuildContext context, String modalText) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 200,
+          color: Colors.white,
+          child: Center(
+            child: Text(
+              modalText, // Use the dynamic text here
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(
@@ -39,7 +57,7 @@ class DashboardScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 66.h,
+                      height: 50.h,
                       child: Stack(
                         children: [
                           commonAppbarWithAppName(
@@ -64,22 +82,18 @@ class DashboardScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25.w),
-                      child: Text(
-                        'Hi ${controller.username},',
-                        style: poppinsTextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.black,
-                            size: 22.sp),
-                      ),
-                    ),
-                    10.sbh,
                     widgetStart(controller),
                     Expanded(
                         child: Container(
                             color: AppColors.bgColor,
                             child: widgetResult(controller))),
+                    // testValueContainer(
+                    //   icon: Icons.info,
+                    //   text: AppStrings.reactionTime,
+                    //   value: controller.performanceScore.toString(),
+                    //   modalText: 'adnan',
+                    //   onIconTap: () => _showModal(context, "adnan"),
+                    // ),
                   ],
                 ),
               ),
@@ -182,33 +196,13 @@ class DashboardScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Container(
-                              padding: EdgeInsets.only(
-                                left: 10.w,
-                                top: 16.h,
-                              ),
-                              width: Get.width,
-                              color: AppColors.bgColor,
-                              child: Text(
-                                '${AppStrings.takenAt} ${controller.takenAt}',
-                                maxLines: 1,
-                                style: poppinsTextStyle(
-                                    size: 12.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                              )),
-                          Container(
-                            child: PerformanceScoreWidget(
-                                labelText: 'Performance Score',
-                                performanceScore:
-                                    controller.performanceScore.toString(),
-                                onTap: () {
-                                  Get.toNamed(Routes.performanceScreen);
-                                }),
+                            margin: EdgeInsets.all(10),
+                            child: PerformanceWidgetBox(controller),
                           ),
                           Container(
                             margin: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: AppColors.contbgcolor,
+                              color: AppColors.white,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
                                 BoxShadow(
@@ -237,19 +231,36 @@ class DashboardScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.all(10.h),
+                                      margin: EdgeInsets.all(5.h),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            CrossAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            'Reaction time',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 16,
+                                          Container(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Reaction Time Curve',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '${AppStrings.takenAt} ${controller.takenAt}',
+                                                  maxLines: 1,
+                                                  style: poppinsTextStyle(
+                                                      size: 12.sp,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Colors.black),
+                                                )
+                                              ],
                                             ),
                                           ),
                                           Image.asset(
@@ -487,108 +498,150 @@ class DashboardScreen extends StatelessWidget {
                                             ],
                                           )),
                                     ),
-                                    SizedBox(
-                                      height: 10.h,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Expanded(
-                                          child: AverageCard(
-                                            label:
-                                                '${AppStrings.average} 10% (ms)',
-                                            value:
-                                                controller.average.toString(),
-                                            onTap: () {
-                                              Get.toNamed(
-                                                  Routes.reactionTimeListScreen,
-                                                  arguments: [
-                                                    controller.userId,
-                                                    controller.reactionTestList
-                                                  ]);
-                                            },
-                                          ),
-                                        ),
-                                        SizedBox(width: 2),
-                                        Expanded(
-                                          child: AverageCard(
-                                            label:
-                                                '${AppStrings.fastest} 10% (ms)',
-                                            value:
-                                                controller.fastest.toString(),
-                                            onTap: () {
-                                              Get.toNamed(
-                                                  Routes.reactionTimeListScreen,
-                                                  arguments: [
-                                                    controller.userId,
-                                                    controller.reactionTestList
-                                                  ]);
-                                            },
-                                          ),
-                                        ),
-                                        SizedBox(width: 2),
-                                        Expanded(
-                                          child: AverageCard(
-                                            label:
-                                                '${AppStrings.slowest} 10% (ms)',
-                                            value:
-                                                controller.slowest.toString(),
-                                            onTap: () {
-                                              Get.toNamed(
-                                                  Routes.reactionTimeListScreen,
-                                                  arguments: [
-                                                    controller.userId,
-                                                    controller.reactionTestList
-                                                  ]);
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 10.h),
+                                    SizedBox(height: 5.h),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-
-                          // Cognitive Flexibility and Vigilance Index Section
+                          InkWell(
+                            onTap: () {
+                              Get.toNamed(
+                                Routes.reactionStatistics,
+                              );
+                            },
+                            child: Container(
+                              margin: EdgeInsets.all(10),
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 1,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Expanded(
+                                    child: AverageCard(
+                                      label: '${AppStrings.average} 10% (ms)',
+                                      value: controller.average.toString(),
+                                      onTap: () {
+                                        Get.toNamed(
+                                          Routes.reactionStatistics,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 1,
+                                    height: 50.h,
+                                    color: Colors.grey,
+                                  ),
+                                  Expanded(
+                                    child: AverageCard(
+                                      label: '${AppStrings.fastest} 10% (ms)',
+                                      value: controller.fastest.toString(),
+                                      onTap: () {
+                                        Get.toNamed(
+                                          Routes.reactionStatistics,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 1,
+                                    height: 50.h,
+                                    color: Colors.grey,
+                                  ),
+                                  Expanded(
+                                    child: AverageCard(
+                                      label: '${AppStrings.slowest} 10% (ms)',
+                                      value: controller.slowest.toString(),
+                                      onTap: () {
+                                        Get.toNamed(
+                                          Routes.reactionStatistics,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(right: 5),
+                                    child: Image.asset(
+                                      ImagePath.icNext,
+                                      height: 10,
+                                      width: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                           Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                  child: GuageScoreWidgetBox(
-                                    labelText: 'Cognitive Flexibility',
-                                    score: controller.cognitiveFlexibility
-                                        .toString(),
-                                    minValue: 0,
-                                    maxValue: 100,
-                                    onTap: () {
-                                      Get.toNamed(
-                                        Routes.cognitiveFlexibilityScreen,
-                                      );
-                                    },
-                                  ),
-                                ),
-                                SizedBox(width: 5),
-                                Expanded(
-                                  child: GuageScoreWidgetBox(
-                                    labelText: 'Vigilance Index',
-                                    score: controller.vigilanceIndex.toString(),
-                                    minValue: 0,
-                                    maxValue: 100,
-                                    onTap: () {
-                                      Get.toNamed(
-                                        Routes.vigilanceIndexScreen,
-                                      );
-                                    },
-                                  ),
+                            margin: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.1),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 2),
                                 ),
                               ],
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                Get.toNamed(
+                                  Routes.falseLapsesScreen,
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  AverageCard(
+                                    label: 'False Starts',
+                                    value: controller.falseStart.toString(),
+                                    onTap: () {
+                                      Get.toNamed(
+                                        Routes.falseLapsesScreen,
+                                      );
+                                    },
+                                  ),
+                                  Container(
+                                    width: 1,
+                                    height: 50.h,
+                                    color: Colors.grey,
+                                  ),
+                                  AverageCard(
+                                    label: 'Lapses',
+                                    value: controller.lapses.toString(),
+                                    onTap: () {
+                                      Get.toNamed(
+                                        Routes.falseLapsesScreen,
+                                      );
+                                    },
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(right: 5),
+                                    child: Image.asset(
+                                      ImagePath.icNext,
+                                      height: 10,
+                                      width: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -605,59 +658,54 @@ class DashboardScreen extends StatelessWidget {
   }
 
   Widget widgetStart(DashboardController controller) {
-    return SizedBox(
-      height: 185.h,
+    return Container(
+      height: 50.h,
       width: Get.width,
-      child: Stack(
-        children: [
-          Image.asset(
-            ImagePath.loginBackground,
-            height: 190.h,
-            width: Get.width,
-            fit: BoxFit.fill,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                  padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 10.h),
+      decoration: BoxDecoration(color: Color.fromARGB(255, 62, 50, 97)),
+      child: Expanded(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+                padding: EdgeInsets.only(left: 10.w, right: 0.w, top: 0.h),
+                child: Center(
+                  child: Text(
+                    AppStrings.dashboardMessage,
+                    style: poppinsTextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.white,
+                        size: 18.sp),
+                  ),
+                )),
+            SizedBox(height: 25.h),
+            Center(
+              child: InkWell(
+                onTap: () {
+                  controller.navigateToStartTest();
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10.h),
+                  // height: 30.h,
+                  width: 80.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: AppColors.indicatorGray,
+                  ),
                   child: Center(
                     child: Text(
-                      AppStrings.dashboardMessage,
+                      AppStrings.start,
                       style: poppinsTextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.white,
-                          size: 20.sp),
-                    ),
-                  )),
-              SizedBox(height: 25.h),
-              Center(
-                child: InkWell(
-                  onTap: () {
-                    controller.navigateToStartTest();
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 10.h),
-                    height: 44.h,
-                    width: 90.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: AppColors.buttonColorGrey,
-                    ),
-                    child: Center(
-                      child: Text(
-                        AppStrings.start,
-                        style: poppinsTextStyle(
-                            color: Colors.black, fontWeight: FontWeight.w400),
-                      ),
+                          color: Colors.black,
+                          fontWeight: FontWeight.w800,
+                          size: 12.sp),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -671,54 +719,249 @@ Widget widgetText(text) {
   );
 }
 
+Widget PerformanceWidgetBox(DashboardController controller) {
+  final reactionTimeController = Get.put(ReactionTimeTestController());
 
+  return Container(
+    padding: EdgeInsets.all(16.0),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(12.0),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: () {
+            Get.toNamed(
+              Routes.performanceScreen,
+            );
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Performance Score",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${controller.performanceScore.toString()}",
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "/100",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      "Performance Variability: 50%",
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 2),
+              SizedBox(
+                  width: 150,
+                  height: 100,
+                  child: SfRadialGauge(
+                    axes: <RadialAxis>[
+                      RadialAxis(
+                        minimum: 0,
+                        maximum: 100,
+                        showLabels: false,
+                        showTicks: false,
+                        startAngle: 150, // Adjusted for a semi-circle layout
+                        endAngle: 30,
+                        axisLineStyle: const AxisLineStyle(
+                          thickness: 15, // Increased thickness for bold design
+                          color: Colors
+                              .transparent, // Hide the full axis background
+                        ),
+                        pointers: <GaugePointer>[
+                          NeedlePointer(
+                            value: double.parse(
+                                controller.performanceScore.toString()),
+                            enableAnimation: true,
+                            needleStartWidth: 1,
+                            needleEndWidth: 5,
+                            needleLength: 0.55,
+                            needleColor: Colors.black,
+                            knobStyle: KnobStyle(
+                                color: Colors.black,
+                                sizeUnit: GaugeSizeUnit.logicalPixel),
+                          ),
+                        ],
+                        ranges: <GaugeRange>[
+                          GaugeRange(
+                            startValue: 0,
+                            endValue: 20, // First segment in light purple
+                            color: Colors.red,
+                            startWidth: 0,
+                            endWidth: 15,
+                          ),
+                          GaugeRange(
+                            startValue: 20,
+                            endValue: 22, // Second segment in medium purple
+                            color: Colors.white,
+                            startWidth: 15,
+                            endWidth: 15,
+                          ),
+                          GaugeRange(
+                            startValue: 22,
+                            endValue: 40, // Second segment in medium purple
+                            color: Colors.orange,
+                            startWidth: 15,
+                            endWidth: 15,
+                          ),
+                          GaugeRange(
+                            startValue: 40,
+                            endValue: 42, // Second segment in medium purple
+                            color: Colors.white,
+                            startWidth: 15,
+                            endWidth: 15,
+                          ),
+                          GaugeRange(
+                            startValue: 42,
+                            endValue: 80, // Second segment in medium purple
+                            color: Color.fromARGB(255, 226, 204, 0),
+                            startWidth: 15,
+                            endWidth: 15,
+                          ),
+                          GaugeRange(
+                            startValue: 80,
+                            endValue: 82, // Second segment in medium purple
+                            color: Colors.white,
+                            startWidth: 15,
+                            endWidth: 15,
+                          ),
+                          GaugeRange(
+                            startValue: 82,
+                            endValue: 100, // Third segment in deep purple
+                            color: Colors.green,
+                            startWidth: 15,
+                            endWidth: 15,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+              Image.asset(
+                ImagePath.icNext,
+                height: 16,
+                width: 16,
+              ),
+            ],
+          ),
+        ),
+        _buildProgressBar("Cognitive Speed", 40),
+        SizedBox(height: 8),
+        _buildProgressBar("Cognitive Flexibility",
+            double.parse(controller.cognitiveFlexibility.toString())),
+      ],
+    ),
+  );
+}
 
+Widget _buildProgressBar(String label, double value) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      Container(
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(label, style: TextStyle(fontSize: 14)),
+          SizedBox(width: 4),
+          Container(
+            width: 180.w,
+            child: LinearProgressIndicator(
+              value: value / 100,
+              backgroundColor: Colors.grey.shade300,
+              color: value <= 20
+                  ? Colors.red // Red if value is 33 or less
+                  : value <= 40 && value > 20
+                      ? Colors.orange
+                      : value <= 60 && value > 40
+                          ? const Color.fromARGB(255, 226, 204,
+                              0) // Yellow if value is between 33 and 66
+                          : value <= 80 && value > 60
+                              ? Color.fromARGB(255, 176, 240,
+                                  1) // Orange if value is between 34 and 66
+                              : Colors.green,
+              minHeight: 10,
+              borderRadius: BorderRadius.circular(5),
+            ),
+          )
+        ]),
+      ),
+    ],
+  );
+}
 
 
 
 
 // Expanded(
-                            //     child: Column(
-                            //   children: [
-                            //     Text(
-                            //       controller.fastest,
-                            //       style: poppinsTextStyle(
-                            //           color: Colors.black,
-                            //           size: 25.sp,
-                            //           fontWeight: FontWeight.w500),
-                            //     ),
-                            //     6.sbh,
-                            //     Text(
-                            //       '${AppStrings.fastest}(in ms)',
-                            //       style: poppinsTextStyle(
-                            //           color: Colors.black,
-                            //           size: 13.sp,
-                            //           fontWeight: FontWeight.w500),
-                            //     )
-                            //   ],
-                            // )),
-                            // Container(
-                            //   width: 1,
-                            //   height: 64.h,
-                            //   color: Colors.grey,
-                            // ),
-                            // Expanded(
-                            //     child: Column(
-                            //   children: [
-                            //     Text(
-                            //       controller.slowest,
-                            //       style: poppinsTextStyle(
-                            //           color: Colors.black,
-                            //           size: 25.sp,
-                            //           fontWeight: FontWeight.w500),
-                            //     ),
-                            //     6.sbh,
-                            //     Text(
-                            //       '${AppStrings.slowest}(in ms)',
-                            //       style: poppinsTextStyle(
-                            //           color: Colors.black,
-                            //           size: 13.sp,
-                            //           fontWeight: FontWeight.w500),
-                            //     )
-                            //   ],
-                            // )),
+//     child: Column(
+//   children: [
+//     Text(
+//       controller.fastest,
+//       style: poppinsTextStyle(
+//           color: Colors.black,
+//           size: 25.sp,
+//           fontWeight: FontWeight.w500),
+//     ),
+//     6.sbh,
+//     Text(
+//       '${AppStrings.fastest}(in ms)',
+//       style: poppinsTextStyle(
+//           color: Colors.black,
+//           size: 13.sp,
+//           fontWeight: FontWeight.w500),
+//     )
+//   ],
+// )),
+// Container(
+//   width: 1,
+//   height: 64.h,
+//   color: Colors.grey,
+// ),
+// Expanded(
+//     child: Column(
+//   children: [
+//     Text(
+//       controller.slowest,
+//       style: poppinsTextStyle(
+//           color: Colors.black,
+//           size: 25.sp,
+//           fontWeight: FontWeight.w500),
+//     ),
+//     6.sbh,
+//     Text(
+//       '${AppStrings.slowest}(in ms)',
+//       style: poppinsTextStyle(
+//           color: Colors.black,
+//           size: 13.sp,
+//           fontWeight: FontWeight.w500),
+//     )
+//   ],
+// )),

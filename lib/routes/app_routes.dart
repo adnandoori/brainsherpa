@@ -11,9 +11,10 @@ abstract class Routes {
   static const historyScreen = '/historyScreen';
   static const startTestScreen = '/startTestScreen';
   static const performanceScreen = '/performanceScreen';
-  static const averageScreen = '/averageScreen';
+  static const reactionStatistics = '/reactionStatistics';
   static const fastestScreen = '/fastestScreen';
   static const slowestScreen = '/slowestScreen';
   static const cognitiveFlexibilityScreen = '/cognitiveFlexibilityScreen';
   static const vigilanceIndexScreen = '/vigilanceIndexScreen';
+  static const falseLapsesScreen = '/falseLapsesScreen';
 }

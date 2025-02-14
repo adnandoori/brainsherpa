@@ -309,22 +309,12 @@ AverageCard({
   {
     return Expanded(
       child: Container(
-          margin: EdgeInsets.all(2.0),
           padding: EdgeInsets.symmetric(
             vertical: 16,
-            horizontal: 16,
+            horizontal: 10,
           ),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 5,
-                offset: Offset(0, 2),
-              ),
-            ],
           ),
           child: InkWell(
             onTap: onTap,
@@ -332,27 +322,66 @@ AverageCard({
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  label,
+                  value,
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 25,
                     color: Colors.black,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 8),
                 Text(
-                  value,
+                  label,
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 10,
                     color: Colors.black,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w300,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ],
             ),
           )),
+    );
+  }
+}
+
+testValueContainer({
+  required String text,
+  required String value,
+  required IconData icon,
+  required VoidCallback onIconTap,
+  required String modalText,
+}) {
+  {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Text(
+                text,
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(width: 8),
+              GestureDetector(
+                onTap: onIconTap,
+                child: Icon(icon, color: Colors.green),
+              )
+            ],
+          ),
+          InkWell(
+            onTap: onIconTap, // Callback for the icon tap
+            child: Text(
+              value,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

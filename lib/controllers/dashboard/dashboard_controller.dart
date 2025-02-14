@@ -30,6 +30,8 @@ class DashboardController extends BaseController {
   var accuracy = '0';
   var cognitiveFlexibility = '0';
   var vigilanceIndex = '0';
+  var falseStart = '0';
+  var lapses = '0';
 
   var performanceScore = '0';
   var pfs = '0';
@@ -124,6 +126,9 @@ class DashboardController extends BaseController {
 
         cognitiveFlexibility =
             reactionTestList.last.cognitiveFlexibility.toString();
+
+        falseStart = reactionTestList.last.falseStart.toString();
+        lapses = reactionTestList.last.plusLapses.toString();
 
         pfs = reactionTestList.last.plusLapses.toString();
 
