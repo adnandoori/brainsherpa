@@ -205,6 +205,102 @@ PerformanceScoreWidget({
   );
 }
 
+GuageScoreWidgetBox({
+  required String labelText,
+  required String score,
+  required double minValue,
+  required double maxValue,
+  required VoidCallback onTap,
+}) {
+  return Expanded(
+      child: InkWell(
+    onTap: onTap,
+    child: Container(
+      margin: EdgeInsets.all(2.h),
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  labelText,
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Image.asset(
+                  ImagePath.icNext,
+                  height: 10,
+                  width: 10,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 8),
+          Container(
+            height: 100,
+            child: SfRadialGauge(
+              axes: [
+                RadialAxis(
+                  minimum: minValue,
+                  maximum: maxValue,
+                  showAxisLine: true,
+                  showLabels: false,
+                  ranges: [
+                    GaugeRange(startValue: 0, endValue: 40, color: Colors.red),
+                    GaugeRange(
+                        startValue: 40, endValue: 60, color: Colors.yellow),
+                    GaugeRange(
+                        startValue: 60, endValue: 100, color: Colors.green),
+                  ],
+                  pointers: [
+                    NeedlePointer(
+                      value: double.parse(score),
+                      needleLength: 0.6,
+                      needleStartWidth: 1,
+                      needleEndWidth: 1,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            score.toString(),
+            style: TextStyle(
+              fontSize: 15.sp,
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    ),
+  ));
+}
+
 CognitiveSpeedGuage({
   required String labelText,
   required String score,
