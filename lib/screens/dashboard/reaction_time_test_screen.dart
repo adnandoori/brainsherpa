@@ -383,17 +383,19 @@ class ReactionTimeTestScreen extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              GuageScoreWidgetBox(
+                              CognitiveSpeedGuage(
                                   labelText: 'Cognitive Flexibiltiy',
                                   score: controller.cognitiveFlexibility
                                       .toString(),
+                                  labelunit: '(in %)',
                                   minValue: 0,
                                   maxValue: 100,
                                   onTap: () {}),
                               SizedBox(width: 5),
-                              GuageScoreWidgetBox(
+                              CognitiveSpeedGuage(
                                   labelText: 'Vigilance Index',
                                   score: controller.vigilanceIndex.toString(),
+                                  labelunit: '(in Reactions/s)',
                                   minValue: 0,
                                   maxValue: 100,
                                   onTap: () {}),

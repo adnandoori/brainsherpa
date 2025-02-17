@@ -55,6 +55,10 @@ class ReactionTestModel {
   String? averageSecondMin;
   String? averageThirdMin;
   String? notes;
+  String? trendInsight;
+  double? resilienceScore;
+  double? flexibilityScore;
+  double? focusScore;
 
   List<ReactionTest>? reactionTest;
 
@@ -108,6 +112,10 @@ class ReactionTestModel {
     this.averageThirdMin,
     this.notes,
     this.reactionTest,
+    this.trendInsight,
+    this.resilienceScore,
+    this.flexibilityScore,
+    this.focusScore,
   });
 
   factory ReactionTestModel.fromJson(Map<String, dynamic> json) =>
@@ -160,6 +168,10 @@ class ReactionTestModel {
         averageSecondMin: json["averageSecondMin"],
         averageThirdMin: json["averageThirdMin"],
         notes: json["notes"],
+        trendInsight: json["trendInsight"],
+        resilienceScore: json["resilienceScore"],
+        flexibilityScore: json["flexibilityScore"],
+        focusScore: json["focusScore"],
         reactionTest: json["reactionTest"] == null
             ? []
             : List<ReactionTest>.from(
@@ -215,6 +227,10 @@ class ReactionTestModel {
         "averageSecondMin": averageSecondMin,
         "averageThirdMin": averageThirdMin,
         "notes": notes,
+        "trendInsight": trendInsight,
+        "resilienceScore": resilienceScore,
+        "flexibilityScore": flexibilityScore,
+        "focusScore": focusScore,
         "reactionTest": reactionTest == null
             ? []
             : List<dynamic>.from(reactionTest!.map((x) => x.toJson())),

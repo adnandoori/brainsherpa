@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:brainsherpa/controllers/base_controller.dart';
 import 'package:brainsherpa/fcm/authentication_helper.dart';
 import 'package:brainsherpa/models/authentication_model/user_model.dart';
@@ -32,9 +33,14 @@ class DashboardController extends BaseController {
   var vigilanceIndex = '0';
   var falseStart = '0';
   var lapses = '0';
-
+  var resilience = '0';
   var performanceScore = '0';
   var pfs = '0';
+  var trendInsight = '';
+  var cognitiveSpeed = '0';
+  var resilienceScore = '0';
+  var flexibilityScore = '0';
+  var focusScore = '0';
 
   // var displayMonthText = '';
   // var displayWeekText = '';
@@ -132,7 +138,26 @@ class DashboardController extends BaseController {
 
         pfs = reactionTestList.last.plusLapses.toString();
 
-        performanceScore = pfs;
+        resilience = reactionTestList.last.resilience.toString();
+        printf('------resilience----->$resilience');
+
+        performanceScore = reactionTestList.last.performanceScore.toString();
+        printf('------performance-score----->$performanceScore');
+
+        trendInsight = reactionTestList.last.trendInsight.toString();
+        printf('---trend-insight----->$trendInsight');
+
+        resilienceScore = reactionTestList.last.resilienceScore.toString();
+        printf('------resilience-score2----->$resilienceScore');
+
+        // var focusScore = reactionTestList.last.focusScore.toString();
+        focusScore = reactionTestList.last.focusScore.toString();
+        printf('------focus-score----->$focusScore');
+
+        // var flexibilityScore =
+        //     reactionTestList.last.flexibilityScore.toString();
+        flexibilityScore = reactionTestList.last.flexibilityScore.toString();
+        printf('------flexibility-score----->$flexibilityScore');
 
         loaderHide();
         update([stateId]);
@@ -297,6 +322,7 @@ class ReactionTestModel {
   String? isi2to4;
   String? slowingRate;
   String? performanceDecline;
+  String? performanceScore;
   String? lpm;
   String? fpm;
   String? iqr;
@@ -312,6 +338,10 @@ class ReactionTestModel {
   String? cognitiveLoad;
   String? alertnessRating;
   String? supplementsTaken;
+  String? trendInsight;
+  double? resilienceScore;
+  double? flexibilityScore;
+  double? focusScore;
   List<ReactionTest>? reactionTest;
 
   ReactionTestModel({
@@ -332,6 +362,7 @@ class ReactionTestModel {
     this.isi2to4,
     this.slowingRate,
     this.performanceDecline,
+    this.performanceScore,
     this.lpm,
     this.fpm,
     this.iqr,
@@ -347,6 +378,10 @@ class ReactionTestModel {
     this.cognitiveLoad,
     this.alertnessRating,
     this.supplementsTaken,
+    this.trendInsight,
+    this.resilienceScore,
+    this.flexibilityScore,
+    this.focusScore,
     this.reactionTest,
   });
 
@@ -369,6 +404,7 @@ class ReactionTestModel {
       isi2to4: map["isi2to4"] as String?,
       slowingRate: map["slowingRate"] as String?,
       performanceDecline: map["performanceDecline"] as String?,
+      performanceScore: map["performanceScore"] as String?,
       lpm: map["lpm"] as String?,
       fpm: map["fpm"] as String?,
       iqr: map["iqr"] as String?,
@@ -384,6 +420,16 @@ class ReactionTestModel {
       cognitiveLoad: map["cognitiveLoad"] as String?,
       alertnessRating: map["alertnessRating"],
       supplementsTaken: map["supplementsTaken"],
+      trendInsight: map["trendInsight"],
+      resilienceScore: map["resilienceScore"],
+      flexibilityScore: (map['flexibilityScore'] is int
+          ? (map['flexibilityScore'] as int).toDouble()
+          : map['flexibilityScore']) as double?,
+      focusScore: (map['focusScore'] is int
+          ? (map['focusScore'] as int).toDouble()
+          : map['focusScore']) as double?,
+      //flexibilityScore: map["flexibilityScore"],
+      // focusScore: map["focusScore"],
       reactionTest: (map['reactionTest'] as List<dynamic>?)
           ?.map((item) => ReactionTest.fromMap(Map<String, dynamic>.from(item)))
           .toList(),

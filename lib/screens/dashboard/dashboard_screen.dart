@@ -169,6 +169,22 @@ class DashboardScreen extends StatelessWidget {
 
   Widget widgetResult(DashboardController controller) {
     final reactionTimeController = Get.put(ReactionTimeTestController());
+
+    // List<GraphModel> listForGraph = [];
+    // if (data.reactionTest!.isNotEmpty) {
+    //   for (int i = 0; i < data.reactionTest!.length; i++) {
+    //     int diff = int.parse(
+    //             data.reactionTest![i].tapTimeForGreenCard.toString()) -
+    //         int.parse(data.reactionTest![i].startTimeForGreenCard.toString());
+
+    //     int? randomTime = data.reactionTest![i].randomTime;
+
+    //     listForGraph.add(GraphModel(randomTime.toString(), diff));
+
+    //     //printf('----difference-for-time-test---->$diff---random-time-->$randomTime');
+    //   }
+    // }
+
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -196,8 +212,29 @@ class DashboardScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.all(10),
-                            child: PerformanceWidgetBox(controller),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            child: Row(
+                              children: [
+                                PerformanceGuagePointer(
+                                    labelText: 'Performance Score',
+                                    score: controller.performanceScore,
+                                    measurementValue: double.tryParse(
+                                            controller.performanceScore) ??
+                                        0.0,
+                                    labelunit: '(in %)',
+                                    minValue: 0,
+                                    maxValue: 100,
+                                    onTap: () {}),
+                                CognitiveSpeedGuage(
+                                    labelText: 'Cognitive Speed',
+                                    score: controller.cognitiveSpeed.toString(),
+                                    labelunit: '(in Reactions/s)',
+                                    minValue: 0,
+                                    maxValue: 6.6,
+                                    onTap: () {}),
+                              ],
+                            ),
                           ),
                           Container(
                             margin: EdgeInsets.all(10),
@@ -225,7 +262,7 @@ class DashboardScreen extends StatelessWidget {
                                 width: Get.width,
                                 height: 300.h,
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
+                                    horizontal: 10, vertical: 2),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -492,13 +529,17 @@ class DashboardScreen extends StatelessWidget {
                                                         )),
                                                       ],
                                                     ),
-                                                  ))
+                                                  )),
                                                 ],
                                               ),
                                             ],
                                           )),
                                     ),
                                     SizedBox(height: 5.h),
+                                    Container(
+                                      margin: EdgeInsets.only(),
+                                      child: Text(controller.trendInsight),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -644,6 +685,36 @@ class DashboardScreen extends StatelessWidget {
                               ),
                             ),
                           ),
+                          LineraGuagePointer(
+                              heading: 'Resilience',
+                              currentValue: double.tryParse(
+                                      controller.resilienceScore.toString()) ??
+                                  0.0,
+                              minValue: 0,
+                              maxValue: 100,
+                              text1: 'Easily Distracted',
+                              text2: 'Mentally Tough',
+                              onTap: () {}),
+                          LineraGuagePointer(
+                              heading: 'Focus Score',
+                              currentValue: double.tryParse(
+                                      controller.focusScore.toString()) ??
+                                  0.0,
+                              minValue: 0,
+                              maxValue: 100,
+                              text1: 'Inconsistent',
+                              text2: 'Deep Focus',
+                              onTap: () {}),
+                          LineraGuagePointer(
+                              heading: 'Cognitive Flexibility',
+                              currentValue: double.tryParse(
+                                      controller.flexibilityScore.toString()) ??
+                                  0.0,
+                              minValue: 0,
+                              maxValue: 100,
+                              text1: 'Rigid Thinking',
+                              text2: 'Highly Adaptable',
+                              onTap: () {}),
                         ],
                       ),
                     ),
@@ -661,6 +732,7 @@ class DashboardScreen extends StatelessWidget {
     return Container(
       height: 50.h,
       width: Get.width,
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
       decoration: BoxDecoration(color: Color.fromARGB(255, 62, 50, 97)),
       child: Expanded(
         child: Row(
@@ -738,7 +810,7 @@ Widget PerformanceWidgetBox(DashboardController controller) {
             );
           },
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
@@ -780,7 +852,7 @@ Widget PerformanceWidgetBox(DashboardController controller) {
               ),
               SizedBox(height: 2),
               SizedBox(
-                  width: 150,
+                  width: 100,
                   height: 100,
                   child: SfRadialGauge(
                     axes: <RadialAxis>[
@@ -798,8 +870,7 @@ Widget PerformanceWidgetBox(DashboardController controller) {
                         ),
                         pointers: <GaugePointer>[
                           NeedlePointer(
-                            value: double.parse(
-                                controller.performanceScore.toString()),
+                            value: 50,
                             enableAnimation: true,
                             needleStartWidth: 1,
                             needleEndWidth: 5,
@@ -876,6 +947,11 @@ Widget PerformanceWidgetBox(DashboardController controller) {
         SizedBox(height: 8),
         _buildProgressBar("Cognitive Flexibility",
             double.parse(controller.cognitiveFlexibility.toString())),
+        SizedBox(height: 8),
+        _buildProgressBar("Focus", 90),
+        SizedBox(height: 8),
+        _buildProgressBar(
+            "Resiliency", double.parse(controller.resilience.toString())),
       ],
     ),
   );
@@ -892,7 +968,7 @@ Widget _buildProgressBar(String label, double value) {
           Text(label, style: TextStyle(fontSize: 14)),
           SizedBox(width: 4),
           Container(
-            width: 180.w,
+            width: 150,
             child: LinearProgressIndicator(
               value: value / 100,
               backgroundColor: Colors.grey.shade300,

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'dart:math';
 import 'package:brainsherpa/controllers/base_controller.dart';
 import 'package:brainsherpa/controllers/dashboard/start_test_controller.dart';
@@ -23,7 +24,8 @@ class ReactionTimeTestController extends BaseController
   bool isWaitForGreen = false;
   bool isGreen = false;
   bool isResult = false;
-
+  String trendType = '';
+  String trendInsight = '';
   List<ReactionTest> reactionTestList = [];
 
   List<ReactionTest> reactionTestListForIso = [];
@@ -35,7 +37,7 @@ class ReactionTimeTestController extends BaseController
   List<int> listOfDifference = [];
   List<int> listOfAscFirst = [];
   List<int> listOfAscSecond = [];
-
+  List<int> reactionTimes = [];
   List<int> listForFalseStartCount = [];
   List<int> listForValidStimuli = [];
 
@@ -93,7 +95,7 @@ class ReactionTimeTestController extends BaseController
 
   double maximumValue = 0;
 
-  int startTime = 180000;
+  int startTime = 50000;
 
   List<RandomTime> valueForIsi = [];
 
@@ -124,6 +126,8 @@ class ReactionTimeTestController extends BaseController
 
   List<int> listOfDifferenceBetween100To350 = [];
   double meanRTTAvg = 0;
+  List<int> elapsedTimesList = [];
+  List<int> reactionTimesList = [];
 
   List<int> listForPlusLapses355 = [];
   List<int> listForPlusLapses500 = [];
@@ -132,6 +136,10 @@ class ReactionTimeTestController extends BaseController
   List<int> listForOneMinuteDiff = [];
   List<int> listForSecondMinuteDiff = [];
   List<int> listForThirdMinuteDiff = [];
+
+  double resilienceScore = 0;
+  double flexibilityScore = 0;
+  double focusScore = 0;
 
   int totalForOneMinDiff = 0;
   int totalForSecondMinDiff = 0;
@@ -215,7 +223,7 @@ class ReactionTimeTestController extends BaseController
 
       int mrtFirst = 0;
       int countForMrtFirst = 0;
-
+      printf('test filter ------------->$reactionTestListFilter');
       printf(
           '------------total-reactionTestListFilter--->${reactionTestListFilter.length}');
       listOfDifference.clear();
@@ -224,7 +232,9 @@ class ReactionTimeTestController extends BaseController
                 reactionTestListFilter[i].tapTimeForGreenCard.toString()) -
             int.parse(
                 reactionTestListFilter[i].startTimeForGreenCard.toString());
-
+        int elapsedTimes2 =
+            int.parse(reactionTestListFilter[i].tapTimeForGreenCard.toString());
+        printf('elaspedTimes2--->$elapsedTimes2');
         total = total + diff;
         listOfDifference.add(diff);
 
@@ -398,8 +408,8 @@ class ReactionTimeTestController extends BaseController
 
         printf("Alertness Score > Alertness : $alertness");
 
-        double resilienceScore = calculateResilienceScore(listOfDifference);
-        resilience = resilienceScore.toDouble().toStringAsFixed(2);
+        double resilienceScore3 = calculateResilienceScore(listOfDifference);
+        resilience = resilienceScore3.toDouble().toStringAsFixed(2);
         printf("Resilience to Distraction Score -> Resilience: $resilience");
 
         double fatigueRisk = calculateFatigueRisk(listOfDifference);
@@ -616,9 +626,18 @@ class ReactionTimeTestController extends BaseController
       printf('---success-rate--->$successRate');
       printf('----performanceScore---->$performanceScore');
 
+      // printf('-------------------------reactionTimes--->$reactionTimes');
+
+      analyzeReactionTime(reactionTimes);
+
+      ReactionTimeInsights(reactionTimes);
+
+      // printf('----FocusScore---->$FocusScore');
+
       stopAllTimer();
       //Get.back();
     });
+
     showWaitForGreen();
   }
 
@@ -663,7 +682,7 @@ class ReactionTimeTestController extends BaseController
     reactionTestModel.alertnessRating = firstQuestion.toString();
     reactionTestModel.supplementsTaken =
         startTestController.isSelected.toString();
-    //
+    reactionTestModel.performanceScore = performanceScore;
     reactionTestModel.deltaSF = delta;
     reactionTestModel.lapseProbability = lapseProbability;
     reactionTestModel.miniLapse = listForPlusLapses355.length.toString();
@@ -678,6 +697,12 @@ class ReactionTimeTestController extends BaseController
     reactionTestModel.averageSecondMin = avgForSecondMin;
     reactionTestModel.averageThirdMin = avgForThirdMin;
     reactionTestModel.notes = textNotes;
+    reactionTestModel.trendInsight = trendInsight;
+    reactionTestModel.resilienceScore = resilienceScore.toDouble();
+    reactionTestModel.flexibilityScore = flexibilityScore.toDouble();
+    reactionTestModel.focusScore = focusScore.toDouble();
+
+    // reactionTestModel.focusScore = focusScore.toString();
     //
     reactionTestModel.reactionTest = reactionTestListFilter;
 
@@ -868,6 +893,8 @@ class ReactionTimeTestController extends BaseController
 
   double calculateAverageFastest10Percent(List<int> reactionTimes) {
     // Sort the list in ascending order
+    printf('-------------------------reactionTimes--->$reactionTimes');
+
     List<int> sortedTimes = List.from(reactionTimes)..sort();
     // Calculate the number of elements that make up 10%
     int count = (sortedTimes.length * 0.1).ceil();
@@ -923,6 +950,34 @@ class ReactionTimeTestController extends BaseController
     }
   }
 
+  calculateFocusScore(List<int> reactionTimes) {
+    printf('-------------------------reactionTimes--->$reactionTimes');
+    int N = reactionTimes.length;
+    printf('-------length--->$N');
+    // Calculate Average Reaction Time (ART)
+    double avgRT = reactionTimes.reduce((a, b) => a + b) / N;
+    printf('-------avgRT--->$avgRT');
+
+    // Calculate Reaction Time Variability (RTV)
+    num sumSquaredDiffs =
+        reactionTimes.map((rt) => pow(rt - avgRT, 2)).reduce((a, b) => a + b);
+    printf('-------sumSquaredDiffs--->$sumSquaredDiffs');
+    double variability = sqrt(sumSquaredDiffs / N);
+    printf('-------variability--->$variability');
+
+    // Count Lapses (RT > 355ms) and False Starts (RT < 150ms)
+    int lapses = reactionTimes.where((rt) => rt > 355).length;
+    printf('-------lapses--->$lapses');
+    int falseStarts = reactionTimes.where((rt) => rt < 150).length;
+    printf('-------falseStarts--->$falseStarts');
+
+    double focusScore = 100 -
+        (0.2 * avgRT + 0.3 * variability + 0.4 * lapses + 0.1 * falseStarts);
+    printf('-------focusScore--->$focusScore');
+    // focusScore = focusScore.clamp(0, 100);
+    // Ensure it stays within 0-100
+  }
+
   double calculateRTRT(List<int> data, int baseline) {
     if (data.isNotEmpty) {
       List<int> recoveryTimes = [];
@@ -962,6 +1017,119 @@ class ReactionTimeTestController extends BaseController
     //return averageRTRT;
   }
 
+  void analyzeReactionTime(List<int> reactionTimes) {
+    //print('analyzeReactionTime called with reactionTimes: $reactionTimes');
+    printf('analyzeReactionTime called with reactionTimes: $reactionTimes');
+
+    for (int i = 0; i < reactionTestListFilter.length; i++) {
+      int firstTapTime =
+          int.parse(reactionTestListFilter[0].tapTimeForGreenCard.toString());
+      int elapsedTimes2 =
+          int.parse(reactionTestListFilter[i].tapTimeForGreenCard.toString()) -
+              firstTapTime;
+      elapsedTimesList.add(elapsedTimes2);
+      // printf('elaspedTimes2--->$elapsedTimes2');
+    }
+
+    printf('Full elapsedTimesList ---> $elapsedTimesList');
+    printf('Full elapsedTimesList ---> ${elapsedTimesList.length}');
+
+    for (int i = 0; i < reactionTestListFilter.length; i++) {
+      int reactionTimes2 = int.parse(
+              reactionTestListFilter[i].tapTimeForGreenCard.toString()) -
+          int.parse(reactionTestListFilter[i].startTimeForGreenCard.toString());
+      reactionTimesList.add(reactionTimes2);
+      // printf('elaspedTimes2--->$elapsedTimes2');
+    }
+    // printf('------------------------reactionTimes--->$elapsedTimes');
+    // printf('------------------------reactionTimes--->${elapsedTimes.length}');
+
+    printf('------------------------reactionTimes--->$reactionTimesList');
+    printf(
+        '------------------------reactionTimesList--->${reactionTimesList.length}');
+
+    double slope = 0.0;
+    double variability = 0.0;
+
+    if (reactionTimesList.isEmpty ||
+        elapsedTimesList.isEmpty ||
+        reactionTimesList.length != elapsedTimesList.length) {
+      trendType = "⚪ Error";
+      trendInsight =
+          "Mismatch in data length. Ensure both lists have equal values.";
+      printf('trendInsight--->$trendInsight');
+      return;
+    }
+
+    int N = reactionTimesList.length;
+    printf('$N');
+
+    // Step 1: Calculate Mean Reaction Time
+    double sumRT = reactionTimesList.reduce((a, b) => a + b).toDouble();
+    printf('----sumRT--->$sumRT');
+    double meanRT = sumRT / N;
+    printf('meanRT--->$meanRT');
+
+    // Step 2: Calculate Standard Deviation (Variability)
+    double sumSquaredDiffs = reactionTimesList
+        .map((rt) => (rt - meanRT) * (rt - meanRT))
+        .reduce((a, b) => a + b);
+
+    printf('sumSquaredDiffs--->$sumSquaredDiffs');
+
+    variability = sqrt(sumSquaredDiffs / N);
+    printf('variability--->$variability');
+    // Step 3: Calculate Slope of Reaction Time Trend
+    double sumT = elapsedTimesList.reduce((a, b) => a + b).toDouble();
+    printf('sumT--->$sumT');
+
+    double sumT_RT = 0.0;
+    double sumT2 = 0.0;
+
+    for (int i = 0; i < N; i++) {
+      sumT_RT += elapsedTimesList[i] * reactionTimesList[i];
+      sumT2 += pow(elapsedTimesList[i], 2);
+    }
+
+    slope = (N * sumT_RT - sumT * sumRT) / (N * sumT2 - pow(sumT, 2));
+
+    // Step 4: Detect Trend Type with Detailed Insights
+    printf('----slope--->$slope');
+    printf('----variability--->$variability');
+
+    // Time in seconds
+
+    if (slope.abs() < 0.5 && variability < 40) {
+      trendType = "🟢 Stable";
+      trendInsight =
+          "Your reaction time remained stable throughout the test, indicating sustained focus, strong cognitive endurance, and minimal fatigue. Your brain is operating at an optimal alertness level.";
+    } else if (slope < 0 && variability < 50) {
+      trendType = "🟡 Improving";
+      trendInsight =
+          "Your reaction time improved as the test progressed, suggesting your brain needed an adjustment period before reaching peak cognitive performance. This indicates good adaptability and increased alertness over time.";
+    } else if (slope > 0 && variability < 50) {
+      trendType = "🔴 Worsening";
+      trendInsight =
+          "Your reaction time increased as the test progressed, suggesting cognitive fatigue and reduced mental endurance. This may indicate declining focus, possible sleep deprivation, or high cognitive load.";
+    } else if (variability > 80) {
+      trendType = "🟠 Unstable";
+      trendInsight =
+          "Your reaction time varied significantly throughout the test, indicating inconsistent focus and possible cognitive instability. This could be a sign of stress, mental fatigue, or difficulty maintaining sustained attention.";
+    } else if (variability > 60 &&
+        reactionTimesList.any((rt) => rt > meanRT + 80)) {
+      trendType = "🟡 Spiky";
+      trendInsight =
+          "Your reaction time showed sudden spikes, suggesting temporary lapses in attention. This may indicate momentary disengagement, stress interruptions, or signs of cognitive fatigue.";
+    } else {
+      trendType = "⚪ Unclassified";
+      trendInsight =
+          "Your data doesn't strongly fit any category; review external distractions or stress levels.";
+    }
+
+    print('trendType---->$trendType');
+    print('trendInsight---->$trendInsight');
+  }
+
   double calculateCVI(List<int> data, int baseline) {
     if (data.isNotEmpty) {
       // Calculate Mean Reaction Time (MRT Score)
@@ -997,8 +1165,10 @@ class ReactionTimeTestController extends BaseController
   }
 
   double calculateAlertnessScore(List<int> data, int idealFastestRT) {
+    printf('calculateAlertnessScore called with data: $data');
     if (data.isNotEmpty) {
       // Step 1: Calculate False Starts (reaction times < 150 ms)
+      printf('adnan');
       int falseStarts = data.where((time) => time < 150).length;
       int totalReactions = data.length;
 
@@ -1021,48 +1191,117 @@ class ReactionTimeTestController extends BaseController
   }
 
   double calculateResilienceScore(List<int> data) {
-    if (data.isNotEmpty) {
-      // Step 1: Calculate Average Reaction Time
-      double avgReactionTime = data.reduce((a, b) => a + b) / data.length;
+    if (data.isEmpty) return 0.0;
 
-      // Step 2: Calculate Average Recovery Time
-      List<int> recoveryTimes = [];
+    // Step 1: Calculate Average Reaction Time
+    double avgReactionTime = data.reduce((a, b) => a + b) / data.length;
 
-      for (int i = 0; i < data.length; i++) {
-        if (data[i] > 355) {
-          // Identify a lapse (reaction time > 355 ms)
-          int j = i + 1;
-          int recoveryTime = 0;
+    // Step 2: Identify lapses (reaction time > 355ms) and measure recovery
+    List<int> recoveryDurations = [];
+    int totalLapses = 0;
+    int totalRecoveryTime = 0;
 
-          // Calculate time to recover back to baseline
-          while (j < data.length && data[j] > avgReactionTime) {
-            recoveryTime += (data[j] - avgReactionTime).abs().toInt();
-            j++;
-          }
+    for (int i = 0; i < data.length; i++) {
+      if (data[i] > 355) {
+        totalLapses++;
 
-          if (j <= data.length) {
-            recoveryTimes.add(recoveryTime);
-          }
+        // Recovery tracking
+        int j = i + 1;
+        int recoveryTime = 0;
+
+        while (j < data.length && data[j] > avgReactionTime) {
+          recoveryTime += data[j]; // Accumulate recovery time
+          j++;
+        }
+
+        if (j < data.length) {
+          recoveryDurations.add(recoveryTime);
+          totalRecoveryTime += recoveryTime;
         }
       }
+    }
 
-      // Step 3: Calculate Average Recovery Time
-      double avgRecoveryTime = recoveryTimes.isNotEmpty
-          ? recoveryTimes.reduce((a, b) => a + b) / recoveryTimes.length
-          : 0.0;
+    // Step 3: Compute Average Recovery Time (Normalized)
+    double avgRecoveryTime = recoveryDurations.isNotEmpty
+        ? totalRecoveryTime / recoveryDurations.length
+        : avgReactionTime; // Default to avg reaction time if no recovery data
 
-      // Step 4: Calculate Resilience to Distraction Score
-      //double resilienceScore = 100 - ((avgRecoveryTime / avgReactionTime) * 100);
+    // Step 4: Calculate Weighted Resilience Score
+    double lapseImpact =
+        (totalLapses / data.length) * 50; // More lapses lower the score
+    double recoveryImpact = (avgRecoveryTime / avgReactionTime) *
+        50; // Longer recovery lowers score
 
-      printf(
-          '---resilienceScore-value---->avgRtime-->$avgRecoveryTime---avgRecTime-->$avgReactionTime');
+    double resilienceScore = 100 - lapseImpact - recoveryImpact;
 
-      double resilienceScore = 100 - (avgRecoveryTime * 100 / avgReactionTime);
+    // Ensure the score stays within [0, 100]
+    return resilienceScore.clamp(0, 100);
+  }
 
-      return resilienceScore;
-    } else {
-      return 0;
-    } // Ensure the score is between 0 and 100
+  void ReactionTimeInsights(List<int> reactionTimes) {
+    for (int i = 0; i < reactionTestListFilter.length; i++) {
+      int firstTapTime =
+          int.parse(reactionTestListFilter[0].tapTimeForGreenCard.toString());
+      int elapsedTimes2 =
+          int.parse(reactionTestListFilter[i].tapTimeForGreenCard.toString()) -
+              firstTapTime;
+      elapsedTimesList.add(elapsedTimes2);
+      // printf('elaspedTimes2--->$elapsedTimes2');
+    }
+
+    printf('Full elapsedTimesList ---> $elapsedTimesList');
+    printf('Full elapsedTimesList ---> ${elapsedTimesList.length}');
+
+    for (int i = 0; i < reactionTestListFilter.length; i++) {
+      int reactionTimes2 = int.parse(
+              reactionTestListFilter[i].tapTimeForGreenCard.toString()) -
+          int.parse(reactionTestListFilter[i].startTimeForGreenCard.toString());
+      reactionTimesList.add(reactionTimes2);
+      // printf('elaspedTimes2--->$elapsedTimes2');
+    }
+
+    printf('------------------------reactionTimes--->$reactionTimesList');
+    printf(
+        '------------------------reactionTimesList--->${reactionTimesList.length}');
+
+    if (reactionTimesList.isEmpty ||
+        elapsedTimesList.isEmpty ||
+        reactionTimesList.length != elapsedTimesList.length) {
+      return;
+    }
+
+    int N = reactionTimesList.length;
+
+    // Step 1: Calculate Mean Reaction Time
+    double sumRT = reactionTimesList.reduce((a, b) => a + b).toDouble();
+    double meanRT = sumRT / N;
+
+    // Step 2: Calculate Standard Deviation (Flexibility)
+    double sumSquaredDiffs = reactionTimesList
+        .map((rt) => (rt - meanRT) * (rt - meanRT))
+        .reduce((a, b) => a + b);
+    double SD = sqrt(sumSquaredDiffs / N); // Standard deviation
+
+    // Step 3: Calculate Coefficient of Variation (Resilience)
+    double CV = (SD / meanRT) * 100;
+
+    // Step 4: Count False Starts (<150ms) & Lapses (>355ms) for Focus
+    int falseStarts = reactionTimesList.where((rt) => rt < 150).length;
+    int lapses = reactionTimesList.where((rt) => rt > 355).length;
+
+    // Step 5: Calculate Accuracy (Focus)
+    double errorRate = (falseStarts + lapses) / N;
+    double accuracy = 100 - (errorRate * 100);
+
+    // Normalize the Scores
+    resilienceScore = (100 - CV).clamp(0, 100);
+    printf('resilienceScore--->$resilienceScore');
+    // Lower CV = Higher Resilience
+    flexibilityScore = (100 - SD).clamp(0, 100);
+    printf(
+        'flexibilityScore--->$flexibilityScore'); // Lower SD = Higher Flexibility
+    focusScore = accuracy.clamp(0, 100);
+    printf('focusScore--->$focusScore'); // Higher Accuracy = Better Focus
   }
 
   double calculateFatigueRisk(List<int> data) {
