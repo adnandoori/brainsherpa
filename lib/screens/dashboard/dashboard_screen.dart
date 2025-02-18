@@ -263,7 +263,7 @@ class DashboardScreen extends StatelessWidget {
                               },
                               child: Container(
                                 width: Get.width,
-                                height: 300.h,
+                                height: 220.h,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,

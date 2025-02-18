@@ -368,7 +368,7 @@ CognitiveSpeedGuage({
                 fontWeight: FontWeight.w400,
               ),
             ),
-            SizedBox(height: Get.height * 0.01),
+            SizedBox(height: Get.height * 0.03),
             Container(
               width: Get.width,
               height: Get.height * 0.15, // Height based on screen height
@@ -695,7 +695,7 @@ PerformanceGuagePointer({
             SizedBox(height: Get.height * 0.01),
             Container(
               width: Get.width,
-              height: Get.height * 0.15, // Height based on screen height
+              height: Get.height * 0.17, // Height based on screen height
               child: SfRadialGauge(
                 axes: <RadialAxis>[
                   RadialAxis(
@@ -721,8 +721,8 @@ PerformanceGuagePointer({
                                 Text(
                                   score,
                                   style: TextStyle(
-                                    fontSize: Get.width * 0.04,
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: Get.width * 0.055,
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ),
                                 Text(
