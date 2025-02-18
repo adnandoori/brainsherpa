@@ -398,7 +398,7 @@ CognitiveSpeedGuage({
                       GaugeRange(
                         startValue: 2.2,
                         endValue: 3.5,
-                        color: Color(0xFFA9AAE4),
+                        color: Color(0xFF7B7DC7),
                         startWidth: 15,
                         endWidth: 15,
                       ),
@@ -412,7 +412,7 @@ CognitiveSpeedGuage({
                       GaugeRange(
                         startValue: 3.7,
                         endValue: 5,
-                        color: Color(0xFF7B7DC7),
+                        color: Color(0xFF4A4CA3),
                         startWidth: 15,
                         endWidth: 15,
                       ),
@@ -462,6 +462,162 @@ CognitiveSpeedGuage({
             ),
           ],
         ),
+      ),
+    ),
+  );
+}
+
+TestScreenCognitiveSpeedGuage({
+  required String labelText,
+  required String score,
+  required String labelunit,
+  required double minValue,
+  required double maxValue,
+}) {
+  // Make score 2 decimal places
+  String formattedScore = double.parse(score).toStringAsFixed(2);
+
+  return Expanded(
+    child: Container(
+      margin: EdgeInsets.all(Get.width * 0.01), // Margin is responsive
+      padding: EdgeInsets.symmetric(
+        vertical: Get.height * 0.02,
+        horizontal: Get.width * 0.03, // Padding is responsive
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header Row with Label Text
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  labelText,
+                  style: TextStyle(
+                    fontSize: Get.width * 0.03, // Font size based on width
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          Text(
+            labelunit,
+            style: TextStyle(
+              fontSize: Get.width * 0.022, // Font size based on width
+              color: Colors.black,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          SizedBox(height: Get.height * 0.03),
+          Container(
+            width: Get.width,
+            height: Get.height * 0.15, // Height based on screen height
+            child: SfRadialGauge(
+              axes: [
+                RadialAxis(
+                  minimum: minValue,
+                  maximum: maxValue,
+                  showAxisLine: false,
+                  showLabels: false,
+                  showTicks: false,
+                  ranges: [
+                    GaugeRange(
+                      startValue: 0,
+                      endValue: 2,
+                      color: Color(0xFFA5ABE2),
+                      startWidth: 0,
+                      endWidth: 15,
+                    ),
+                    GaugeRange(
+                      startValue: 2,
+                      endValue: 2.2,
+                      color: Colors.white,
+                      startWidth: 15,
+                      endWidth: 15,
+                    ),
+                    GaugeRange(
+                      startValue: 2.2,
+                      endValue: 3.5,
+                      color: Color(0xFF7B7DC7),
+                      startWidth: 15,
+                      endWidth: 15,
+                    ),
+                    GaugeRange(
+                      startValue: 3.5,
+                      endValue: 3.7,
+                      color: Colors.white,
+                      startWidth: 15,
+                      endWidth: 15,
+                    ),
+                    GaugeRange(
+                      startValue: 3.7,
+                      endValue: 5,
+                      color: Color(0xFF4A4CA3),
+                      startWidth: 15,
+                      endWidth: 15,
+                    ),
+                    GaugeRange(
+                      startValue: 5,
+                      endValue: 5.2,
+                      color: Colors.white,
+                      startWidth: 15,
+                      endWidth: 15,
+                    ),
+                    GaugeRange(
+                      startValue: 5.2,
+                      endValue: 6.6,
+                      color: Color.fromARGB(255, 62, 50, 97),
+                      startWidth: 15,
+                      endWidth: 15,
+                    ),
+                  ],
+                  pointers: [
+                    NeedlePointer(
+                      value: double.parse(formattedScore),
+                      needleLength: 0.6,
+                      needleStartWidth: 1,
+                      needleEndWidth: 5,
+                    ),
+                  ],
+                  annotations: [
+                    GaugeAnnotation(
+                      widget: Container(
+                        child: Text(
+                          formattedScore,
+                          style: TextStyle(
+                            fontSize: Get.width * 0.055, // Responsive font size
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      angle: 90,
+                      positionFactor: 0.6,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     ),
   );
@@ -610,6 +766,140 @@ PerformanceGuagePointer({
   );
 }
 
+TestScreenPerformanceGuagePointer({
+  required String labelText,
+  required String score,
+  required double measurementValue,
+  required String labelunit,
+  required double minValue,
+  required double maxValue,
+}) {
+  // Make score 2 decimal places
+  String formattedScore = double.parse(score).toStringAsFixed(2);
+  double clampedValue = measurementValue.clamp(minValue, maxValue);
+
+  return Expanded(
+    child: Container(
+      margin: EdgeInsets.all(Get.width * 0.01), // Margin is responsive
+      padding: EdgeInsets.symmetric(
+        vertical: Get.height * 0.02,
+        horizontal: Get.width * 0.03, // Padding is responsive
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header Row with Label Text
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  labelText,
+                  style: TextStyle(
+                    fontSize: Get.width * 0.03, // Font size based on width
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          Text(
+            labelunit,
+            style: TextStyle(
+              fontSize: Get.width * 0.022, // Font size based on width
+              color: Colors.black,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          SizedBox(height: Get.height * 0.01),
+          Container(
+            width: Get.width,
+            height: Get.height * 0.17, // Height based on screen height
+            child: SfRadialGauge(
+              axes: <RadialAxis>[
+                RadialAxis(
+                  showLabels: false,
+                  showTicks: false,
+                  startAngle: 270,
+                  endAngle: 270,
+                  radiusFactor: 0.8,
+                  axisLineStyle: const AxisLineStyle(
+                    thicknessUnit: GaugeSizeUnit.factor,
+                    thickness: 0.30,
+                  ),
+                  annotations: <GaugeAnnotation>[
+                    GaugeAnnotation(
+                      angle: 180,
+                      widget: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                score,
+                                style: TextStyle(
+                                  fontSize: Get.width * 0.055,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Text(
+                                'out of 100',
+                                style: TextStyle(
+                                  fontSize: Get.width * 0.02,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                  pointers: <GaugePointer>[
+                    RangePointer(
+                      value: measurementValue,
+                      enableAnimation: true,
+                      animationDuration: 1200,
+                      sizeUnit: GaugeSizeUnit.factor,
+                      gradient: SweepGradient(
+                        colors: <Color>[
+                          Color.fromARGB(255, 62, 50, 97),
+                          Color(0xFF7B7DC7)
+                        ],
+                        stops: <double>[0.25, 0.75],
+                      ),
+                      color: AppColors.white,
+                      width: 0.3,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 LinearGuagePointer({
   required String heading,
   required double currentValue,
@@ -637,7 +927,7 @@ LinearGuagePointer({
         ),
       ],
     ),
-    padding: EdgeInsets.all(width * 0.02), // Responsive padding
+    padding: EdgeInsets.all(width * 0.03), // Responsive padding
     child: GestureDetector(
       onTap: onTap,
       child: Column(
@@ -654,8 +944,8 @@ LinearGuagePointer({
                 child: Text(
                   heading,
                   style: TextStyle(
-                    fontSize: width * 0.035, // Responsive font size
-                    fontWeight: FontWeight.w600,
+                    fontSize: width * 0.03, // Responsive font size
+                    fontWeight: FontWeight.w400,
                     color: Colors.black,
                   ),
                 ),
@@ -672,8 +962,8 @@ LinearGuagePointer({
           ),
 
           Container(
-            height: width * 0.1, // Responsive height based on screen width
-
+            // Responsive height based on screen width
+            margin: EdgeInsets.only(bottom: 4),
             child: SfLinearGauge(
               minimum: minValue,
               maximum: maxValue,
@@ -724,7 +1014,7 @@ LinearGuagePointer({
                     offset: 5,
                     position: LinearElementPosition.outside,
                     child: Container(
-                      height: 0,
+                      height: 12,
                       width: 0,
                       decoration: BoxDecoration(
                         color: Colors.transparent,

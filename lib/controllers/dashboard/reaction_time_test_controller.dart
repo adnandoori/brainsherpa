@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:brainsherpa/controllers/base_controller.dart';
 import 'package:brainsherpa/controllers/dashboard/start_test_controller.dart';
+
 import 'package:brainsherpa/models/dashboard_models/reaction_test_model.dart';
 import 'package:brainsherpa/utils/app_constants.dart';
 import 'package:brainsherpa/utils/app_string.dart';
@@ -209,6 +210,7 @@ class ReactionTimeTestController extends BaseController
       printf('-----total--attempt--->${reactionTestList.length}');
       //printf('---total--true-attempt------>${reactionTestListFilter.length}');
 
+      ;
       isResult = true;
       for (int i = 0; i < reactionTestList.length; i++) {
         if (reactionTestList[i].isTap != 'false') {

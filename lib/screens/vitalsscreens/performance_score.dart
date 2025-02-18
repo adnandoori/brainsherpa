@@ -19,7 +19,7 @@ class PerformanceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dashboardController = Get.put(DashboardController());
+    // final dashboardController = Get.put(DashboardController());
 
     return SafeArea(
         child: Scaffold(
@@ -37,49 +37,6 @@ class PerformanceScreen extends StatelessWidget {
                       children: [
                         widgetAppBar(title: 'Performance Score'),
                         Container(
-                          margin: EdgeInsets.all(20),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 16),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 5,
-                                offset: Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Performance Score',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      dashboardController.performanceScore
-                                          .toString(),
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
                           padding: EdgeInsets.symmetric(horizontal: 20.w),
                           child: widgetGraph(controller),
                         ),
@@ -91,7 +48,7 @@ class PerformanceScreen extends StatelessWidget {
 }
 
 Widget widgetGraph(ReactionTimeListController controller) {
-  final dashboardController = Get.put(DashboardController());
+  // final dashboardController = Get.put(DashboardController());
   return Container(
     width: Get.width,
     height: 300.h,

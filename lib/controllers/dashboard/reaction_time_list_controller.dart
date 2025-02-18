@@ -73,6 +73,8 @@ class ReactionTimeListController extends BaseController
           displayWeekText = formatterWeek.format(currentWeek);
           displayMonthText = formatterMonth.format(currentMonth);
 
+          printf('<----displayDateText----->$displayDateText');
+
           getListOfReactionTest(
               userId: userId, date: date, totalRecords: reactionTestList);
           printf('$reactionTestList');

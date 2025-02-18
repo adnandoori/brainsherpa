@@ -850,9 +850,8 @@ Widget PerformanceWidgetBox(DashboardController controller) {
       children: [
         InkWell(
           onTap: () {
-            Get.toNamed(
-              Routes.performanceScreen,
-            );
+            Get.toNamed(Routes.performanceScreen,
+                arguments: [controller.userId, controller.reactionTestList]);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
