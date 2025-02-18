@@ -96,7 +96,7 @@ class ReactionTimeTestController extends BaseController
 
   double maximumValue = 0;
 
-  int startTime = 50000;
+  int startTime = 180000;
 
   List<RandomTime> valueForIsi = [];
 
