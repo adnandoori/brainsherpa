@@ -6,12 +6,15 @@ import 'package:brainsherpa/screens/dashboard/reaction_time_list_screen.dart';
 import 'package:brainsherpa/screens/dashboard/reaction_time_test_screen.dart';
 import 'package:brainsherpa/screens/dashboard/start_test_screen.dart';
 import 'package:brainsherpa/screens/splash_screen.dart';
+import 'package:brainsherpa/screens/vitalsscreens/cognitive_speed_screen.dart';
 import 'package:brainsherpa/screens/vitalsscreens/false_lapses_statistics_screen.dart';
 import 'package:brainsherpa/screens/vitalsscreens/performance_score.dart';
 import 'package:brainsherpa/screens/vitalsscreens/reaction_time_statistics.dart';
 import 'package:brainsherpa/screens/vitalsscreens/cognitive_flexibility_screen.dart';
 import 'package:brainsherpa/screens/vitalsscreens/vigilance_index_screen.dart';
 import 'package:brainsherpa/screens/vitalsscreens/false_lapses_statistics_screen.dart';
+import 'package:brainsherpa/screens/vitalsscreens/resilience_statistics.dart';
+import 'package:brainsherpa/screens/vitalsscreens/focusscore_statistics.dart';
 import 'package:get/get.dart';
 
 part 'app_routes.dart';
@@ -69,6 +72,18 @@ class AppPages {
     GetPage(
         name: Routes.falseLapsesScreen,
         page: () => const falseLapsesScreen(),
+        transition: Transition.rightToLeftWithFade),
+    GetPage(
+        name: Routes.resilienceScreen,
+        page: () => const ResilienceStatistics(),
+        transition: Transition.rightToLeftWithFade),
+    GetPage(
+        name: Routes.focusscoreScreen,
+        page: () => const FocusscoreStatistics(),
+        transition: Transition.rightToLeftWithFade),
+    GetPage(
+        name: Routes.cognitivespeedScreen,
+        page: () => const CognitiveSpeedScreen(),
         transition: Transition.rightToLeftWithFade)
   ];
 }

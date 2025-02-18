@@ -154,6 +154,9 @@ class DashboardController extends BaseController {
         focusScore = reactionTestList.last.focusScore.toString();
         printf('------focus-score----->$focusScore');
 
+        cognitiveSpeed = reactionTestList.last.speed.toString();
+        printf('------cognitive-speed----->$cognitiveSpeed');
+
         // var flexibilityScore =
         //     reactionTestList.last.flexibilityScore.toString();
         flexibilityScore = reactionTestList.last.flexibilityScore.toString();

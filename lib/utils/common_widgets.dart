@@ -193,8 +193,8 @@ PerformanceScoreWidget({
                 ),
                 Image.asset(
                   ImagePath.icNext,
-                  height: 16,
-                  width: 16,
+                  height: Get.width * 0.03,
+                  width: Get.height * 0.03,
                 ),
               ],
             ),
@@ -250,8 +250,8 @@ GuageScoreWidgetBox({
                 ),
                 Image.asset(
                   ImagePath.icNext,
-                  height: 10,
-                  width: 10,
+                  height: Get.width * 0.03,
+                  width: Get.height * 0.03,
                 ),
               ],
             ),
@@ -379,6 +379,7 @@ CognitiveSpeedGuage({
                     maximum: maxValue,
                     showAxisLine: false,
                     showLabels: false,
+                    showTicks: false,
                     ranges: [
                       GaugeRange(
                         startValue: 0,
@@ -435,7 +436,7 @@ CognitiveSpeedGuage({
                         value: double.parse(formattedScore),
                         needleLength: 0.6,
                         needleStartWidth: 1,
-                        needleEndWidth: 1,
+                        needleEndWidth: 5,
                       ),
                     ],
                     annotations: [
@@ -549,7 +550,7 @@ PerformanceGuagePointer({
                     radiusFactor: 0.8,
                     axisLineStyle: const AxisLineStyle(
                       thicknessUnit: GaugeSizeUnit.factor,
-                      thickness: 0.45,
+                      thickness: 0.30,
                     ),
                     annotations: <GaugeAnnotation>[
                       GaugeAnnotation(
@@ -557,22 +558,26 @@ PerformanceGuagePointer({
                         widget: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Text(
-                              score,
-                              style: TextStyle(
-                                fontSize: Get.width * 0.03,
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.italic,
-                              ),
-                            ),
-                            Text(
-                              ' / 100',
-                              style: TextStyle(
-                                fontSize: Get.width * 0.03,
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.italic,
-                              ),
-                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  score,
+                                  style: TextStyle(
+                                    fontSize: Get.width * 0.04,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  'out of 100',
+                                  style: TextStyle(
+                                    fontSize: Get.width * 0.02,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -591,7 +596,7 @@ PerformanceGuagePointer({
                           stops: <double>[0.25, 0.75],
                         ),
                         color: AppColors.white,
-                        width: 0.45,
+                        width: 0.3,
                       ),
                     ],
                   ),
@@ -605,7 +610,7 @@ PerformanceGuagePointer({
   );
 }
 
-LineraGuagePointer({
+LinearGuagePointer({
   required String heading,
   required double currentValue,
   required double minValue,
@@ -614,8 +619,11 @@ LineraGuagePointer({
   required String text2,
   required VoidCallback onTap,
 }) {
+  // Store screen dimensions for reuse
+  double width = Get.width;
+  double height = Get.height;
+
   return Container(
-    margin: EdgeInsets.symmetric(horizontal: Get.width * 0.02, vertical: 10.h),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius:
@@ -629,108 +637,136 @@ LineraGuagePointer({
         ),
       ],
     ),
-    padding: EdgeInsets.all(Get.width * 0.02), // Responsive padding
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Heading Text with dynamic font size
-        Padding(
-          padding: EdgeInsets.only(
-              bottom: Get.width * 0.01), // Space between heading and gauge
-          child: Text(
-            heading,
-            style: TextStyle(
-              fontSize: Get.width * 0.05, // Responsive font size
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        // Linear Gauge with border radius
-        Container(
-          height: Get.width * 0.2, // Responsive height based on screen width
-          padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
-          decoration: BoxDecoration(
-            borderRadius:
-                BorderRadius.circular(12), // Border radius for the linear gauge
-            color: Colors.white,
-          ),
-          child: SfLinearGauge(
-            minimum: minValue,
-            maximum: maxValue,
-            orientation: LinearGaugeOrientation.horizontal,
-            showLabels: false,
-            showAxisTrack: false,
-            showTicks: false,
-            // Disable the scale labels
-            ranges: [
-              LinearGaugeRange(
-                startValue: minValue,
-                endValue: 20,
-                color: Color(0xFFA5ABE2),
-                startWidth: 20,
-                endWidth: 20,
+    padding: EdgeInsets.all(width * 0.02), // Responsive padding
+    child: GestureDetector(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Heading Text with dynamic font size
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: width * 0.01), // Space between heading and gauge
+                child: Text(
+                  heading,
+                  style: TextStyle(
+                    fontSize: width * 0.035, // Responsive font size
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                ),
               ),
-              LinearGaugeRange(
-                startValue: 20,
-                endValue: 40,
-                color: Color(0xFFA9AAE4),
-                startWidth: 20,
-                endWidth: 20,
-              ),
-              LinearGaugeRange(
-                startValue: 40,
-                endValue: 60,
-                color: Color(0xFF7B7DC7),
-                startWidth: 20,
-                endWidth: 20,
-              ),
-              LinearGaugeRange(
-                startValue: 60,
-                endValue: 80,
-                color: Color(0xFF4A4CA3),
-                startWidth: 20,
-                endWidth: 20,
-              ),
-              LinearGaugeRange(
-                startValue: 80,
-                endValue: maxValue,
-                color: Color(0xFF3D3260),
-                startWidth: 20,
-                endWidth: 20,
-              ),
-            ],
-            markerPointers: [
-              // Marker pointer for displaying the current value
-              LinearShapePointer(
-                value: currentValue,
-                color: Colors.black,
-                position: LinearElementPosition.outside,
+              Padding(
+                padding: EdgeInsets.only(bottom: width * 0.01),
+                child: Image.asset(
+                  ImagePath.icNext,
+                  height: width * 0.03,
+                  width: width * 0.03,
+                ),
               ),
             ],
           ),
-        ),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              text1,
-              style: TextStyle(
-                fontSize: Get.width * 0.03, // Responsive font size
-                color: Colors.black,
-              ),
+          Container(
+            height: width * 0.1, // Responsive height based on screen width
+
+            child: SfLinearGauge(
+              minimum: minValue,
+              maximum: maxValue,
+              orientation: LinearGaugeOrientation.horizontal,
+              showLabels: false,
+              showAxisTrack: false,
+              showTicks: false,
+              ranges: [
+                LinearGaugeRange(
+                  startValue: minValue,
+                  endValue: 20,
+                  color: Color(0xFFA5ABE2),
+                  startWidth: 8,
+                  endWidth: 8,
+                ),
+                LinearGaugeRange(
+                  startValue: 20,
+                  endValue: 40,
+                  color: Color.fromARGB(255, 147, 148, 218),
+                  startWidth: 8,
+                  endWidth: 8,
+                ),
+                LinearGaugeRange(
+                  startValue: 40,
+                  endValue: 60,
+                  color: Color(0xFF7B7DC7),
+                  startWidth: 8,
+                  endWidth: 8,
+                ),
+                LinearGaugeRange(
+                  startValue: 60,
+                  endValue: 80,
+                  color: Color(0xFF4A4CA3),
+                  startWidth: 8,
+                  endWidth: 8,
+                ),
+                LinearGaugeRange(
+                  startValue: 80,
+                  endValue: maxValue,
+                  color: Color(0xFF3D3260),
+                  startWidth: 8,
+                  endWidth: 8,
+                ),
+              ],
+              markerPointers: [
+                LinearWidgetPointer(
+                    value: currentValue,
+                    offset: 5,
+                    position: LinearElementPosition.outside,
+                    child: Container(
+                      height: 0,
+                      width: 0,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border(
+                          left: BorderSide(width: 8, color: Colors.transparent),
+                          right:
+                              BorderSide(width: 8, color: Colors.transparent),
+                          bottom: BorderSide(width: 12, color: Colors.black),
+                        ),
+                      ),
+                    )),
+                // LinearShapePointer(
+                //   value: currentValue,
+                //   color: Colors.white,
+                //   position: LinearElementPosition.outside,
+                // ),
+              ],
+              labelPosition: LinearLabelPosition.inside,
             ),
-            Text(
-              text2,
-              style: TextStyle(
-                fontSize: Get.width * 0.03, // Responsive font size
-                color: Colors.black,
+          ),
+          // Text below the gauge
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                text1,
+                style: TextStyle(
+                  fontSize: width * 0.02, // Responsive font size
+                  color: Colors.black,
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
+              Text(
+                text2,
+                style: TextStyle(
+                  fontSize: width * 0.02, // Responsive font size
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     ),
   );
 }

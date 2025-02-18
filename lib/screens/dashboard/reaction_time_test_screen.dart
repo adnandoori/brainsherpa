@@ -618,7 +618,21 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                   ),
                                   2.sbh,
                                   Text(
-                                    'Resilience :    ${controller.resilience} %',
+                                    'Resilience :    ${controller.resilienceScore} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Focusscore :    ${controller.focusScore} %',
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  2.sbh,
+                                  Text(
+                                    'Flexibility :   ${controller.flexibilityScore} %',
                                     style: poppinsTextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w400),

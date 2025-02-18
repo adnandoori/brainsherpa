@@ -169,22 +169,6 @@ class DashboardScreen extends StatelessWidget {
 
   Widget widgetResult(DashboardController controller) {
     final reactionTimeController = Get.put(ReactionTimeTestController());
-
-    // List<GraphModel> listForGraph = [];
-    // if (data.reactionTest!.isNotEmpty) {
-    //   for (int i = 0; i < data.reactionTest!.length; i++) {
-    //     int diff = int.parse(
-    //             data.reactionTest![i].tapTimeForGreenCard.toString()) -
-    //         int.parse(data.reactionTest![i].startTimeForGreenCard.toString());
-
-    //     int? randomTime = data.reactionTest![i].randomTime;
-
-    //     listForGraph.add(GraphModel(randomTime.toString(), diff));
-
-    //     //printf('----difference-for-time-test---->$diff---random-time-->$randomTime');
-    //   }
-    // }
-
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -213,7 +197,10 @@ class DashboardScreen extends StatelessWidget {
                         children: [
                           Container(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 10),
+                              vertical: Get.height * 0.01,
+                              horizontal:
+                                  Get.width * 0.02, // Padding is responsive
+                            ),
                             child: Row(
                               children: [
                                 PerformanceGuagePointer(
@@ -225,19 +212,35 @@ class DashboardScreen extends StatelessWidget {
                                     labelunit: '(in %)',
                                     minValue: 0,
                                     maxValue: 100,
-                                    onTap: () {}),
+                                    onTap: () {
+                                      Get.toNamed(
+                                        Routes.performanceScreen,
+                                      );
+                                    }),
                                 CognitiveSpeedGuage(
                                     labelText: 'Cognitive Speed',
                                     score: controller.cognitiveSpeed.toString(),
                                     labelunit: '(in Reactions/s)',
                                     minValue: 0,
                                     maxValue: 6.6,
-                                    onTap: () {}),
+                                    onTap: () {
+                                      Get.toNamed(
+                                        Routes.cognitivespeedScreen,
+                                      );
+                                    }),
                               ],
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.all(10),
+                            margin: EdgeInsets.symmetric(
+                              horizontal: Get.width * 0.04,
+                              vertical: Get.height * 0.01,
+                            ), // Margin is responsive
+                            padding: EdgeInsets.symmetric(
+                              vertical: Get.height * 0.01,
+                              horizontal:
+                                  Get.width * 0.02, // Padding is responsive
+                            ),
                             decoration: BoxDecoration(
                               color: AppColors.white,
                               borderRadius: BorderRadius.circular(10),
@@ -261,14 +264,13 @@ class DashboardScreen extends StatelessWidget {
                               child: Container(
                                 width: Get.width,
                                 height: 300.h,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 2),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.all(5.h),
+                                      padding:
+                                          EdgeInsets.only(top: 10, left: 5),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -285,14 +287,14 @@ class DashboardScreen extends StatelessWidget {
                                                   style: TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w400,
-                                                    fontSize: 16,
+                                                    // fontSize: 16,
                                                   ),
                                                 ),
                                                 Text(
                                                   '${AppStrings.takenAt} ${controller.takenAt}',
                                                   maxLines: 1,
                                                   style: poppinsTextStyle(
-                                                      size: 12.sp,
+                                                      size: Get.width * 0.022,
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Colors.black),
@@ -302,8 +304,8 @@ class DashboardScreen extends StatelessWidget {
                                           ),
                                           Image.asset(
                                             ImagePath.icNext,
-                                            height: 16,
-                                            width: 16,
+                                            height: Get.width * 0.03,
+                                            width: Get.height * 0.03,
                                           ),
                                         ],
                                       ),
@@ -537,8 +539,16 @@ class DashboardScreen extends StatelessWidget {
                                     ),
                                     SizedBox(height: 5.h),
                                     Container(
-                                      margin: EdgeInsets.only(),
-                                      child: Text(controller.trendInsight),
+                                      padding: EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        controller.trendInsight,
+                                        style: TextStyle(
+                                          fontSize: Get.width *
+                                              0.022, // Font size based on width
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -552,8 +562,14 @@ class DashboardScreen extends StatelessWidget {
                               );
                             },
                             child: Container(
-                              margin: EdgeInsets.all(10),
-                              padding: EdgeInsets.all(5),
+                              margin: EdgeInsets.symmetric(
+                                  vertical: Get.height * 0.01,
+                                  horizontal: Get.width * 0.04),
+                              padding: EdgeInsets.symmetric(
+                                vertical: Get.height * 0.01,
+                                horizontal:
+                                    Get.width * 0.02, // Padding is responsive
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
@@ -567,8 +583,8 @@ class DashboardScreen extends StatelessWidget {
                                 ],
                               ),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                // mainAxisAlignment:
+                                //     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Expanded(
                                     child: AverageCard(
@@ -617,8 +633,8 @@ class DashboardScreen extends StatelessWidget {
                                     padding: EdgeInsets.only(right: 5),
                                     child: Image.asset(
                                       ImagePath.icNext,
-                                      height: 10,
-                                      width: 10,
+                                      height: Get.width * 0.03,
+                                      width: Get.height * 0.03,
                                     ),
                                   ),
                                 ],
@@ -626,8 +642,13 @@ class DashboardScreen extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(1),
+                            margin: EdgeInsets.symmetric(
+                                vertical: Get.height * 0.01,
+                                horizontal: Get.width * 0.04),
+                            padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  Get.width * 0.01, // Padding is responsive
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
@@ -677,44 +698,68 @@ class DashboardScreen extends StatelessWidget {
                                     padding: EdgeInsets.only(right: 5),
                                     child: Image.asset(
                                       ImagePath.icNext,
-                                      height: 10,
-                                      width: 10,
+                                      height: Get.width * 0.03,
+                                      width: Get.height * 0.03,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          LineraGuagePointer(
-                              heading: 'Resilience',
-                              currentValue: double.tryParse(
-                                      controller.resilienceScore.toString()) ??
-                                  0.0,
-                              minValue: 0,
-                              maxValue: 100,
-                              text1: 'Easily Distracted',
-                              text2: 'Mentally Tough',
-                              onTap: () {}),
-                          LineraGuagePointer(
-                              heading: 'Focus Score',
-                              currentValue: double.tryParse(
-                                      controller.focusScore.toString()) ??
-                                  0.0,
-                              minValue: 0,
-                              maxValue: 100,
-                              text1: 'Inconsistent',
-                              text2: 'Deep Focus',
-                              onTap: () {}),
-                          LineraGuagePointer(
-                              heading: 'Cognitive Flexibility',
-                              currentValue: double.tryParse(
-                                      controller.flexibilityScore.toString()) ??
-                                  0.0,
-                              minValue: 0,
-                              maxValue: 100,
-                              text1: 'Rigid Thinking',
-                              text2: 'Highly Adaptable',
-                              onTap: () {}),
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: Get.height * 0.01,
+                                horizontal: Get.width * 0.04),
+                            child: LinearGuagePointer(
+                                heading: 'Resilience',
+                                currentValue: double.tryParse(controller
+                                        .resilienceScore
+                                        .toString()) ??
+                                    0.0,
+                                minValue: 0,
+                                maxValue: 100,
+                                text1: 'Easily Distracted',
+                                text2: 'Mentally Tough',
+                                onTap: () {
+                                  Get.toNamed(Routes.resilienceScreen);
+                                }),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: Get.height * 0.01,
+                                horizontal: Get.width * 0.04),
+                            child: LinearGuagePointer(
+                                heading: 'Focus Score',
+                                currentValue: double.tryParse(
+                                        controller.focusScore.toString()) ??
+                                    0.0,
+                                minValue: 0,
+                                maxValue: 100,
+                                text1: 'Inconsistent',
+                                text2: 'Deep Focus',
+                                onTap: () {
+                                  Get.toNamed(Routes.focusscoreScreen);
+                                }),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: Get.height * 0.01,
+                                horizontal: Get.width * 0.04),
+                            child: LinearGuagePointer(
+                                heading: 'Cognitive Flexibility',
+                                currentValue: double.tryParse(controller
+                                        .flexibilityScore
+                                        .toString()) ??
+                                    0.0,
+                                minValue: 0,
+                                maxValue: 100,
+                                text1: 'Rigid Thinking',
+                                text2: 'Highly Adaptable',
+                                onTap: () {
+                                  Get.toNamed(
+                                      Routes.cognitiveFlexibilityScreen);
+                                }),
+                          ),
                         ],
                       ),
                     ),
