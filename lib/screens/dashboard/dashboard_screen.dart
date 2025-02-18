@@ -213,9 +213,11 @@ class DashboardScreen extends StatelessWidget {
                                     minValue: 0,
                                     maxValue: 100,
                                     onTap: () {
-                                      Get.toNamed(
-                                        Routes.performanceScreen,
-                                      );
+                                      Get.toNamed(Routes.performanceScreen,
+                                          arguments: [
+                                            controller.userId,
+                                            controller.reactionTestList
+                                          ]);
                                     }),
                                 CognitiveSpeedGuage(
                                     labelText: 'Cognitive Speed',

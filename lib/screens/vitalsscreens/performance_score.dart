@@ -22,28 +22,86 @@ class PerformanceScreen extends StatelessWidget {
     // final dashboardController = Get.put(DashboardController());
 
     return SafeArea(
-        child: Scaffold(
-            backgroundColor: AppColors.bgColor,
-            body: GetBuilder<ReactionTimeListController>(
-                init: ReactionTimeListController(context),
-                id: ReactionTimeListController.stateId,
-                builder: (controller) {
-                  return SizedBox(
-                    height: Get.height,
-                    width: Get.width,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+      child: Scaffold(
+        backgroundColor: AppColors.bgColor,
+        body: GetBuilder<ReactionTimeListController>(
+          init: ReactionTimeListController(context),
+          id: ReactionTimeListController.stateId,
+          builder: (controller) {
+            return SizedBox(
+              height: Get.height,
+              width: Get.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  widgetAppBar(title: 'Performance Score'),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w, right: 20.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        widgetAppBar(title: 'Performance Score'),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20.w),
-                          child: widgetGraph(controller),
+                        Text(
+                          AppStrings.todayResult,
+                          style: poppinsTextStyle(
+                              color: Colors.black,
+                              size: 14.sp,
+                              fontWeight: FontWeight.w400),
                         ),
                       ],
                     ),
-                  );
-                })));
+                  ),
+                  10.sbh,
+                  Expanded(
+                      child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                controller.todayResults.isNotEmpty
+                                    ? ListView.builder(
+                                        primary: false,
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            1, // Only display the first item
+                                        itemBuilder: (context, index) {
+                                          return widgetReactionTime(controller
+                                                  .todayResults[
+                                              0]); // Always show the first item
+                                        },
+                                      )
+                                    : SizedBox(
+                                        height: 200.h,
+                                        child: widgetNoRecordFound(),
+                                      ),
+                                10.sbh,
+                                Padding(
+                                  padding: EdgeInsets.only(left: 10.w),
+                                  child: Text(
+                                    maxLines: 1,
+                                    AppStrings.trends,
+                                    style: poppinsTextStyle(
+                                        color: Colors.black,
+                                        size: 14.sp,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                                20.sbh,
+                                widgetGraph(controller),
+                                20.sbh
+                              ],
+                            ),
+                          )))
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -246,4 +304,64 @@ Widget widgetMonth(ReactionTimeListController controller) {
             yValueMapper: (GraphModelForDay sales, _) => sales.yValue,
             dataLabelSettings: const DataLabelSettings(isVisible: true))
       ]);
+}
+
+Widget widgetReactionTime(ReactionTestModel data) {
+  late DateTime dateTime;
+  DateFormat inputFormat = DateFormat("HH:mm dd-MM-yyyy");
+  DateFormat dateFormat = DateFormat("dd-MMM-yyyy HH:mm:ss");
+  try {
+    dateTime = dateFormat.parse('${data.dateTime} ${data.reactionTestTime}');
+  } catch (exe) {
+    printf('--exe--date-time---->$exe');
+  }
+  var currentDate = DateTime(dateTime.year, dateTime.month, dateTime.day,
+      dateTime.hour, dateTime.minute, dateTime.second);
+
+  var takenAt = inputFormat.format(currentDate);
+
+  var performanceScore =
+      data.performanceScore != null ? data.performanceScore.toString() : '0';
+
+  return Container(
+    margin: EdgeInsets.all(10),
+    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.1),
+          spreadRadius: 1,
+          blurRadius: 5,
+          offset: Offset(0, 2),
+        ),
+      ],
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Performance Score',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        Container(
+          child: Row(
+            children: [
+              Text(
+                '$performanceScore',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }

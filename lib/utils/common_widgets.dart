@@ -152,55 +152,46 @@ loaderHide() {
 PerformanceScoreWidget({
   required String labelText,
   required String performanceScore,
-  required VoidCallback onTap,
 }) {
-  return InkWell(
-    onTap: onTap,
-    child: Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: Offset(0, 2),
+  return Container(
+    margin: EdgeInsets.all(10),
+    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.1),
+          spreadRadius: 1,
+          blurRadius: 5,
+          offset: Offset(0, 2),
+        ),
+      ],
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          labelText,
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
           ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            labelText,
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          Container(
-            child: Row(
-              children: [
-                Text(
-                  performanceScore,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w800,
-                  ),
+        ),
+        Container(
+          child: Row(
+            children: [
+              Text(
+                performanceScore,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w800,
                 ),
-                Image.asset(
-                  ImagePath.icNext,
-                  height: Get.width * 0.03,
-                  width: Get.height * 0.03,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
 }

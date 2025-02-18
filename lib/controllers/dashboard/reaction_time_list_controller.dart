@@ -127,10 +127,12 @@ class ReactionTimeListController extends BaseController
         var record = totalRecords[i];
         if (record.dateTime.toString() == date.toString()) {
           printf('today--data--->${record.average}');
+          printf('today--data--->${record.performanceScore}');
           todayResults.add(record);
         }
       }
       todayResults = todayResults.reversed.toList();
+      printf('$todayResults');
       // printf('------------------------todays results>$todayResults');
 
       getResultForDay(date: date.toString(), list: reactionTestList);
