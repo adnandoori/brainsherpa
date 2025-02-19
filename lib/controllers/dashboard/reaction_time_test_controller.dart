@@ -93,6 +93,7 @@ class ReactionTimeTestController extends BaseController
       FirebaseDatabase.instance.ref().child(AppConstants.reactionTestTable);
 
   int randomTime = 0;
+  int randomTimeIsi = 0;
 
   double maximumValue = 0;
 
@@ -444,6 +445,7 @@ class ReactionTimeTestController extends BaseController
                 reactionTestListForIso[i].startTimeForGreenCard.toString());
 
         int randomTime = reactionTestListForIso[i].randomTime!;
+        printf('--------------------adnannannananan--$randomTime');
 
         if (diff > 100 && diff < 355) {
           if (randomTime <= 2) {
@@ -743,10 +745,12 @@ class ReactionTimeTestController extends BaseController
   void showWaitForGreen() {
     final random = Random();
     int randomSeconds = 1 + random.nextInt(3);
+    printf('---random--second---->$randomSeconds');
 
     randomTimeForIso = randomSeconds;
-    randomTime = randomTime + randomSeconds;
-    printf('---random--second---->$randomSeconds');
+    printf('---randomTimeForIso------>$randomTimeForIso');
+    // randomTime = randomTime + randomSeconds;
+    printf('---random--second---->$randomTime');
     timerWaitForGreen = Timer(Duration(seconds: randomSeconds), () async {
       showGreen();
     });
@@ -805,10 +809,16 @@ class ReactionTimeTestController extends BaseController
     double rt =
         (int.parse(tapTimeForGreenCard.toString()) - startTestTimeInMs) / 1000;
 
+    printf('-------->rt---->$rt');
+
+    int randomTime = randomTimeForIso;
+    printf('-------->randomTime---->$randomTime');
+
     int diff = int.parse(tapTimeForGreenCard.toString()) -
         int.parse(startTimeForGreenCard.toString());
 
     animationText = diff.toString();
+    printf('---------->adnan$animationText');
 
     printf('----rt-time---->$rt---->$diff');
     if (diff > 100 && diff <= 355) {
@@ -829,6 +839,7 @@ class ReactionTimeTestController extends BaseController
         startTimeForGreenCard: startTimeForGreenCard,
         tapTimeForGreenCard: tapTimeForGreenCard,
         randomTime: rt.toInt(),
+        randomTimeIsi: randomTime,
         isTap: 'true'));
 
     reactionTestListForIso.add(ReactionTest(
