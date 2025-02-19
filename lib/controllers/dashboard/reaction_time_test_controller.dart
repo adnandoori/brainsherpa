@@ -97,7 +97,7 @@ class ReactionTimeTestController extends BaseController
 
   double maximumValue = 0;
 
-  int startTime = 50000;
+  int startTime = 180000;
 
   List<RandomTime> valueForIsi = [];
 
@@ -427,7 +427,12 @@ class ReactionTimeTestController extends BaseController
 
         printf(
             '<-------------------------------------------------------------------->');
-        //printf('----total-graph-list--->${listForGraph.length}');
+        printf('----total-graph-list--->${listForGraph.length}');
+        listForGraph.forEach((graph) {
+          print('Name: ${graph.title}, Value: ${graph.value}');
+        });
+        print('');
+
         printf(
             '----total--for-lapses-count----->${listForPlusLapsesCount.length}');
         printf(

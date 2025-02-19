@@ -777,54 +777,50 @@ class DashboardScreen extends StatelessWidget {
 
   Widget widgetStart(DashboardController controller) {
     return Container(
-      height: 50.h,
-      width: Get.width,
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-      decoration: BoxDecoration(color: Color.fromARGB(255, 62, 50, 97)),
-      child: Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-                padding: EdgeInsets.only(left: 10.w, right: 0.w, top: 0.h),
-                child: Center(
-                  child: Text(
-                    AppStrings.dashboardMessage,
-                    style: poppinsTextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.white,
-                        size: 18.sp),
-                  ),
-                )),
-            SizedBox(height: 25.h),
-            Center(
-              child: InkWell(
-                onTap: () {
-                  controller.navigateToStartTest();
-                },
-                child: Container(
-                  margin: EdgeInsets.all(10.h),
-                  // height: 30.h,
-                  width: 80.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: AppColors.indicatorGray,
-                  ),
-                  child: Center(
-                    child: Text(
-                      AppStrings.start,
-                      style: poppinsTextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w800,
-                          size: 12.sp),
-                    ),
-                  ),
+      height: 50.h, // Set fixed height
+      width: double.infinity, // Ensures full width
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 62, 50, 97), // Adjust if needed
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 10.w),
+            child: Text(
+              AppStrings.dashboardMessage,
+              style: poppinsTextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.white,
+                  size: 18.sp),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              controller.navigateToStartTest();
+            },
+            child: Container(
+              margin: EdgeInsets.all(5.h),
+              height: 30.h, // Ensuring proper height
+              width: 80.w,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: AppColors.indicatorGray,
+              ),
+              child: Center(
+                child: Text(
+                  AppStrings.start,
+                  style: poppinsTextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w800,
+                      size: 12.sp),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
