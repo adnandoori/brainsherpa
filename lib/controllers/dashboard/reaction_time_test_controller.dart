@@ -97,7 +97,7 @@ class ReactionTimeTestController extends BaseController
 
   double maximumValue = 0;
 
-  int startTime = 180000;
+  int startTime = 50000;
 
   List<RandomTime> valueForIsi = [];
 
@@ -801,14 +801,27 @@ class ReactionTimeTestController extends BaseController
   void clickOnGreen() {
     printf('<------save-time-and-show-wait-for-green----->');
     var now = DateTime.now().millisecondsSinceEpoch;
+
     tapTimeForGreenCard = now.toString();
     showWaitForGreen();
     update([stateId]);
 
     double rt =
         (int.parse(tapTimeForGreenCard.toString()) - startTestTimeInMs) / 1000;
-
     printf('-------->rt---->$rt');
+
+    // elapsed time calculation
+    int elapsedTapTime = 0;
+    if (reactionTestList.length > 0) {
+      int firstTapTime =
+          int.parse(reactionTestList[0].tapTimeForGreenCard.toString());
+      elapsedTapTime = int.parse(tapTimeForGreenCard.toString()) - firstTapTime;
+      printf('-------->elapsedTapTime---->$elapsedTapTime');
+    } else {
+      elapsedTapTime =
+          0; // Assign a default value if the if statement is not executed
+    }
+    printf('-------->elapsedTapTime---->$elapsedTapTime');
 
     int randomTime = randomTimeForIso;
     printf('-------->randomTime---->$randomTime');
@@ -838,6 +851,7 @@ class ReactionTimeTestController extends BaseController
         tapTimeForGreenCard: tapTimeForGreenCard,
         randomTime: rt.toInt(),
         randomTimeIsi: randomTime,
+        epTime: elapsedTapTime,
         isTap: 'true'));
 
     reactionTestListForIso.add(ReactionTest(

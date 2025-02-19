@@ -244,6 +244,7 @@ class ReactionTest {
   String? isTap;
   int? randomTime;
   int? randomTimeIsi;
+  int? epTime;
 
   ReactionTest({
     this.startTestTime,
@@ -252,6 +253,7 @@ class ReactionTest {
     this.isTap,
     this.randomTime,
     this.randomTimeIsi,
+    this.epTime,
   });
 
   factory ReactionTest.fromJson(Map<String, dynamic> json) => ReactionTest(
@@ -262,6 +264,7 @@ class ReactionTest {
         isTap: json["isTap"],
         randomTime: json["randomTime"],
         randomTimeIsi: json["randomTimeIsi"],
+        epTime: json["eptime"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -271,5 +274,6 @@ class ReactionTest {
         "isTap": isTap,
         "randomTime": randomTime,
         "randomTimeIsi": randomTimeIsi,
+        "eptime": epTime,
       };
 }
