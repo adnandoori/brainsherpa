@@ -102,7 +102,7 @@ class DashboardController extends BaseController {
       for (var element in snapshot.children) {
         final data =
             Map<String, dynamic>.from(element.value as Map<Object?, Object?>);
-        printf('------------------->adnan$data');
+        // printf('------------------->adnan$data');
         ReactionTestModel dataModel = ReactionTestModel.fromMap(data);
         // printf('----------->adnan 2$dataModel');
         reactionTestList.add(dataModel);
