@@ -445,7 +445,6 @@ class ReactionTimeTestController extends BaseController
                 reactionTestListForIso[i].startTimeForGreenCard.toString());
 
         int randomTime = reactionTestListForIso[i].randomTime!;
-        printf('--------------------adnannannananan--$randomTime');
 
         if (diff > 100 && diff < 355) {
           if (randomTime <= 2) {
@@ -745,12 +744,12 @@ class ReactionTimeTestController extends BaseController
   void showWaitForGreen() {
     final random = Random();
     int randomSeconds = 1 + random.nextInt(3);
-    printf('---random--second---->$randomSeconds');
+    // printf('---random--second---->$randomSeconds');
 
     randomTimeForIso = randomSeconds;
-    printf('---randomTimeForIso------>$randomTimeForIso');
+    // printf('---randomTimeForIso------>$randomTimeForIso');
     // randomTime = randomTime + randomSeconds;
-    printf('---random--second---->$randomTime');
+    // printf('---random--second---->$randomTime');
     timerWaitForGreen = Timer(Duration(seconds: randomSeconds), () async {
       showGreen();
     });
@@ -818,7 +817,6 @@ class ReactionTimeTestController extends BaseController
         int.parse(startTimeForGreenCard.toString());
 
     animationText = diff.toString();
-    printf('---------->adnan$animationText');
 
     printf('----rt-time---->$rt---->$diff');
     if (diff > 100 && diff <= 355) {
