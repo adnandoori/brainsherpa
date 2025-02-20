@@ -327,7 +327,7 @@ Widget widgetReactionTime(ReactionTestModel data) {
       data.performanceScore != null ? data.performanceScore.toString() : '0';
 
   return Container(
-    margin: EdgeInsets.all(10),
+    margin: EdgeInsets.symmetric(horizontal: 10),
     padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
     decoration: BoxDecoration(
       color: Colors.white,
