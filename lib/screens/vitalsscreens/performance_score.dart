@@ -272,7 +272,7 @@ Widget widgetWeek(ReactionTimeListController controller) {
         ColumnSeries<WeekModel, String>(
             enableTooltip: false,
             color: AppColors.blueColor,
-            dataSource: controller.listWeekData,
+            dataSource: controller.PerformanceScorelWeekData,
             xValueMapper: (WeekModel sales, _) => DateFormat('dd-MMM-yyyy')
                 .format(
                     DateTime.fromMillisecondsSinceEpoch(int.parse(sales.title)))
@@ -302,7 +302,7 @@ Widget widgetMonth(ReactionTimeListController controller) {
         ColumnSeries<GraphModelForDay, String>(
             enableTooltip: false,
             color: AppColors.blueColor,
-            dataSource: controller.monthGraphPlot,
+            dataSource: controller.monthGraphPlotForPerformanceScore,
             xValueMapper: (GraphModelForDay sales, _) => sales.xValue,
             yValueMapper: (GraphModelForDay sales, _) => sales.yValue,
             dataLabelSettings: const DataLabelSettings(isVisible: true))

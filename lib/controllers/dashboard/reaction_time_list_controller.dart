@@ -25,6 +25,7 @@ class ReactionTimeListController extends BaseController
   List<ReactionTestModel> reactionTestList = [];
   List<ReactionTestModel> todayResults = [];
   List<GraphModelForDay> graphDayListForPerformanceScore = [];
+  List<GraphModelForDay> monthGraphPlotForPerformanceScore = [];
 
   var arguments = Get.arguments;
 
@@ -194,13 +195,11 @@ class ReactionTimeListController extends BaseController
               DateFormat("HH:mm:ss").parse(record.reactionTestTime.toString());
 
           String formattedTime = DateFormat("HH:mm").format(parsedTime);
-
-          // Adding to the new graph list
           graphDayListForPerformanceScore
               .add(GraphModelForDay(formattedTime, y));
         }
       }
-      update([stateId]); // Refresh the UI
+      update([stateId]);
     } else {
       printf('<-----no-record-found-for-performance-score-------->');
     }
@@ -256,6 +255,7 @@ class ReactionTimeListController extends BaseController
     printf('<----datePreviousWeek---->$displayWeekText');
     if (weekList.isNotEmpty) {
       getPreviousWeekDataForOneTime(weekList.last, reactionTestList);
+      getWeekData(weekReactionTestList);
     }
     update([stateId]);
   }
@@ -319,10 +319,11 @@ class ReactionTimeListController extends BaseController
   }
 
   void getMonthDataForFirstTime(
-      selectedMonth, List<ReactionTestModel> totalAllRecords) {
+      DateTime selectedMonth, List<ReactionTestModel> totalAllRecords) {
     weekOfMonth = [];
     monthReactionTestList = [];
     monthGraphPlot = [];
+    monthGraphPlotForPerformanceScore = [];
 
     selectedMonth ??= DateTime.now();
 
@@ -332,25 +333,13 @@ class ReactionTimeListController extends BaseController
     DateTime firstDateOfMonth = findFirstDateOfTheMonth(selectedMonth);
     DateTime lastDateOfMonth = findLastDateOfTheMonth(selectedMonth);
 
-    firstDateOfMonth = DateTime(firstDateOfMonth.year, firstDateOfMonth.month,
-        firstDateOfMonth.day, 0, 0, 0, 0, 0);
-
-    lastDateOfMonth = DateTime(lastDateOfMonth.year, lastDateOfMonth.month,
-        lastDateOfMonth.day, 0, 0, 0, 0, 0);
-
-    printf('Total Days in Month first-time : ${lastDateOfMonth.day}');
-
     prepareWeeksOfMonthData(firstDateOfMonth, lastDateOfMonth);
 
-    DateTime endDt = DateTime.fromMillisecondsSinceEpoch(
-            lastDateOfMonth.millisecondsSinceEpoch)
-        .add(const Duration(days: 1));
-    DateTime startDt = DateTime.fromMillisecondsSinceEpoch(
-            firstDateOfMonth.millisecondsSinceEpoch)
-        .subtract(const Duration(days: 1));
+    DateTime endDt = lastDateOfMonth.add(const Duration(days: 1));
+    DateTime startDt = firstDateOfMonth.subtract(const Duration(days: 1));
 
-    printf('start-month->${DateFormat('dd-MMM-yyyy').format(startDt)}--->'
-        '${DateFormat('dd-MMM-yyyy').format(endDt)}');
+    printf(
+        'Fetching month data from ${DateFormat('dd-MMM-yyyy').format(startDt)} to ${DateFormat('dd-MMM-yyyy').format(endDt)}');
 
     monthReactionTestList = totalAllRecords
         .where((item) =>
@@ -360,26 +349,24 @@ class ReactionTimeListController extends BaseController
                 .isBefore(endDt))
         .toList();
 
-    printf("--total--month-->${monthReactionTestList.length}");
-
     if (monthReactionTestList.isNotEmpty) {
       monthReactionTestList
-          .sort((a, b) => a.timeStamp ?? 0.compareTo(b.timeStamp ?? 0));
+          .sort((a, b) => a.timeStamp!.compareTo(b.timeStamp!));
 
       var groupByDate = groupBy(monthReactionTestList, (obj) => obj.dateTime);
+
       groupByDate.forEach((date, list) {
-        int sumHearRate = 0;
+        double sumReactionTime = 0;
+        double sumPerformanceScore = 0;
 
-        for (int i = 0; i < list.length; i++) {
-          var listItem = list[i];
-
-          int avg = int.parse(listItem.average == null
-              ? "0"
-              : (listItem.average!.isNotEmpty ? listItem.average! : "0"));
-
-          sumHearRate += avg;
+        for (var listItem in list) {
+          sumReactionTime += double.tryParse(listItem.average ?? "0") ?? 0;
+          sumPerformanceScore +=
+              double.tryParse(listItem.performanceScore ?? "0") ?? 0;
         }
-        double avgHrt = sumHearRate / list.length;
+
+        double avgReactionTime = sumReactionTime / list.length;
+        double avgPerformanceScore = sumPerformanceScore / list.length;
 
         DateTime recordDate =
             DateTime.fromMillisecondsSinceEpoch(list.first.timeStamp!);
@@ -389,19 +376,26 @@ class ReactionTimeListController extends BaseController
                 recordDate, itemFound.weekStartDate!, itemFound.weekEndDate!))
             .toList();
 
-        for (int i = 0; i < filterData.length; i++) {
-          filterData[i].avgMeasure = avgHrt;
+        for (var item in filterData) {
+          item.avgMeasure = avgReactionTime;
+          item.avgMeasurePerformanceScore = avgPerformanceScore;
         }
       });
 
       for (int i = 0; i < weekOfMonth.length; i++) {
-        var round = weekOfMonth[i].avgMeasure ?? 0;
-        monthGraphPlot[i].yValue = round.roundToDouble();
+        double reactionTime = weekOfMonth[i].avgMeasure ?? 0;
+        double performanceScore =
+            weekOfMonth[i].avgMeasurePerformanceScore ?? 0;
+
+        monthGraphPlot[i].yValue = reactionTime.roundToDouble();
+        monthGraphPlotForPerformanceScore.add(GraphModelForDay(
+            'Week ${weekOfMonth[i].weekOfYear}',
+            performanceScore.roundToDouble()));
       }
 
       update([stateId]);
     } else {
-      printf('<-------month_records_not_found--------->');
+      printf('<-------No month records found--------->');
       update([stateId]);
     }
   }
@@ -417,6 +411,8 @@ class ReactionTimeListController extends BaseController
       dt = dateTime.subtract(Duration(days: i));
       weekNumbers.add(GraphModelForDay(DateFormat('dd').format(dt), 33));
       weekDateList.add(DateFormat('dd-MMM-yyyy').format(dt));
+      PerformanceScorelWeekData.add(
+          WeekModel(dt.millisecondsSinceEpoch.toString(), 0.0, 0));
       listWeekData.add(WeekModel(dt.millisecondsSinceEpoch.toString(), 0.0, 0));
       weekList.add(dt);
 
@@ -546,51 +542,87 @@ class ReactionTimeListController extends BaseController
   }
 
   void getWeekData(List<ReactionTestModel> weekReactionTestList) {
+    printf("getWeekData called with ${weekReactionTestList.length} records.");
+
     var resultFormatter = DateFormat('dd-MMM-yyyy');
+
     if (weekReactionTestList.isNotEmpty) {
+      List<WeekModel> tempListWeekData = [];
+      List<WeekModel> tempPerformanceScoreData = [];
+
       for (var e in weekReactionTestList) {
         var dateTime = DateTime.fromMillisecondsSinceEpoch(
             int.parse(e.timeStamp.toString()));
-        if (weekDateList.contains(resultFormatter.format(dateTime))) {
-          if (listWeekData.isNotEmpty) {
-            int index = listWeekData.indexWhere((element) =>
-                resultFormatter.format(DateTime.fromMillisecondsSinceEpoch(
-                    int.parse(element.title.toString()))) ==
-                resultFormatter.format(DateTime.fromMillisecondsSinceEpoch(
-                    int.parse(e.timeStamp.toString()))));
+        String formattedDate = resultFormatter.format(dateTime);
 
-            double avgValue = 0.0;
-            int count = 0;
+        printf("Processing record for date: $formattedDate");
+        printf("Performance Score from record: ${e.performanceScore}");
 
-            avgValue =
-                listWeekData[index].value + double.parse(e.average.toString());
-            count = listWeekData[index].count;
+        if (weekDateList.contains(formattedDate)) {
+          printf("Match found in weekDateList for $formattedDate");
 
-            // printf('------value-for-week------->${listWeekData[index].value}---avg--->$avgValue');
+          // Update reaction time
+          int index = tempListWeekData.indexWhere((element) =>
+              resultFormatter.format(DateTime.fromMillisecondsSinceEpoch(
+                  int.parse(element.title.toString()))) ==
+              formattedDate);
 
-            listWeekData.removeWhere((element) =>
-                resultFormatter.format(DateTime.fromMillisecondsSinceEpoch(
-                    int.parse(element.title.toString()))) ==
-                resultFormatter.format(DateTime.fromMillisecondsSinceEpoch(
-                    int.parse(e.timeStamp.toString()))));
+          if (index != -1) {
+            double avgValue = tempListWeekData[index].value +
+                double.parse(e.average.toString());
+            int count = tempListWeekData[index].count;
 
-            listWeekData
+            tempListWeekData.removeAt(index);
+            tempListWeekData
                 .add(WeekModel(e.timeStamp.toString(), avgValue, count + 1));
+          } else {
+            tempListWeekData.add(WeekModel(
+                e.timeStamp.toString(), double.parse(e.average.toString()), 1));
           }
-          listWeekData.sort((a, b) => a.title.compareTo(b.title));
+
+          // Update PerformanceScorelWeekData
+          double parsedScore =
+              double.tryParse(e.performanceScore.toString()) ?? 0;
+          printf("Parsed Performance Score: $parsedScore");
+
+          index = tempPerformanceScoreData.indexWhere((element) =>
+              resultFormatter.format(DateTime.fromMillisecondsSinceEpoch(
+                  int.parse(element.title.toString()))) ==
+              formattedDate);
+
+          if (index != -1) {
+            double avgScore =
+                tempPerformanceScoreData[index].value + parsedScore;
+            int countScore = tempPerformanceScoreData[index].count;
+
+            tempPerformanceScoreData.removeAt(index);
+            tempPerformanceScoreData.add(
+                WeekModel(e.timeStamp.toString(), avgScore, countScore + 1));
+          } else {
+            tempPerformanceScoreData
+                .add(WeekModel(e.timeStamp.toString(), parsedScore, 1));
+          }
         }
       }
 
-      // for (int i = 0; i < listWeekData.length; i++) {
-      //   printf('-------list-week---->${listWeekData[i].title}---2-->${listWeekData[i].value}---count--->${listWeekData[i].count}');
-      // }
+      // Sort lists in ascending order (oldest first)
+      tempListWeekData
+          .sort((a, b) => int.parse(a.title).compareTo(int.parse(b.title)));
+      tempPerformanceScoreData
+          .sort((a, b) => int.parse(a.title).compareTo(int.parse(b.title)));
 
-      //double totalAvgHr = totalValue / totalAvg;
+      listWeekData = tempListWeekData;
+      PerformanceScorelWeekData = tempPerformanceScoreData;
     } else {
-      listWeekData = listWeekData.reversed.toList();
-      printf('<----no-record-found-for-week------------>');
-      update([stateId]);
+      printf("No data found for this week.");
+      listWeekData = [];
+      PerformanceScorelWeekData = [];
     }
+
+    printf("Final listWeekData: $listWeekData");
+    printf("Final PerformanceScorelWeekData: $PerformanceScorelWeekData");
+
+    update([stateId]);
   }
 
   int weekNumber(DateTime date) {
@@ -690,11 +722,13 @@ class WeekOfMonthModel {
       this.weekOfYear,
       this.weekStartDate,
       this.weekEndDate,
-      this.avgMeasure});
+      this.avgMeasure,
+      this.avgMeasurePerformanceScore});
 
   int? month;
   int? weekOfYear;
   DateTime? weekStartDate;
   DateTime? weekEndDate;
   double? avgMeasure;
+  double? avgMeasurePerformanceScore;
 }
