@@ -15,48 +15,43 @@ class ReactionTimeListController extends BaseController
 
   ReactionTimeListController(this.context);
 
-  DatabaseReference databaseReference =
-      FirebaseDatabase.instance.ref().child(AppConstants.reactionTestTable);
+  DateTime today = DateTime.now().toUtc();
 
+// List Values
+  List<ReactionTestModel> reactionTestList = [];
+  List<ReactionTestModel> todayResults = [];
+  List<GraphModelForDay> graphDayListForPerformanceScore = [];
+  List<GraphModelForDay> graphDayList = [];
+  List<ReactionTestModel> weekReactionTestList = [];
+  List<GraphModelForDay> weekNumbers = [];
+  List<GraphModelForDay> weekNumberReversed = [];
+  List<String> weekDateList = [];
+  List<WeekModel> listWeekData = [];
+  List<WeekModel> PerformanceScorelWeekData = [];
+  List<DateTime> weekList = [];
+  List<GraphModelForDay> monthGraphPlot = [];
+  List<ReactionTestModel> monthReactionTestList = [];
+  List<WeekOfMonthModel> weekOfMonth = [];
+  List<GraphModelForDay> monthGraphPlotForPerformanceScore = [];
+
+// Var Values
   var todayDate = DateTime.now();
   var formatter = DateFormat('dd-MMM-yyyy');
   var date = '';
   var userId = '';
-  List<ReactionTestModel> reactionTestList = [];
-  List<ReactionTestModel> todayResults = [];
-  List<GraphModelForDay> graphDayListForPerformanceScore = [];
-  List<GraphModelForDay> monthGraphPlotForPerformanceScore = [];
-
-  var arguments = Get.arguments;
-
-  late TabController tabController = TabController(length: 3, vsync: this);
-
-  List<GraphModelForDay> graphDayList = [];
-
-  List<ReactionTestModel> weekReactionTestList = [];
-  List<GraphModelForDay> weekNumbers = [];
-  List<GraphModelForDay> weekNumberReversed = [];
-
-  List<String> weekDateList = [];
-  List<WeekModel> listWeekData = [];
-  List<WeekModel> PerformanceScorelWeekData = [];
-  var weekDate = '';
-  List<DateTime> weekList = [];
-
-  List<GraphModelForDay> monthGraphPlot = [];
-  List<ReactionTestModel> monthReactionTestList = [];
-  List<WeekOfMonthModel> weekOfMonth = [];
   var currentMonth = DateTime.now();
-
+  var arguments = Get.arguments;
+  var weekDate = '';
   var currentWeek = DateTime.now();
   var formatterWeek = DateFormat('dd-MMM-yyyy');
   var displayWeekText = '';
-  DateTime today = DateTime.now().toUtc();
-
   var formatterMonth = DateFormat(' MMM, yyyy');
   var displayMonthText = '';
   var displayDateText = '';
 
+  DatabaseReference databaseReference =
+      FirebaseDatabase.instance.ref().child(AppConstants.reactionTestTable);
+  late TabController tabController = TabController(length: 3, vsync: this);
   @override
   void onInit() {
     super.onInit();
