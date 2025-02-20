@@ -102,6 +102,21 @@ class DashboardController extends BaseController {
       for (var element in snapshot.children) {
         final data =
             Map<String, dynamic>.from(element.value as Map<Object?, Object?>);
+        // printf('reactiontest: ${data['reactionTest']}');
+        // String targetDate = '2025-02-20';
+        // int matchingCount = 0;
+        // for (var test in data['reactionTest']) {
+        //   String? startTestTime = test['startTestTime'];
+
+        //   if (startTestTime != null && startTestTime.startsWith(targetDate)) {
+        //     matchingCount++;
+
+        //     print('Matching entry: $test');
+        //     int properCount = matchingCount - 1;
+        //     printf('$properCount');
+        //   }
+        // }
+        // printf('matchingCount: $matchingCount');
         // printf('------------------->adnan$data');
         ReactionTestModel dataModel = ReactionTestModel.fromMap(data);
         // printf('----------->adnan 2$dataModel');

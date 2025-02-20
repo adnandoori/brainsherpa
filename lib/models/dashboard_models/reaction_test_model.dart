@@ -243,6 +243,7 @@ class ReactionTest {
   String? tapTimeForGreenCard;
   String? isTap;
   int? randomTime;
+  int? reactionTime;
   int? randomTimeIsi;
   int? epTime;
 
@@ -252,6 +253,7 @@ class ReactionTest {
     this.tapTimeForGreenCard,
     this.isTap,
     this.randomTime,
+    this.reactionTime,
     this.randomTimeIsi,
     this.epTime,
   });
@@ -263,6 +265,7 @@ class ReactionTest {
         tapTimeForGreenCard: json["tapTimeForGreenCard"],
         isTap: json["isTap"],
         randomTime: json["randomTime"],
+        reactionTime: json["reactionTime"],
         randomTimeIsi: json["randomTimeIsi"],
         epTime: json["eptime"],
       );
@@ -273,6 +276,7 @@ class ReactionTest {
         "tapTimeForGreenCard": tapTimeForGreenCard,
         "isTap": isTap,
         "randomTime": randomTime,
+        "reactionTime": reactionTime,
         "randomTimeIsi": randomTimeIsi,
         "eptime": epTime,
       };

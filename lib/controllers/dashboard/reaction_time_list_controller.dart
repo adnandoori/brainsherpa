@@ -147,7 +147,9 @@ class ReactionTimeListController extends BaseController
 
   void getResultForDay(
       {required String date, required List<ReactionTestModel> list}) {
-    printf('------getResultForDay----->$date----->${list.length}');
+    printf('------getResultForDay----->$date----->$list');
+    printf('-----------?data --->$list');
+
     graphDayList.clear();
     graphDayListForPerformanceScore.clear();
     if (list.isNotEmpty) {
@@ -156,6 +158,7 @@ class ReactionTimeListController extends BaseController
 
         if (record.dateTime.toString() == date.toString()) {
           double y = double.parse(record.average.toString()).toDouble();
+
           double performanceScore =
               double.parse(record.performanceScore.toString()).toDouble();
           DateTime parsedTime =

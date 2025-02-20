@@ -22,7 +22,7 @@ class ReactionTimeTestController extends BaseController
 
   Timer? timerFor3Minutes, timerWaitForGreen, timerGreen;
 
-// Boolean Values
+  // Boolean Values
   bool isWaitForGreen = false;
   bool isGreen = false;
   bool isResult = false;
@@ -67,6 +67,7 @@ class ReactionTimeTestController extends BaseController
   var startTestTime = '';
   var startTimeForGreenCard = '';
   var tapTimeForGreenCard = '';
+  var reactionTime = '0';
   var fastest = '0';
   var slowest = '0';
   var average = '0';
@@ -786,6 +787,10 @@ class ReactionTimeTestController extends BaseController
         (int.parse(tapTimeForGreenCard.toString()) - startTestTimeInMs) / 1000;
     printf('-------->rt---->$rt');
 
+    int reactionTime = int.parse(tapTimeForGreenCard.toString()) -
+        int.parse(startTimeForGreenCard.toString());
+    printf('Reaction Time: $reactionTime');
+
     // elapsed time calculation
     int elapsedTapTime = 0;
     if (reactionTestList.length > 0) {
@@ -828,6 +833,7 @@ class ReactionTimeTestController extends BaseController
         randomTime: rt.toInt(),
         randomTimeIsi: randomTime,
         epTime: elapsedTapTime,
+        reactionTime: reactionTime,
         isTap: 'true'));
 
     reactionTestListForIso.add(ReactionTest(
