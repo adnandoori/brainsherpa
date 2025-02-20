@@ -22,28 +22,47 @@ class ReactionTimeTestController extends BaseController
 
   Timer? timerFor3Minutes, timerWaitForGreen, timerGreen;
 
+// Boolean Values
   bool isWaitForGreen = false;
   bool isGreen = false;
   bool isResult = false;
+
+  // String Values
   String trendType = '';
   String trendInsight = '';
+
+  // List Values
   List<ReactionTest> reactionTestList = [];
-
   List<ReactionTest> reactionTestListForIso = [];
-
   List<ReactionTest> reactionTestListFilter = [];
-
   List<ReactionTest> listForAscending = [];
-
   List<int> listOfDifference = [];
   List<int> listOfAscFirst = [];
   List<int> listOfAscSecond = [];
   List<int> reactionTimes = [];
   List<int> listForFalseStartCount = [];
   List<int> listForValidStimuli = [];
-
   List<int> listForPlusLapsesCount = [];
+  List<int> listForSqrt = [];
+  List<GraphModel> listForGraph = [];
+  List<RandomTime> valueForIsi = [];
+  //isi 0 to 2 2 to 4
+  List<int> listForIsi0to2 = [];
+  List<int> listForIsi2to4 = [];
+  List<int> listOfDifferenceBetween100To350 = [];
+  List<int> elapsedTimesList = [];
+  List<int> reactionTimesList = [];
+  List<int> listForPlusLapses355 = [];
+  List<int> listForPlusLapses500 = [];
+  List<int> listForPlusLapses700 = [];
+  List<int> listForOneMinuteDiff = [];
+  List<int> listForSecondMinuteDiff = [];
+  List<int> listForThirdMinuteDiff = [];
+  List<int> listForFalseStart = [];
+  List<int> listForFalseStartIsi0to2 = [];
+  List<int> listForFalseStartIsi2to4 = [];
 
+  // Var Values
   var userId = '';
   var startTestTime = '';
   var startTimeForGreenCard = '';
@@ -51,16 +70,6 @@ class ReactionTimeTestController extends BaseController
   var fastest = '0';
   var slowest = '0';
   var average = '0';
-
-  int total = 0;
-  int totalPositiveDiff = 0;
-  double avg = 0;
-
-  int totalSqrt = 0;
-  List<int> listForSqrt = [];
-
-  List<GraphModel> listForGraph = [];
-
   var speed = '0';
   var falseStart = '0';
   var accuracy = '0';
@@ -68,9 +77,7 @@ class ReactionTimeTestController extends BaseController
   var plusLapses = '0';
   var avgForIsi0to2 = '0';
   var avgForIsi2to4 = '0';
-
   var delta = '0';
-
   var slowingRate = '0';
   var performanceDecline = '0';
   var LPM = '0';
@@ -78,99 +85,63 @@ class ReactionTimeTestController extends BaseController
   var IQR = '0';
   var PSR = '0';
   var RTRT = '0';
-
   var vigilanceIndex = '0',
       alertness = '',
       resilience = '0',
       fatigue = '0',
       attention = '0';
-
   var cognitiveFlexibility = '', responseControl = '', cognitiveLoad = '0';
+  var animationText = '';
+  var isSelected = '';
+  var textNotes = '';
+  var arguments = Get.arguments;
+  var avgForFirstMin = '0';
+  var avgForSecondMin = '0';
+  var performanceScore = '0';
+  var successRate = '0';
+  var lapseProbability = '0';
+  var deltaIsi = '0';
+  var avgForThirdMin = '0';
+
+  // Int Values
+  int total = 0;
+  int totalPositiveDiff = 0;
+  int totalSqrt = 0;
+  int randomTime = 0;
+  int randomTimeIsi = 0;
+  int startTime = 180000;
+  int countForIsi0to2 = 0;
+  int totalIsi0to2 = 0;
+  int countForIsi2to4 = 0;
+  int totalForOneMinDiff = 0;
+  int totalForSecondMinDiff = 0;
+  int totalForThirdMinDiff = 0;
+  int totalIsi2to4 = 0;
+  int randomTimeForIso = 0;
+  int startTestTimeInMs = 0;
+  //int countForFalseStart = 0;
+  int countForFalseStartIsi0to2 = 0;
+  int totalFalseIsi0to2 = 0;
+  int countForFalseStartIsi2to4 = 0;
+  int totalFalseStartIsi2to4 = 0;
+  int countForPlusLapsesIsi2to4 = 0;
+  int countForPlusLapsesIsi0to2 = 0;
+
+  // Double Values
+
+  double avg = 0;
+  double maximumValue = 0;
+  double firstQuestion = 0;
+  double opacity = 1.0;
+  double meanRTTAvg = 0;
+  double resilienceScore = 0;
+  double flexibilityScore = 0;
+  double focusScore = 0;
 
   late ReactionTestModel reactionTestModel;
 
   DatabaseReference databaseReference =
       FirebaseDatabase.instance.ref().child(AppConstants.reactionTestTable);
-
-  int randomTime = 0;
-  int randomTimeIsi = 0;
-
-  double maximumValue = 0;
-
-  int startTime = 180000;
-
-  List<RandomTime> valueForIsi = [];
-
-  //isi 0 to 2 2 to 4
-
-  List<int> listForIsi0to2 = [];
-  int countForIsi0to2 = 0;
-  int totalIsi0to2 = 0;
-
-  List<int> listForIsi2to4 = [];
-  int countForIsi2to4 = 0;
-  int totalIsi2to4 = 0;
-
-  int randomTimeForIso = 0;
-
-  int startTestTimeInMs = 0;
-
-  double firstQuestion = 0;
-  var isSelected = '';
-  var textNotes = '';
-  var arguments = Get.arguments;
-
-  double opacity = 1.0;
-
-//  late Timer timerForAnimation;
-
-  var animationText = '';
-
-  List<int> listOfDifferenceBetween100To350 = [];
-  double meanRTTAvg = 0;
-  List<int> elapsedTimesList = [];
-  List<int> reactionTimesList = [];
-
-  List<int> listForPlusLapses355 = [];
-  List<int> listForPlusLapses500 = [];
-  List<int> listForPlusLapses700 = [];
-
-  List<int> listForOneMinuteDiff = [];
-  List<int> listForSecondMinuteDiff = [];
-  List<int> listForThirdMinuteDiff = [];
-
-  double resilienceScore = 0;
-  double flexibilityScore = 0;
-  double focusScore = 0;
-
-  int totalForOneMinDiff = 0;
-  int totalForSecondMinDiff = 0;
-  int totalForThirdMinDiff = 0;
-
-  var avgForFirstMin = '0';
-  var avgForSecondMin = '0';
-  var avgForThirdMin = '0';
-
-  List<int> listForFalseStart = [];
-
-  List<int> listForFalseStartIsi0to2 = [];
-
-  //int countForFalseStart = 0;
-  int countForFalseStartIsi0to2 = 0;
-  int totalFalseIsi0to2 = 0;
-
-  List<int> listForFalseStartIsi2to4 = [];
-  int countForFalseStartIsi2to4 = 0;
-  int totalFalseStartIsi2to4 = 0;
-
-  int countForPlusLapsesIsi2to4 = 0;
-  int countForPlusLapsesIsi0to2 = 0;
-
-  var performanceScore = '0';
-  var successRate = '0';
-
-  var lapseProbability = '0';
-  var deltaIsi = '0';
 
   @override
   void onInit() {
