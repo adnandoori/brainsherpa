@@ -19,14 +19,15 @@ import 'package:intl/intl.dart';
 class DashboardController extends BaseController {
   static String stateId = 'dashboard_ui';
 
+  // List Values
+  List<ReactionTestModel> reactionTestList = [];
+
+  // Var Values
   var userId = '';
   var username = '';
-  late UserModel userModel;
-
   var takenAt = '';
   var fastest = '0';
   var slowest = '0';
-
   var average = '0';
   var accuracy = '0';
   var cognitiveFlexibility = '0';
@@ -41,7 +42,6 @@ class DashboardController extends BaseController {
   var resilienceScore = '0';
   var flexibilityScore = '0';
   var focusScore = '0';
-
   // var displayMonthText = '';
   // var displayWeekText = '';
   // var displayDateText = '';
@@ -58,7 +58,7 @@ class DashboardController extends BaseController {
   DatabaseReference dbReactionTest =
       FirebaseDatabase.instance.ref().child(AppConstants.reactionTestTable);
 
-  List<ReactionTestModel> reactionTestList = [];
+  late UserModel userModel;
 
   DateFormat inputFormat = DateFormat("HH:mm dd-MM-yyyy");
 

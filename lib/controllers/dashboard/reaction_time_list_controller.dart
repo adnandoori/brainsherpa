@@ -52,6 +52,7 @@ class ReactionTimeListController extends BaseController
   DatabaseReference databaseReference =
       FirebaseDatabase.instance.ref().child(AppConstants.reactionTestTable);
   late TabController tabController = TabController(length: 3, vsync: this);
+
   @override
   void onInit() {
     super.onInit();

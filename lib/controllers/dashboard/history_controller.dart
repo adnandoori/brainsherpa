@@ -13,15 +13,16 @@ class HistoryController extends BaseController {
 
   HistoryController(this.context);
 
-  var displayDateText = '';
-
+  // List Values
   List<ReactionTestModel> reactionTestList = [];
   List<ReactionTestModel> todayResults = [];
+  List<GraphModel> listForGraph = [];
+
+  // Var Values
   var arguments = Get.arguments;
+  var displayDateText = '';
   var date = '';
   var userId = '';
-
-  List<GraphModel> listForGraph = [];
   var formatter = DateFormat('dd-MMM-yyyy');
   var todayDate = DateTime.now();
 
