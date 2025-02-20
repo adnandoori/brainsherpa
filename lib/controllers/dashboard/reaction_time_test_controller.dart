@@ -621,8 +621,8 @@ class ReactionTimeTestController extends BaseController
       lapseProbability = lp.toInt().toString();
       printf('---lapseProbability--->$lapseProbability');
 
-      final pfs = 100 %
-          -(((listForPlusLapsesCount.length + listForFalseStartCount.length) /
+      final pfs = 100 -
+          (((listForPlusLapsesCount.length + listForFalseStartCount.length) /
                   (listOfDifferenceBetween100To350.length +
                       listForFalseStartCount.length)) *
               100);

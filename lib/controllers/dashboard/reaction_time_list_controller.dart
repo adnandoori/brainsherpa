@@ -24,6 +24,7 @@ class ReactionTimeListController extends BaseController
   var userId = '';
   List<ReactionTestModel> reactionTestList = [];
   List<ReactionTestModel> todayResults = [];
+  List<GraphModelForDay> graphDayListForPerformanceScore = [];
 
   var arguments = Get.arguments;
 
@@ -37,6 +38,7 @@ class ReactionTimeListController extends BaseController
 
   List<String> weekDateList = [];
   List<WeekModel> listWeekData = [];
+  List<WeekModel> PerformanceScorelWeekData = [];
   var weekDate = '';
   List<DateTime> weekList = [];
 
@@ -150,12 +152,15 @@ class ReactionTimeListController extends BaseController
       {required String date, required List<ReactionTestModel> list}) {
     printf('------getResultForDay----->$date----->${list.length}');
     graphDayList.clear();
+    graphDayListForPerformanceScore.clear();
     if (list.isNotEmpty) {
       for (int i = 0; i < list.length; i++) {
         var record = list[i];
 
         if (record.dateTime.toString() == date.toString()) {
           double y = double.parse(record.average.toString()).toDouble();
+          double performanceScore =
+              double.parse(record.performanceScore.toString()).toDouble();
           DateTime parsedTime =
               DateFormat("HH:mm:ss").parse(record.reactionTestTime.toString());
 
@@ -164,12 +169,40 @@ class ReactionTimeListController extends BaseController
           // printf('-----------Adnan>$formattedTime');
 
           graphDayList.add(GraphModelForDay(formattedTime, y));
+          graphDayListForPerformanceScore
+              .add(GraphModelForDay(formattedTime, performanceScore));
         }
       }
       // graphDayList = graphDayList.reversed.toList();
       update([stateId]);
     } else {
       printf('<-----no-record-found-for-day-------->');
+    }
+  }
+
+  void getPerformanceScoreForDay(
+      {required String date, required List<ReactionTestModel> list}) {
+    printf('------getPerformanceScoreForDay----->$date----->${list.length}');
+    graphDayListForPerformanceScore.clear();
+
+    if (list.isNotEmpty) {
+      for (var record in list) {
+        if (record.dateTime.toString() == date.toString()) {
+          double y =
+              double.parse(record.performanceScore.toString()).toDouble();
+          DateTime parsedTime =
+              DateFormat("HH:mm:ss").parse(record.reactionTestTime.toString());
+
+          String formattedTime = DateFormat("HH:mm").format(parsedTime);
+
+          // Adding to the new graph list
+          graphDayListForPerformanceScore
+              .add(GraphModelForDay(formattedTime, y));
+        }
+      }
+      update([stateId]); // Refresh the UI
+    } else {
+      printf('<-----no-record-found-for-performance-score-------->');
     }
   }
 

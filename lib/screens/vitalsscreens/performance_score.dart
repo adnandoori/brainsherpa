@@ -229,33 +229,36 @@ Widget widgetGraph(ReactionTimeListController controller) {
 
 Widget widgetDay(ReactionTimeListController controller) {
   return SfCartesianChart(
-      primaryXAxis: const CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
-      ),
-      legend: const Legend(isVisible: false),
-      tooltipBehavior: TooltipBehavior(enable: true),
-      series: <CartesianSeries<GraphModelForDay, String>>[
-        SplineSeries<GraphModelForDay, String>(
-          enableTooltip: false,
-          color: AppColors.blueColor,
-          dataSource: controller.graphDayList,
-          width: 4,
-          dataLabelSettings:
-              const DataLabelSettings(showZeroValue: true, isVisible: true),
-          markerSettings: const MarkerSettings(
-              borderWidth: 5.0,
-              color: Colors.white,
-              isVisible: true,
-              height: 5,
-              width: 5,
-              borderColor: AppColors.blueColor,
-              shape: DataMarkerType.circle),
-          xValueMapper: (GraphModelForDay sales, _) {
-            return sales.xValue;
-          },
-          yValueMapper: (GraphModelForDay sales, _) => sales.yValue,
+    primaryXAxis: const CategoryAxis(
+      majorGridLines: MajorGridLines(width: 0),
+    ),
+    legend: const Legend(isVisible: false),
+    tooltipBehavior: TooltipBehavior(enable: true),
+    series: <CartesianSeries<GraphModelForDay, String>>[
+      SplineSeries<GraphModelForDay, String>(
+        enableTooltip: false,
+        color: AppColors.blueColor,
+        dataSource: controller.graphDayListForPerformanceScore,
+        width: 4,
+        dataLabelSettings:
+            const DataLabelSettings(showZeroValue: true, isVisible: true),
+        markerSettings: const MarkerSettings(
+          borderWidth: 5.0,
+          color: Colors.white,
+          isVisible: true,
+          height: 5,
+          width: 5,
+          borderColor: AppColors.blueColor,
+          shape: DataMarkerType.circle,
         ),
-      ]);
+        xValueMapper: (GraphModelForDay sales, _) {
+          return sales.xValue;
+        },
+        // Map to performanceScore instead of reactionTime
+        yValueMapper: (GraphModelForDay sales, _) => sales.yValue,
+      ),
+    ],
+  );
 }
 
 Widget widgetWeek(ReactionTimeListController controller) {

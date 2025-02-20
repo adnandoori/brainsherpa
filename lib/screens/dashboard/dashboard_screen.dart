@@ -284,7 +284,7 @@ class DashboardScreen extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text(
+                                                const Text(
                                                   'Reaction Time Curve',
                                                   style: TextStyle(
                                                     color: Colors.black,
@@ -632,7 +632,6 @@ class DashboardScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.only(right: 5),
                                     child: Image.asset(
                                       ImagePath.icNext,
                                       height: Get.width * 0.03,
@@ -669,48 +668,67 @@ class DashboardScreen extends StatelessWidget {
                                   Routes.falseLapsesScreen,
                                 );
                               },
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  AverageCard(
-                                    label: 'False Starts',
-                                    value: controller.falseStart.toString(),
-                                    onTap: () {
-                                      Get.toNamed(
-                                        Routes.falseLapsesScreen,
-                                      );
-                                    },
-                                  ),
-                                  Container(
-                                    width: 1,
-                                    height: 50.h,
-                                    color: Colors.grey,
-                                  ),
-                                  AverageCard(
-                                    label: 'Lapses',
-                                    value: controller.lapses.toString(),
-                                    onTap: () {
-                                      Get.toNamed(
-                                        Routes.falseLapsesScreen,
-                                      );
-                                    },
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(right: 5),
-                                    child: Image.asset(
-                                      ImagePath.icNext,
-                                      height: Get.width * 0.03,
-                                      width: Get.height * 0.03,
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: Get.width * 0.01),
+                                      margin: EdgeInsets.only(
+                                          top: Get.height * 0.01),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('Fatigue Factor'),
+                                          Container(
+                                            child: Image.asset(
+                                              ImagePath.icNext,
+                                              height: Get.width * 0.03,
+                                              width: Get.height * 0.03,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          AverageCard(
+                                            label: 'False Starts',
+                                            value: controller.falseStart
+                                                .toString(),
+                                            onTap: () {
+                                              Get.toNamed(
+                                                Routes.falseLapsesScreen,
+                                              );
+                                            },
+                                          ),
+                                          Container(
+                                            width: 1,
+                                            height: 50.h,
+                                            color: Colors.grey,
+                                          ),
+                                          AverageCard(
+                                            label: 'Lapses',
+                                            value: controller.lapses.toString(),
+                                            onTap: () {
+                                              Get.toNamed(
+                                                Routes.falseLapsesScreen,
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                           Container(
                             margin: EdgeInsets.symmetric(
-                                vertical: Get.height * 0.01,
+                                vertical: Get.height * 0.005,
                                 horizontal: Get.width * 0.04),
                             child: LinearGuagePointer(
                                 heading: 'Resilience',

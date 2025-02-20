@@ -918,7 +918,9 @@ LinearGuagePointer({
         ),
       ],
     ),
-    padding: EdgeInsets.all(width * 0.03), // Responsive padding
+    padding: EdgeInsets.symmetric(
+        horizontal: Get.width * 0.02,
+        vertical: Get.height * 0.01), // Responsive padding
     child: GestureDetector(
       onTap: onTap,
       child: Column(
@@ -927,11 +929,13 @@ LinearGuagePointer({
           // Heading Text with dynamic font size
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(
-                    bottom: width * 0.01), // Space between heading and gauge
+                padding: EdgeInsets.symmetric(
+                    horizontal: Get.width * 0.01,
+                    vertical:
+                        Get.height * 0.01), // Space between heading and gauge
                 child: Text(
                   heading,
                   style: TextStyle(
