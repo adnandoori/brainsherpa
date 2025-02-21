@@ -568,7 +568,7 @@ class DashboardScreen extends StatelessWidget {
                             child: Container(
                               margin: EdgeInsets.symmetric(
                                   vertical: Get.height * 0.01,
-                                  horizontal: Get.width * 0.04),
+                                  horizontal: Get.width * 0.03),
                               padding: EdgeInsets.symmetric(
                                 vertical: Get.height * 0.01,
                                 horizontal:
