@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:brainsherpa/controllers/base_controller.dart';
 import 'package:brainsherpa/controllers/dashboard/start_test_controller.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:brainsherpa/models/dashboard_models/reaction_test_model.dart';
 import 'package:brainsherpa/utils/app_constants.dart';
 import 'package:brainsherpa/utils/app_string.dart';
@@ -110,7 +110,7 @@ class ReactionTimeTestController extends BaseController
   int totalSqrt = 0;
   int randomTime = 0;
   int randomTimeIsi = 0;
-  int startTime = 180000;
+  int startTime = 50000;
   int countForIsi0to2 = 0;
   int totalIsi0to2 = 0;
   int countForIsi2to4 = 0;
@@ -182,16 +182,14 @@ class ReactionTimeTestController extends BaseController
       //printf('---time-is-over---navigate-to-result-screen---->');
       printf('-----total--attempt--->${reactionTestList.length}');
       //printf('---total--true-attempt------>${reactionTestListFilter.length}');
-
-      ;
       isResult = true;
       for (int i = 0; i < reactionTestList.length; i++) {
         if (reactionTestList[i].isTap != 'false') {
           reactionTestListFilter.add(reactionTestList[i]);
         }
       }
-      printf(
-          '<-------------------------------------------------------------------->');
+      // printf(
+      //     '<-------------------------------------------------------------------->');
 
       int mrtLast = 0;
       int countForMrtLast = 0;
@@ -280,8 +278,8 @@ class ReactionTimeTestController extends BaseController
           '<------avg-for-one-min--->$avgForFirstMin---second-->$avgForSecondMin---third--->$avgForThirdMin');
 
       if (listOfDifferenceBetween100To350.isNotEmpty) {
-        printf(
-            '<----------------------------------------------------------------------------->');
+        // printf(
+        // '<----------------------------------------------------------------------------->');
 
         printf(
             '<-----total-plus-lapses-355-to-500--->${listForPlusLapses355.length}--plus-lapses-500-to-700-->${listForPlusLapses500.length}----plus-lapses-greater-700-->${listForPlusLapses700.length}');
@@ -325,8 +323,8 @@ class ReactionTimeTestController extends BaseController
         speed = sp.toDouble().toStringAsFixed(4).toString();
 
         printf('<---------delta--->$delta-----speed---->$speed');
-        printf(
-            '<----------------------------------------------------------------------------->');
+        // printf(
+        //     '<----------------------------------------------------------------------------->');
       }
 
       //---------------------------------------------------------------
@@ -397,8 +395,8 @@ class ReactionTimeTestController extends BaseController
         attention = vigilanceAndAttentionScore.toDouble().toStringAsFixed(2);
         printf("Vigilance and Attention Score -> Attention: $attention");
 
-        printf(
-            '<-------------------------------------------------------------------->');
+        // printf(
+        //     '<-------------------------------------------------------------------->');
         printf('----total-graph-list--->${listForGraph.length}');
         listForGraph.forEach((graph) {
           print('Name: ${graph.title}, Value: ${graph.value}');
@@ -411,8 +409,8 @@ class ReactionTimeTestController extends BaseController
             '----total--for-false-count----->${listForFalseStartCount.length}');
         printf(
             '----total-for-valid-stimuli-count----->${listForValidStimuli.length}');
-        printf(
-            '<-------------------------------------------------------------------->');
+        // printf(
+        //     '<-------------------------------------------------------------------->');
       }
 
       for (int i = 0; i < reactionTestListForIso.length; i++) {
@@ -473,7 +471,7 @@ class ReactionTimeTestController extends BaseController
 
       //printf('----total--iso--value--->$totalIsoValue----count-->$countForIso');
       //printf('----total--iso--value--greater->$totalIsoValueGreater----count-->$countForIsoGreater');
-
+      double slowest10per = calculateAverageSlowest10Percent(listOfDifference);
       if (listOfDifference.isNotEmpty) {
         //int l = findHighest(list: listOfDifference);
         //slowest = l.toString();
@@ -520,7 +518,8 @@ class ReactionTimeTestController extends BaseController
 
         //slowest = slowest10per.toInt().toString();
 
-        maximumValue = slowest10per.toInt() + 100;
+        final maximumValue = slowest10per.toInt() + 100;
+        printf('----maximum-value----->$maximumValue');
 
         //fastest = fastest10Per.toInt().toString();
 
@@ -531,8 +530,11 @@ class ReactionTimeTestController extends BaseController
         //printf('---lowest--->$slowest----fastest-->$fastest---avg-->$average---speed-->$sp');
       }
 
-      printf(
-          '<-------------------------------------------------------------------->');
+      maximumValue = slowest10per.toInt() + 100;
+      printf('----maximum-value----->$maximumValue');
+
+      // printf(
+      //     '<-------------------------------------------------------------------->');
       for (int i = 0; i < reactionTestListFilter.length; i++) {
         int diff = int.parse(
                 reactionTestListFilter[i].tapTimeForGreenCard.toString()) -
@@ -549,8 +551,8 @@ class ReactionTimeTestController extends BaseController
 
         //listOfDifference.add(diff);
       }
-      printf(
-          '<-------------------------------------------------------------------->');
+      // printf(
+      //     '<-------------------------------------------------------------------->');
 
       printf(
           '----------total-listOfDifference------->${listOfDifference.length}------between-100-to-35--->${listOfDifferenceBetween100To350.length}');
@@ -607,10 +609,13 @@ class ReactionTimeTestController extends BaseController
       printf('----performanceScore---->$performanceScore');
 
       // printf('-------------------------reactionTimes--->$reactionTimes');
+      printf('-------------------------maximumvalues--->$maximumValue');
 
       analyzeReactionTime(reactionTimes);
 
       ReactionTimeInsights(reactionTimes);
+
+      printf('-------------------------reactionTimes--->$maximumValue');
 
       // printf('----FocusScore---->$FocusScore');
 
@@ -681,6 +686,7 @@ class ReactionTimeTestController extends BaseController
     reactionTestModel.resilienceScore = resilienceScore.toDouble();
     reactionTestModel.flexibilityScore = flexibilityScore.toDouble();
     reactionTestModel.focusScore = focusScore.toDouble();
+    reactionTestModel.maximumValue = maximumValue;
 
     // reactionTestModel.focusScore = focusScore.toString();
     //
@@ -806,6 +812,9 @@ class ReactionTimeTestController extends BaseController
 
     int randomTime = randomTimeForIso;
     printf('-------->randomTime---->$randomTime');
+
+    ReactionTimeInsights(reactionTimes);
+    printf('----reactionTimesadnan---->$reactionTimes');
 
     int diff = int.parse(tapTimeForGreenCard.toString()) -
         int.parse(startTimeForGreenCard.toString());

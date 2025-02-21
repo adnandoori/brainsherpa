@@ -124,7 +124,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
                               ],
                             ),
                             width: Get.width,
-                            height: 220.h,
+                            height: 250.h,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -157,7 +157,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                                   size: Get.width * 0.022,
                                                   fontWeight: FontWeight.w400,
                                                   color: Colors.black),
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -177,95 +177,87 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                       child: Stack(
                                         children: [
                                           SfCartesianChart(
-                                              primaryXAxis: const CategoryAxis(
-                                                majorGridLines:
-                                                    MajorGridLines(width: 0),
-                                                title: AxisTitle(
-                                                    text:
-                                                        'Elapsed Time (secs)'),
-                                                isVisible: false,
-                                              ),
-                                              primaryYAxis: const NumericAxis(
-                                                axisLine: AxisLine(
-                                                    color: Colors.black),
-                                                minimum: 400,
-                                                //controller.maximumValue,
-                                                maximum: 0,
-                                                isInversed: true,
-                                                plotBands: <PlotBand>[
-                                                  PlotBand(
-                                                      horizontalTextAlignment:
-                                                          TextAnchor.start,
-                                                      start: 0,
-                                                      end: 100,
-                                                      opacity: 0.1,
-                                                      color: Colors.yellow,
-                                                      dashArray: <double>[
-                                                        4,
-                                                        5
-                                                      ]),
-                                                  PlotBand(
-                                                      horizontalTextAlignment:
-                                                          TextAnchor.start,
-                                                      start: 350,
-                                                      end: 400,
-                                                      // controller.maximumValue,
-                                                      opacity: 0.1,
-                                                      color: Colors.red,
-                                                      dashArray: <double>[
-                                                        4,
-                                                        5
-                                                      ]),
+                                            primaryXAxis: const CategoryAxis(
+                                              majorGridLines:
+                                                  MajorGridLines(width: 0),
+                                              title: AxisTitle(
+                                                  text: 'Elapsed Time (secs)'),
+                                              isVisible: false,
+                                            ),
+                                            primaryYAxis: NumericAxis(
+                                              axisLine:
+                                                  AxisLine(color: Colors.black),
+                                              minimum: 0,
+                                              maximum: controller
+                                                  .maximumValue, // Set max value as controller.maximumValue
+                                              isInversed: true,
+                                              plotBands: <PlotBand>[
+                                                PlotBand(
+                                                  horizontalTextAlignment:
+                                                      TextAnchor.start,
+                                                  start: 0,
+                                                  end: 100,
+                                                  opacity: 0.1,
+                                                  color: Colors.yellow,
+                                                  dashArray: <double>[4, 5],
+                                                ),
+                                                PlotBand(
+                                                  horizontalTextAlignment:
+                                                      TextAnchor.start,
+                                                  start: 350,
+                                                  end: controller.maximumValue,
+                                                  opacity: 0.1,
+                                                  color: Colors.red,
+                                                  dashArray: <double>[4, 5],
+                                                ),
+                                              ],
+                                              isVisible: true,
+                                              labelStyle: TextStyle(
+                                                  fontSize: 8,
+                                                  color: Color(0xFF929395)),
+                                            ),
+                                            legend:
+                                                const Legend(isVisible: false),
+                                            tooltipBehavior:
+                                                TooltipBehavior(enable: true),
+                                            series: <CartesianSeries>[
+                                              SplineSeries<GraphModel, String>(
+                                                color: AppColors.blueColor,
+                                                markerSettings:
+                                                    const MarkerSettings(
+                                                  isVisible: true,
+                                                  color: AppColors.blueColor,
+                                                  borderColor:
+                                                      AppColors.blueColor,
+                                                  shape: DataMarkerType.circle,
+                                                  width: 5,
+                                                  height: 5,
+                                                ),
+                                                dataLabelSettings:
+                                                    const DataLabelSettings(
+                                                  textStyle: TextStyle(
+                                                      fontSize: 9,
+                                                      color: Color(0xFF0080FF)),
+                                                  showZeroValue: false,
+                                                  isVisible: false,
+                                                ),
+                                                dataSource:
+                                                    controller.listForGraph,
+                                                trendlines: <Trendline>[
+                                                  Trendline(
+                                                      type:
+                                                          TrendlineType.linear,
+                                                      color: Colors.black)
                                                 ],
-                                                isVisible: true,
-                                                labelStyle: TextStyle(
-                                                    fontSize: 8,
-                                                    color: Color(0xFF929395)),
+                                                xValueMapper:
+                                                    (GraphModel data, _) =>
+                                                        data.title,
+                                                yValueMapper:
+                                                    (GraphModel data, _) =>
+                                                        data.value,
                                               ),
-                                              legend: const Legend(
-                                                  isVisible: false),
-                                              tooltipBehavior:
-                                                  TooltipBehavior(enable: true),
-                                              series: <CartesianSeries>[
-                                                SplineSeries<GraphModel,
-                                                        String>(
-                                                    color: AppColors.blueColor,
-                                                    markerSettings:
-                                                        const MarkerSettings(
-                                                      isVisible: true,
-                                                      color:
-                                                          AppColors.blueColor,
-                                                      borderColor:
-                                                          AppColors.blueColor,
-                                                      shape:
-                                                          DataMarkerType.circle,
-                                                      width: 5,
-                                                      height: 5,
-                                                    ),
-                                                    dataLabelSettings:
-                                                        const DataLabelSettings(
-                                                            textStyle: TextStyle(
-                                                                fontSize: 9,
-                                                                color: Color(
-                                                                    0xFF0080FF)),
-                                                            showZeroValue:
-                                                                false,
-                                                            isVisible: false),
-                                                    dataSource:
-                                                        controller.listForGraph,
-                                                    trendlines: <Trendline>[
-                                                      Trendline(
-                                                          type: TrendlineType
-                                                              .linear,
-                                                          color: Colors.black)
-                                                    ],
-                                                    xValueMapper:
-                                                        (GraphModel data, _) =>
-                                                            data.title,
-                                                    yValueMapper:
-                                                        (GraphModel data, _) =>
-                                                            data.value),
-                                              ]),
+                                            ],
+                                          ),
                                           Row(
                                             children: [
                                               Align(
@@ -302,8 +294,12 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                                           child: widgetText(
                                                               '350')),
                                                       Expanded(
-                                                          child: widgetText(
-                                                              '400')),
+                                                        child: widgetText(
+                                                          controller
+                                                              .maximumValue
+                                                              .toString(), // Convert double to String
+                                                        ),
+                                                      )
                                                     ],
                                                   ),
                                                 ),

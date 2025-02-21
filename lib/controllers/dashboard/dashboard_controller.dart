@@ -15,12 +15,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
+import 'reaction_time_test_controller.dart';
 
 class DashboardController extends BaseController {
   static String stateId = 'dashboard_ui';
-
-  // List Values
-  List<ReactionTestModel> reactionTestList = [];
 
   // Var Values
   var userId = '';
@@ -42,15 +40,24 @@ class DashboardController extends BaseController {
   var resilienceScore = '0';
   var flexibilityScore = '0';
   var focusScore = '0';
-  // var displayMonthText = '';
-  // var displayWeekText = '';
-  // var displayDateText = '';
-  // var todayDate = DateTime.now();
-  // var formatter = DateFormat('dd-MMM-yyyy');
-  // var currentWeek = DateTime.now();
-  // var formatterWeek = DateFormat('dd-MMM-yyyy');
-  // var currentMonth = DateTime.now();
-  // var formatterMonth = DateFormat(' MMM, yyyy');
+  var displayMonthText = '';
+  var displayWeekText = '';
+  var displayDateText = '';
+  var todayDate = DateTime.now();
+  var formatter = DateFormat('dd-MMM-yyyy');
+  var currentWeek = DateTime.now();
+  var formatterWeek = DateFormat('dd-MMM-yyyy');
+  var currentMonth = DateTime.now();
+  var formatterMonth = DateFormat(' MMM, yyyy');
+
+  // Double Values
+  double maximumValue = 0.0;
+
+  // List Values
+  List<GraphModel> lastTestGraph = [];
+  List<int> listOfDifference = [];
+  List<int> reactionTimes = [];
+  List<ReactionTestModel> reactionTestList = [];
 
   DatabaseReference databaseReference =
       FirebaseDatabase.instance.ref().child(AppConstants.userTable);
@@ -93,36 +100,54 @@ class DashboardController extends BaseController {
   }
 
   Future<void> getReactionTestList() async {
+    final reactionTimeController = Get.find<ReactionTimeTestController>();
     loaderShow();
     reactionTestList.clear();
     update([stateId]);
     printf('---last-user---->$userId');
     DataSnapshot snapshot = await dbReactionTest.child(userId).get();
+
     if (snapshot.children.isNotEmpty) {
       for (var element in snapshot.children) {
         final data =
             Map<String, dynamic>.from(element.value as Map<Object?, Object?>);
-        // printf('reactiontest: ${data['reactionTest']}');
-        // String targetDate = '2025-02-20';
-        // int matchingCount = 0;
-        // for (var test in data['reactionTest']) {
-        //   String? startTestTime = test['startTestTime'];
 
-        //   if (startTestTime != null && startTestTime.startsWith(targetDate)) {
-        //     matchingCount++;
-
-        //     print('Matching entry: $test');
-        //     int properCount = matchingCount - 1;
-        //     printf('$properCount');
-        //   }
-        // }
-        // printf('matchingCount: $matchingCount');
         // printf('------------------->adnan$data');
         ReactionTestModel dataModel = ReactionTestModel.fromMap(data);
         // printf('----------->adnan 2$dataModel');
         reactionTestList.add(dataModel);
       }
+      printf(
+          '------reactionTestList----->${reactionTestList.last.reactionTest}');
+      printf(
+          '------reactionTestList----->${reactionTestList.last.reactionTest!.length}');
       printf('total------>${reactionTestList.length}');
+
+      if (reactionTestList.isNotEmpty) {
+        var lastReactionTestModel = reactionTestList.last.reactionTest;
+
+        if (lastReactionTestModel != null) {
+          print(
+              '------reactionTestList (Length: ${lastReactionTestModel!.length})------');
+
+          for (var test in lastReactionTestModel!) {
+            // print('Start Test Time: ${test.startTestTime}');
+            // print('Random Time: ${test.randomTime}');
+            // print('RandomTimeisi: ${test.randomTimeIsi}');
+            // print('startTimeForGreenCard : ${test.startTimeForGreenCard}');
+            // printf('tapTimeForGreenCard : ${test.tapTimeForGreenCard}');
+            // print('Reaction Time: ${test.reactionTime}');
+            // print('EP Time: ${test.eptime}');
+            // print('Is Tap: ${test.isTap}');
+            // print('-----------------------------');
+          }
+        } else {
+          print(
+              '------reactionTestList-----> No reactionTest data in last item');
+        }
+      } else {
+        print('------reactionTestList-----> reactionTestList is empty');
+      }
 
       if (reactionTestList.isNotEmpty) {
         late DateTime dateTime;
@@ -130,6 +155,7 @@ class DashboardController extends BaseController {
         try {
           dateTime = dateFormat.parse(
               '${reactionTestList.last.dateTime} ${reactionTestList.last.reactionTestTime}');
+          printf('------date-time----->$dateTime');
         } catch (exe) {
           printf('--exe--date-time---->$exe');
         }
@@ -176,6 +202,23 @@ class DashboardController extends BaseController {
         //     reactionTestList.last.flexibilityScore.toString();
         flexibilityScore = reactionTestList.last.flexibilityScore.toString();
         printf('------flexibility-score----->$flexibilityScore');
+
+        maximumValue = (reactionTestList.last.maximumValue ?? 0.0).toDouble();
+        printf('-------------------->MAXIMUM VALUE : $maximumValue');
+
+        if (reactionTestList.isNotEmpty) {
+          var lastReactionTestModel = reactionTestList.last.reactionTest;
+
+          if (lastReactionTestModel != null) {
+            lastTestGraph.clear();
+            for (var test in lastReactionTestModel) {
+              int diff = int.parse(test.tapTimeForGreenCard ?? '0') -
+                  int.parse(test.startTimeForGreenCard ?? '0');
+              int? randomTime = test.randomTime;
+              lastTestGraph.add(GraphModel(randomTime.toString(), diff));
+            }
+          }
+        }
 
         loaderHide();
         update([stateId]);
@@ -360,6 +403,7 @@ class ReactionTestModel {
   double? resilienceScore;
   double? flexibilityScore;
   double? focusScore;
+  double? maximumValue;
   List<ReactionTest>? reactionTest;
 
   ReactionTestModel({
@@ -400,6 +444,7 @@ class ReactionTestModel {
     this.resilienceScore,
     this.flexibilityScore,
     this.focusScore,
+    this.maximumValue,
     this.reactionTest,
   });
 
@@ -446,6 +491,10 @@ class ReactionTestModel {
       focusScore: (map['focusScore'] is int
           ? (map['focusScore'] as int).toDouble()
           : map['focusScore']) as double?,
+      maximumValue: (map["maximumValue"] is String)
+          ? double.tryParse(map["maximumValue"]) ?? 0.0
+          : (map["maximumValue"] as num?)?.toDouble() ?? 0.0,
+
       //flexibilityScore: map["flexibilityScore"],
       // focusScore: map["focusScore"],
       reactionTest: (map['reactionTest'] as List<dynamic>?)
@@ -461,14 +510,19 @@ class ReactionTest {
   String? startTestTime;
   String? isTap;
   String? tapTimeForGreenCard;
+  int? reactionTime;
+  int? randomTimeIsi;
+  int? eptime;
 
-  ReactionTest({
-    this.startTimeForGreenCard,
-    this.randomTime,
-    this.startTestTime,
-    this.isTap,
-    this.tapTimeForGreenCard,
-  });
+  ReactionTest(
+      {this.startTimeForGreenCard,
+      this.randomTime,
+      this.startTestTime,
+      this.isTap,
+      this.tapTimeForGreenCard,
+      this.reactionTime,
+      this.randomTimeIsi,
+      this.eptime});
 
   factory ReactionTest.fromMap(Map<String, dynamic> map) {
     return ReactionTest(
@@ -477,6 +531,9 @@ class ReactionTest {
       startTestTime: map['startTestTime'] as String?,
       isTap: map['isTap'] as String?,
       tapTimeForGreenCard: map['tapTimeForGreenCard'] as String?,
+      reactionTime: map['reactionTime'] as int?,
+      randomTimeIsi: map['randomTimeIsi'] as int?,
+      eptime: map['eptime'] as int?,
     );
   }
 }
