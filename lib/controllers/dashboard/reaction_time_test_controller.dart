@@ -110,7 +110,7 @@ class ReactionTimeTestController extends BaseController
   int totalSqrt = 0;
   int randomTime = 0;
   int randomTimeIsi = 0;
-  int startTime = 50000;
+  int startTime = 180000;
   int countForIsi0to2 = 0;
   int totalIsi0to2 = 0;
   int countForIsi2to4 = 0;
