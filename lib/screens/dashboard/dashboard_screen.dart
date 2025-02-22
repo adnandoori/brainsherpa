@@ -568,11 +568,11 @@ class DashboardScreen extends StatelessWidget {
                             child: Container(
                               margin: EdgeInsets.symmetric(
                                   vertical: Get.height * 0.01,
-                                  horizontal: Get.width * 0.03),
+                                  horizontal: Get.width * 0.02),
                               padding: EdgeInsets.symmetric(
                                 vertical: Get.height * 0.01,
                                 horizontal:
-                                    Get.width * 0.02, // Padding is responsive
+                                    Get.width * 0.01, // Padding is responsive
                               ),
                               decoration: BoxDecoration(
                                 color: Colors.white,
