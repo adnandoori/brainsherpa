@@ -112,7 +112,7 @@ class ReactionTimeTestController extends BaseController
   int totalSqrt = 0;
   int randomTime = 0;
   int randomTimeIsi = 0;
-  int startTime = 50000;
+  int startTime = 180000;
   int countForIsi0to2 = 0;
   int totalIsi0to2 = 0;
   int countForIsi2to4 = 0;
@@ -179,7 +179,6 @@ class ReactionTimeTestController extends BaseController
     try {
       final prefs = await SharedPreferences.getInstance();
 
-      // 🔥 Clear all old data before saving new data
       await prefs.clear();
 
       // Now save only the latest data
@@ -242,20 +241,20 @@ class ReactionTimeTestController extends BaseController
   }
 
   void startTest() {
-    var now = DateTime.now();
-    startTestTime = now.toString();
-    startTestTimeInMs = now.millisecondsSinceEpoch;
+    var now = DateTime.now(); //todays date is declared
+    startTestTime = now.toString(); //startTestTime is declared
+    startTestTimeInMs =
+        now.millisecondsSinceEpoch; //startTestTimeInMs is declared
 
     //printf('---start-test-time---->$startTestTime');
 
-    update([stateId]); // 180000
+    update([stateId]); // 180000 // stateid is declared
+
+    // timer has been declared
     timerFor3Minutes = Timer(Duration(milliseconds: startTime), () async {
       //printf('---time-is-over---navigate-to-result-screen---->');
-
       printf('-----total--attempt--->${reactionTestList.length}');
-
       //printf('---total--true-attempt------>${reactionTestListFilter.length}');
-
       isResult = true;
       for (int i = 0; i < reactionTestList.length; i++) {
         if (reactionTestList[i].isTap != 'false') {
@@ -263,35 +262,45 @@ class ReactionTimeTestController extends BaseController
         }
       }
 
+      //mrtLast, countForMrtLast, mrtFirst, countForMrtFirst
       int mrtLast = 0;
       int countForMrtLast = 0;
-
       int mrtFirst = 0;
       int countForMrtFirst = 0;
 
       printf('test filter ------------->$reactionTestListFilter');
-      printf(
-          '------------total-reactionTestListFilter--->${reactionTestListFilter.length}');
-      listOfDifference.clear();
+      printf('--totalreactionTestListFilter->${reactionTestListFilter.length}');
+
+      listOfDifference.clear(); //listOfDifference is cleared
+
       for (int i = 0; i < reactionTestListFilter.length; i++) {
         int diff = int.parse(
                 reactionTestListFilter[i].tapTimeForGreenCard.toString()) -
             int.parse(
                 reactionTestListFilter[i].startTimeForGreenCard.toString());
+        print('diff--->$diff');
         int elapsedTimes2 =
             int.parse(reactionTestListFilter[i].tapTimeForGreenCard.toString());
-        printf('elaspedTimes2--->$elapsedTimes2');
+        print('elaspedTimes2--->$elapsedTimes2');
         total = total + diff;
+        print('total--->$total');
         listOfDifference.add(diff);
+        print('listOfDifference--->$listOfDifference');
 
         int? randomTime = reactionTestListFilter[i].randomTime;
 
         if (randomTime! >= 120 && randomTime <= 180) {
+          print('randomTime--->$randomTime');
           mrtLast = mrtLast + diff;
+          print('mrtLAST--->$mrtLast');
           countForMrtLast = countForMrtLast + 1;
+          print('countForMrtLast--->$countForMrtLast');
         } else if (randomTime >= 0 && randomTime <= 60) {
+          print('randomTime--->$randomTime');
           mrtFirst = mrtFirst + diff;
+          print('mrtFIRST--->$mrtFirst');
           countForMrtFirst = countForMrtFirst + 1;
+          print('countForMrtFirst--->$countForMrtFirst');
         }
 
         listForGraph.add(GraphModel(randomTime.toString(), diff));
@@ -307,6 +316,7 @@ class ReactionTimeTestController extends BaseController
 
         if (diff >= 100 && diff < 355) {
           totalPositiveDiff = totalPositiveDiff + diff;
+          print('totalPositiveDiff--->$totalPositiveDiff');
           listOfDifferenceBetween100To350.add(diff);
         } else if (diff >= 355 && diff < 500) {
           listForPlusLapses355.add(diff);
@@ -474,7 +484,6 @@ class ReactionTimeTestController extends BaseController
         listForGraph.forEach((graph) {
           print('Name: ${graph.title}, Value: ${graph.value}');
         });
-        print('');
 
         printf(
             '----total--for-lapses-count----->${listForPlusLapsesCount.length}');
@@ -485,12 +494,14 @@ class ReactionTimeTestController extends BaseController
       }
 
       for (int i = 0; i < reactionTestListForIso.length; i++) {
+        // print('---reaction-test-list-for-iso---->$reactionTestListForIso');
         int diff = int.parse(
                 reactionTestListForIso[i].tapTimeForGreenCard.toString()) -
             int.parse(
                 reactionTestListForIso[i].startTimeForGreenCard.toString());
 
         int randomTime = reactionTestListForIso[i].randomTime!;
+        // print('---random-time----2>$randomTime');
 
         if (diff > 100 && diff < 355) {
           if (randomTime <= 2) {
@@ -985,6 +996,7 @@ class ReactionTimeTestController extends BaseController
     List<int> sortedTimes = List.from(reactionTimes)..sort();
     // Calculate the number of elements that make up 10%
     int count = (sortedTimes.length * 0.1).ceil();
+    print('-------------------------count--->$count');
     // Get the fastest 10% from the start of the sorted list
     List<int> fastest10Percent = sortedTimes.take(count).toList();
     // Calculate and return the average of the fastest 10%
