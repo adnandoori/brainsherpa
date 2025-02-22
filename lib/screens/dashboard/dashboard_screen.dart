@@ -344,7 +344,9 @@ class DashboardScreen extends StatelessWidget {
                                                   maximum: controller
                                                               .maximumValue !=
                                                           0
-                                                      ? controller.maximumValue
+                                                      ? controller
+                                                              .maximumValue +
+                                                          100
                                                       : 400.0,
                                                   isInversed: true,
                                                   plotBands: <PlotBand>[
@@ -362,11 +364,8 @@ class DashboardScreen extends StatelessWidget {
                                                           TextAnchor.start,
                                                       start: 350,
                                                       end: controller
-                                                                  .maximumValue !=
-                                                              0
-                                                          ? controller
-                                                              .maximumValue
-                                                          : 400.0,
+                                                              .maximumValue +
+                                                          100,
                                                       opacity: 0.1,
                                                       color: Colors.red,
                                                       dashArray: <double>[4, 5],
@@ -466,7 +465,7 @@ class DashboardScreen extends StatelessWidget {
                                                                   '400')),
                                                           Expanded(
                                                               child: widgetText(
-                                                                  reactionTimeController
+                                                                  controller
                                                                       .maximumValue
                                                                       .toString())),
                                                         ],
@@ -568,7 +567,7 @@ class DashboardScreen extends StatelessWidget {
                             child: Container(
                               margin: EdgeInsets.symmetric(
                                   vertical: Get.height * 0.01,
-                                  horizontal: Get.width * 0.02),
+                                  horizontal: Get.width * 0.04),
                               padding: EdgeInsets.symmetric(
                                 vertical: Get.height * 0.01,
                                 horizontal:

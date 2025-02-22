@@ -14,6 +14,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class ReactionTimeTestController extends BaseController
     with GetSingleTickerProviderStateMixin {
@@ -110,7 +112,7 @@ class ReactionTimeTestController extends BaseController
   int totalSqrt = 0;
   int randomTime = 0;
   int randomTimeIsi = 0;
-  int startTime = 180000;
+  int startTime = 50000;
   int countForIsi0to2 = 0;
   int totalIsi0to2 = 0;
   int countForIsi2to4 = 0;
@@ -151,6 +153,7 @@ class ReactionTimeTestController extends BaseController
       printf('<----init----ReactionTimeTestController---->');
       reactionTestModel = ReactionTestModel();
       getUserId();
+      // loadAllData();
 
       if (arguments != null) {
         try {
@@ -168,34 +171,104 @@ class ReactionTimeTestController extends BaseController
       } else {
         printf('<----null-arguments------>');
       }
-      //startFadeAnimation();
+      startFadeAnimation();
     });
+  }
+
+  Future<void> saveAllData() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      // 🔥 Clear all old data before saving new data
+      await prefs.clear();
+
+      // Now save only the latest data
+      await prefs.setString('reactionTimes', jsonEncode(reactionTimes));
+      await prefs.setString('reactionTestList',
+          jsonEncode(reactionTestList.map((e) => e.toJson()).toList()));
+      await prefs.setString('average', average);
+      await prefs.setString('fastest', fastest);
+      await prefs.setString('slowest', slowest);
+      await prefs.setString('speed', speed);
+      await prefs.setString('accuracy', accuracy);
+      await prefs.setString('variation', variation);
+      await prefs.setString('falseStart', falseStart);
+      await prefs.setString('plusLapses', plusLapses);
+      await prefs.setString('performanceScore', performanceScore);
+
+      printf('Old data cleared! Only the latest reaction time data is saved.');
+    } catch (e) {
+      printf('Error Saving Data: $e');
+    }
+  }
+
+  Future<void> loadAllData() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      String? reactionTimesString = prefs.getString('reactionTimes');
+      if (reactionTimesString != null) {
+        reactionTimes = List<int>.from(jsonDecode(reactionTimesString));
+      }
+      String? reactionTestListString = prefs.getString('reactionTestList');
+      if (reactionTestListString != null) {
+        reactionTestList = List<ReactionTest>.from(
+            jsonDecode(reactionTestListString)
+                .map((e) => ReactionTest.fromJson(e)));
+      }
+      average = prefs.getString('average') ?? '0';
+      fastest = prefs.getString('fastest') ?? '0';
+      slowest = prefs.getString('slowest') ?? '0';
+      speed = prefs.getString('speed') ?? '0';
+      accuracy = prefs.getString('accuracy') ?? '0';
+      variation = prefs.getString('variation') ?? '0';
+      falseStart = prefs.getString('falseStart') ?? '0';
+      plusLapses = prefs.getString('plusLapses') ?? '0';
+      performanceScore = prefs.getString('performanceScore') ?? '0';
+      cognitiveFlexibility = prefs.getString('cognitiveFlexibility') ?? '0';
+      focusScore = double.tryParse(prefs.getString('focusScore') ?? '0') ?? 0.0;
+      resilienceScore =
+          double.tryParse(prefs.getString('resilienceScore') ?? '0') ?? 0.0;
+      printf('Reaction Time Data Loaded Successfully.');
+      update();
+    } catch (e) {
+      printf('Error Loading Data: $e');
+    }
+  }
+
+  void buttonSaveLocal() async {
+    saveAllData(); // Save locally first
+    buttonSave();
+    printf('Data saved locally and uploaded to Firebase.');
   }
 
   void startTest() {
     var now = DateTime.now();
     startTestTime = now.toString();
     startTestTimeInMs = now.millisecondsSinceEpoch;
+
     //printf('---start-test-time---->$startTestTime');
+
     update([stateId]); // 180000
     timerFor3Minutes = Timer(Duration(milliseconds: startTime), () async {
       //printf('---time-is-over---navigate-to-result-screen---->');
+
       printf('-----total--attempt--->${reactionTestList.length}');
+
       //printf('---total--true-attempt------>${reactionTestListFilter.length}');
+
       isResult = true;
       for (int i = 0; i < reactionTestList.length; i++) {
         if (reactionTestList[i].isTap != 'false') {
           reactionTestListFilter.add(reactionTestList[i]);
         }
       }
-      // printf(
-      //     '<-------------------------------------------------------------------->');
 
       int mrtLast = 0;
       int countForMrtLast = 0;
 
       int mrtFirst = 0;
       int countForMrtFirst = 0;
+
       printf('test filter ------------->$reactionTestListFilter');
       printf(
           '------------total-reactionTestListFilter--->${reactionTestListFilter.length}');
@@ -409,8 +482,6 @@ class ReactionTimeTestController extends BaseController
             '----total--for-false-count----->${listForFalseStartCount.length}');
         printf(
             '----total-for-valid-stimuli-count----->${listForValidStimuli.length}');
-        // printf(
-        //     '<-------------------------------------------------------------------->');
       }
 
       for (int i = 0; i < reactionTestListForIso.length; i++) {

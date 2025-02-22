@@ -188,8 +188,8 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                               axisLine:
                                                   AxisLine(color: Colors.black),
                                               minimum: 0,
-                                              maximum: controller
-                                                  .maximumValue, // Set max value as controller.maximumValue
+                                              maximum: controller.maximumValue +
+                                                  100, // Set max value as controller.maximumValue
                                               isInversed: true,
                                               plotBands: <PlotBand>[
                                                 PlotBand(
@@ -205,7 +205,8 @@ class ReactionTimeTestScreen extends StatelessWidget {
                                                   horizontalTextAlignment:
                                                       TextAnchor.start,
                                                   start: 350,
-                                                  end: controller.maximumValue,
+                                                  end: controller.maximumValue +
+                                                      100,
                                                   opacity: 0.1,
                                                   color: Colors.red,
                                                   dashArray: <double>[4, 5],
@@ -766,7 +767,7 @@ class ReactionTimeTestScreen extends StatelessWidget {
             child: buttonDefault(
                 title: AppStrings.save,
                 onClick: () {
-                  controller.buttonSave();
+                  controller.buttonSaveLocal();
                 }),
           )
         ],
